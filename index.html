@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maillot Pool — Tour de France 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0D13; --bg2:#0E1320; --surface:#131A27; --surface2:#19212F; --surface3:#212C3F;
+  --line:#243042; --line2:#36465f;
+  --text:#ECF1F8; --muted:#94A2B6; --dim:#5E6B7E;
+  --yellow:#FFD21E; --yellow-deep:#C99E05; --green:#16B65A; --red:#E63329; --white:#F4F6FA; --blue:#3B8AE0;
+  --maxw:1180px; --r:14px;
+  --shadow:0 18px 50px -22px rgba(0,0,0,.75);
+  --ff-disp:'Anton','Arial Narrow',sans-serif;
+  --ff-body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --ff-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ff-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{margin:0}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+header.nav{position:sticky;top:0;z-index:60;background:rgba(10,13,19,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-row{display:flex;align-items:center;gap:18px;height:62px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
+.brand .jersey{width:30px;height:30px;color:var(--yellow);filter:drop-shadow(0 2px 6px rgba(255,210,30,.35))}
+.brand b{font-family:var(--ff-disp);font-size:23px;letter-spacing:.06em;line-height:.8}
+.brand small{display:block;font-size:9px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase;font-family:var(--ff-body);font-weight:700;margin-top:3px}
+nav.tabs{margin-left:auto;display:flex;gap:4px}
+nav.tabs a{text-decoration:none;color:var(--muted);font-weight:600;font-size:13px;letter-spacing:.02em;padding:9px 14px;border-radius:9px;transition:.18s;white-space:nowrap}
+nav.tabs a:hover{color:var(--text);background:var(--surface)}
+nav.tabs a.active{color:var(--bg);background:var(--yellow)}
+.progress-strip{height:3px;background:var(--line);position:relative;overflow:hidden}
+.progress-strip>i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,var(--yellow-deep),var(--yellow));transition:width .8s ease}
+.menu-btn{display:none;margin-left:auto;background:var(--surface);border:1px solid var(--line);color:var(--text);width:42px;height:38px;border-radius:9px;font-size:18px;cursor:pointer}
+
+.page{display:none;animation:fade .5s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+section.block{padding:42px 0}
+.eyebrow{font-weight:800;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px}
+.sec-title{font-family:var(--ff-disp);font-size:clamp(26px,4.4vw,42px);letter-spacing:.02em;line-height:.96}
+.lead{color:var(--muted);max-width:640px;margin-top:12px}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:540px;display:flex;align-items:flex-end}
+.hero-art{position:absolute;inset:0;z-index:0}
+.hero-art svg{width:100%;height:100%;display:block}
+.hero-scrim{position:absolute;inset:0;z-index:1;background:
+  linear-gradient(90deg,rgba(10,13,19,.92) 0%,rgba(10,13,19,.6) 42%,rgba(10,13,19,.15) 70%,rgba(10,13,19,.4) 100%),
+  linear-gradient(0deg,rgba(10,13,19,.9),transparent 55%)}
+.hero-inner{position:relative;z-index:2;width:100%;padding:54px 0 34px;display:grid;grid-template-columns:1.45fr .85fr;gap:34px;align-items:end}
+.hero h1{font-family:var(--ff-disp);font-size:clamp(48px,9.2vw,108px);line-height:.82;letter-spacing:.012em;text-transform:uppercase;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+.hero h1 .y{color:var(--yellow)}
+.hero .sub{margin-top:16px;color:#c6cedb;font-size:15px;max-width:520px}
+.hero .route{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-family:var(--ff-mono);font-size:13px;color:var(--text);background:rgba(19,26,39,.7);border:1px solid var(--line2);padding:8px 14px;border-radius:999px;backdrop-filter:blur(6px)}
+.hero .route .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
+.statuscard{background:linear-gradient(180deg,rgba(25,33,47,.92),rgba(19,26,39,.92));border:1px solid var(--line2);border-radius:var(--r);padding:18px 18px 16px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.statuscard .row1{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.statuscard .stagebig{font-family:var(--ff-disp);font-size:40px;line-height:.85;letter-spacing:.02em}
+.statuscard .stagebig small{display:block;font-size:12px;color:var(--muted);font-family:var(--ff-body);font-weight:700;letter-spacing:.04em;margin-top:5px}
+.ring{--p:0;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;background:conic-gradient(var(--yellow) calc(var(--p)*1%), var(--line) 0)}
+.ring i{width:48px;height:48px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--ff-mono);font-size:12px;font-weight:700}
+.statuscard .nextline{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.statuscard .nextline b{color:var(--text);font-weight:600}
+.leadchip{display:flex;align-items:center;gap:10px;margin-top:13px;background:rgba(255,210,30,.1);border:1px solid rgba(255,210,30,.4);border-radius:10px;padding:9px 11px}
+.leadchip .jersey{width:22px;height:22px;color:var(--yellow);flex-shrink:0}
+.leadchip .nm{font-weight:700}
+.leadchip .lab{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);font-weight:800}
+.preview-banner{position:relative;z-index:2;background:rgba(59,138,224,.12);border:1px solid rgba(59,138,224,.4);border-radius:10px;padding:10px 14px;margin:0 0 -10px;font-size:12.5px;color:#cfe2f7;display:flex;gap:10px;align-items:flex-start}
+.preview-banner b{color:#fff}
+.preview-banner svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--blue)}
+
+/* CONTENDERS STRIP */
+.contenders{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 10px;scroll-snap-type:x mandatory}
+.contenders::-webkit-scrollbar{height:8px}
+.contenders::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}
+.ctile{flex:0 0 178px;height:238px;border-radius:16px;position:relative;overflow:hidden;scroll-snap-align:start;border:1px solid var(--line2);cursor:default;transition:transform .2s,box-shadow .2s}
+.ctile:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.ctile .sil{position:absolute;left:0;right:0;bottom:-2px;height:78%}
+.ctile .sil svg{width:100%;height:100%}
+.ctile .topbar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:11px 12px;z-index:2}
+.ctile .flag{font-size:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+.ctile .val{font-family:var(--ff-mono);font-weight:700;font-size:13px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.18);color:#fff;padding:2px 8px;border-radius:999px;backdrop-filter:blur(4px)}
+.ctile .meta{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 13px 13px;background:linear-gradient(0deg,rgba(8,11,17,.92),rgba(8,11,17,.4) 60%,transparent)}
+.ctile .meta .nm{font-family:var(--ff-disp);font-size:19px;line-height:.95;letter-spacing:.02em;text-transform:uppercase}
+.ctile .meta .tm{font-size:10.5px;color:#cdd6e2;margin-top:5px;display:flex;align-items:center;gap:6px}
+.ctile .meta .rl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:800;margin-top:6px}
+.ctile .ownpill{position:absolute;top:42px;right:12px;z-index:2;font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--yellow);color:#1a1300;padding:2px 7px;border-radius:6px}
+
+.tdot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.15)}
+
+/* CLASSIFICATION */
+.gc{margin-top:6px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.gc-head,.gc-row{display:grid;grid-template-columns:54px 1fr 78px 78px 86px 96px 118px 30px;align-items:center;gap:6px}
+.gc-head{padding:12px 16px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:800;border-bottom:1px solid var(--line)}
+.gc-head .ar{text-align:right}
+.gc-row{padding:13px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:.16s;position:relative}
+.gc-row:last-child{border-bottom:0}
+.gc-row:hover{background:var(--surface2)}
+.gc-row.leader{background:linear-gradient(90deg,rgba(255,210,30,.14),rgba(255,210,30,.03) 60%,transparent)}
+.gc-row.leader .bib{background:var(--yellow);color:#1a1300;border-color:var(--yellow)}
+.bib{width:42px;height:40px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);display:grid;place-items:center;font-family:var(--ff-disp);font-size:22px;letter-spacing:.02em}
+.mgr{min-width:0}
+.mgr .mn{font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px}
+.mgr .mn .jersey{width:17px;height:17px;color:var(--yellow)}
+.mgr .squadmini{font-size:11px;color:var(--dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.num{font-family:var(--ff-mono);text-align:right;font-size:14px}
+.num.pts{font-size:19px;font-weight:700;color:var(--yellow)}
+.num.today{color:var(--green)}
+.num.gap{color:var(--muted)}
+.num.val{color:var(--muted);font-size:13px}
+.spark{height:30px}
+.chev{display:grid;place-items:center;color:var(--dim);transition:.2s}
+.gc-row.open .chev{transform:rotate(90deg);color:var(--text)}
+.detail{display:none;padding:4px 16px 20px;background:var(--bg2);border-bottom:1px solid var(--line)}
+.detail.open{display:block;animation:fade .35s ease}
+.detail h4{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:14px 0 10px;font-weight:800}
+.squad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:8px}
+.rcard{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 11px;border-left-width:3px}
+.rcard .flag{font-size:17px;line-height:1}
+.rcard .ri{min-width:0;flex:1}
+.rcard .rn{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rcard .rt{font-size:10.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rcard .rp{font-family:var(--ff-mono);font-weight:700;font-size:14px;color:var(--yellow);text-align:right}
+.rcard .rp small{display:block;font-size:8.5px;color:var(--dim);font-weight:400;letter-spacing:.1em}
+.detail .sumline{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}
+.detail .sumline b{color:var(--text);font-family:var(--ff-mono)}
+
+/* RULES */
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:26px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;transition:border-color .2s}
+.card:hover{border-color:var(--line2)}
+.card h3{font-family:var(--ff-disp);font-size:21px;letter-spacing:.03em;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.card h3 .n{font-size:13px;color:var(--yellow);font-family:var(--ff-mono);background:rgba(255,210,30,.12);border:1px solid rgba(255,210,30,.3);width:26px;height:26px;border-radius:7px;display:grid;place-items:center}
+.card p{color:var(--muted);font-size:14px;margin:8px 0}
+.card ul{margin:8px 0;padding-left:18px;color:var(--muted);font-size:14px}
+.card li{margin:5px 0}
+.card b{color:var(--text)}
+.ptable{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+.ptable th{text-align:left;color:var(--dim);font-weight:700;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;border-bottom:1px solid var(--line)}
+.ptable td{padding:7px 8px;border-bottom:1px solid var(--line);font-family:var(--ff-mono)}
+.ptable td:first-child{color:var(--muted);font-family:var(--ff-body)}
+.ptable tr:last-child td{border-bottom:0}
+.bonus-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+.bonus-row:last-child{border-bottom:0}
+.bonus-row .sw{width:24px;height:24px;border-radius:6px;flex-shrink:0}
+.bonus-row .sw.y{background:var(--yellow)} .bonus-row .sw.g{background:var(--green)} .bonus-row .sw.w{background:var(--white)}
+.bonus-row .sw.p{background:#fff;background-image:radial-gradient(var(--red) 38%,transparent 40%);background-size:9px 9px}
+.bonus-row .bl{flex:1;font-size:13.5px}
+.bonus-row .bv{font-family:var(--ff-mono);font-weight:700;color:var(--yellow)}
+
+/* RIDERS */
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:22px 0 14px}
+.search{flex:1;min-width:200px;position:relative}
+.search input{width:100%;background:var(--surface);border:1px solid var(--line);color:var(--text);padding:11px 14px 11px 38px;border-radius:10px;font-size:14px;font-family:var(--ff-body)}
+.search input::placeholder{color:var(--dim)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--dim)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--surface);border:1px solid var(--line);color:var(--muted);padding:8px 13px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.16s;white-space:nowrap}
+.chip:hover{color:var(--text);border-color:var(--line2)}
+.chip.on{background:var(--yellow);color:var(--bg);border-color:var(--yellow)}
+.helpbtn{background:transparent;border:1px dashed var(--line2);color:var(--muted);padding:8px 13px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer}
+.sorthelp{background:var(--surface2);border:1px solid var(--line2);border-radius:12px;padding:14px 16px;margin-bottom:14px;font-size:13px;color:var(--muted);display:none}
+.sorthelp.show{display:block;animation:fade .3s}
+.sorthelp b{color:var(--text)}
+.sorthelp kbd{font-family:var(--ff-mono);font-size:11px;background:var(--bg2);border:1px solid var(--line2);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--text)}
+.sorthelp .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:8px}
+.sorthelp .g div{display:flex;gap:9px;align-items:baseline}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table.riders{width:100%;border-collapse:collapse;min-width:900px}
+table.riders thead th{position:sticky;top:0;background:var(--surface3);z-index:2;text-align:left;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:800;padding:13px 12px;border-bottom:1px solid var(--line2);cursor:pointer;user-select:none;white-space:nowrap;transition:.15s}
+table.riders thead th.num{text-align:center}
+table.riders thead th[data-key]:hover{color:var(--text);background:#27344a}
+.sortbadge{display:none;align-items:center;gap:3px;background:var(--yellow);color:var(--bg);font-family:var(--ff-mono);font-size:10px;font-weight:700;padding:1px 5px;border-radius:5px;margin-left:5px;vertical-align:middle}
+.sortbadge.on{display:inline-flex}
+th .hint{opacity:0;color:var(--dim);font-weight:700;transition:.15s;font-family:var(--ff-mono)}
+table.riders thead th[data-key]:hover .hint{opacity:.6}
+table.riders tbody td{padding:10px 12px;border-bottom:1px solid var(--line);font-size:13.5px;white-space:nowrap}
+table.riders tbody tr:last-child td{border-bottom:0}
+table.riders tbody tr:hover{background:var(--surface2)}
+.rider-name{font-weight:600;display:flex;align-items:center;gap:9px}
+.rider-name .flag{font-size:16px}
+.rider-name .role{display:block;font-size:10.5px;color:var(--dim);font-weight:400;margin-top:1px}
+td.teamcell{color:var(--muted);font-size:12.5px}
+td.teamcell .tline{display:flex;align-items:center;gap:8px}
+td.valcell{font-family:var(--ff-mono);font-weight:700;text-align:center;font-size:14px}
+.rate{display:inline-grid;place-items:center;width:38px;height:26px;border-radius:7px;font-family:var(--ff-mono);font-size:12.5px;font-weight:700;margin:0 auto}
+td.ratecell{text-align:center}
+.owned-tag{font-size:9px;background:var(--surface3);border:1px solid var(--line2);color:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:700;margin-left:4px;vertical-align:middle}
+
+/* STAGES */
+.stages-layout{display:grid;grid-template-columns:340px 1fr;gap:20px;margin-top:24px;align-items:start}
+.stage-list{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface);max-height:80vh;overflow-y:auto}
+.stage-item{display:grid;grid-template-columns:40px 1fr auto;gap:11px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:.14s}
+.stage-item:last-child{border-bottom:0}
+.stage-item:hover{background:var(--surface2)}
+.stage-item.on{background:var(--surface3);box-shadow:inset 3px 0 0 var(--yellow)}
+.stage-item .snum{font-family:var(--ff-disp);font-size:20px;color:var(--muted);text-align:center}
+.stage-item.on .snum{color:var(--yellow)}
+.stage-item .sinfo .sd{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.stage-item .sinfo .sr{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:185px}
+.tbadge{font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;padding:3px 7px;border-radius:6px;white-space:nowrap}
+.t-flat{background:rgba(59,138,224,.18);color:#8fc4f5} .t-hilly{background:rgba(22,182,90,.16);color:#5fe39b}
+.t-mountain{background:rgba(230,51,41,.16);color:#ff8d85} .t-ttt,.t-itt{background:rgba(255,210,30,.16);color:var(--yellow)}
+.stage-detail{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:24px;min-height:420px}
+.sd-top .sd-date{font-family:var(--ff-mono);font-size:12px;color:var(--muted)}
+.sd-top h2{font-family:var(--ff-disp);font-size:clamp(24px,3.6vw,36px);letter-spacing:.02em;line-height:.95;margin-top:6px;text-transform:uppercase}
+.sd-route{margin-top:8px}
+.sd-stats{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 8px}
+.statpill{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 14px;text-align:center;min-width:84px}
+.statpill .sv{font-family:var(--ff-mono);font-size:18px;font-weight:700}
+.statpill .sl{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-weight:700;margin-top:1px}
+.profile-box{background:linear-gradient(180deg,#0d1320,#0b0f18);border:1px solid var(--line);border-radius:12px;padding:14px 12px 8px;margin:8px 0 14px;position:relative}
+.profile-box .pf-label{position:absolute;top:10px;right:14px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:800}
+.profile-box svg{width:100%;height:240px;display:block}
+.climbchips{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px}
+.climbchip{display:inline-flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:11.5px;color:var(--muted)}
+.climbchip b{color:var(--text);font-family:var(--ff-mono);font-weight:700}
+.climbchip .tri{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid var(--red)}
+.sd-sum{color:#c3ccd9;font-size:14.5px;line-height:1.65;max-width:680px}
+.sd-suits{margin-top:20px}
+.sd-suits .lab{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:10px}
+.favs{display:flex;gap:8px;flex-wrap:wrap}
+.fav{display:inline-flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--line2);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+.fav .flag{font-size:15px}
+.fav .own{font-size:9px;color:var(--yellow);font-weight:700;background:var(--surface3);border-radius:5px;padding:1px 5px}
+
+footer{border-top:1px solid var(--line);margin-top:30px;padding:30px 0 50px;color:var(--dim);font-size:12.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start}
+footer b{color:var(--muted)}
+/* STATS */
+.stat-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:24px 0 8px}
+.stile{background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:var(--r);padding:16px 17px;position:relative;overflow:hidden}
+.stile:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--yellow)}
+.stile.blue:before{background:var(--blue)} .stile.green:before{background:var(--green)} .stile.pink:before{background:#FF4D9D}
+.stile .sl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:800}
+.stile .sv{font-family:var(--ff-disp);font-size:30px;line-height:.95;letter-spacing:.02em;margin-top:8px}
+.stile .sv .u{font-family:var(--ff-mono);font-size:14px;color:var(--muted);font-weight:700}
+.stile .sx{font-size:12px;color:var(--muted);margin-top:5px}
+.chart-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 20px 16px;margin-top:18px}
+.chart-card h3{font-size:13px;letter-spacing:.04em;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:9px}
+.chart-card .ch-sub{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 12px}
+.legend span{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);font-weight:600}
+.legend i{width:13px;height:13px;border-radius:4px;display:inline-block}
+.chart-scroll{overflow-x:auto;overflow-y:hidden}
+.chart-scroll::-webkit-scrollbar{height:8px}.chart-scroll::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}
+.stats-empty{background:var(--surface);border:1px dashed var(--line2);border-radius:var(--r);padding:46px 24px;text-align:center;color:var(--muted);margin-top:24px}
+.stats-empty .big{font-family:var(--ff-disp);font-size:26px;color:var(--text);letter-spacing:.02em;margin-bottom:8px}
+.toplist{margin-top:4px}
+.toprow{display:grid;grid-template-columns:210px 1fr 46px;gap:14px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line)}
+.toprow:last-child{border-bottom:0}
+.tn{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;min-width:0}
+.tn .tnm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tn .towner{font-size:10px;color:var(--dim);font-weight:600;white-space:nowrap;margin-left:2px}
+.tbar{height:12px;background:var(--bg2);border-radius:6px;overflow:hidden}
+.tbar i{display:block;height:100%;border-radius:6px;transition:width .8s ease}
+.tv{font-family:var(--ff-mono);font-weight:700;color:var(--yellow);text-align:right;font-size:13px}
+@media(max-width:620px){.toprow{grid-template-columns:1fr 44px;gap:6px 12px}.tn{grid-column:1}.tv{grid-column:2;grid-row:1}.tbar{grid-column:1/-1;grid-row:2}.tn .towner{margin-left:auto}}
+/* GEAR + COUNTDOWN */
+.gear{margin-left:10px;background:var(--surface);border:1px solid var(--line2);color:var(--muted);width:38px;height:38px;border-radius:9px;font-size:16px;cursor:pointer;transition:.16s;flex-shrink:0}
+.gear:hover{color:var(--yellow);border-color:var(--yellow);transform:rotate(40deg)}
+.countdown{margin-top:13px}
+.cd-lab{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);font-weight:800}
+.cd-clock{font-family:var(--ff-mono);font-size:23px;font-weight:700;margin-top:4px;letter-spacing:.01em}
+.cd-clock small{font-size:11px;color:var(--muted);margin:0 7px 0 1px;font-weight:600}
+.cd-go{font-family:var(--ff-disp);font-size:18px;color:var(--yellow);letter-spacing:.02em}
+/* RESULTS PAGE */
+.rcard2{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-top:16px}
+.rc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.rc-title{font-family:var(--ff-disp);font-size:22px;letter-spacing:.02em;text-transform:uppercase;margin-top:5px}
+.rc-recap{color:var(--text);font-size:14px;margin:13px 0 4px;background:rgba(255,210,30,.07);border-left:3px solid var(--yellow);padding:9px 12px;border-radius:0 8px 8px 0}
+.rc-jerseys{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.jpill{font-size:11px;font-weight:600;color:var(--muted);background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.jpill b{color:var(--text)}
+.jpill.yellow{border-color:rgba(255,210,30,.5)} .jpill.green{border-color:rgba(22,182,90,.5)} .jpill.polka{border-color:rgba(230,51,41,.5)} .jpill.white{border-color:rgba(244,246,250,.4)} .jpill.combativity{border-color:rgba(59,138,224,.5)}
+.rc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:6px}
+.rc-col h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:800;margin-bottom:8px}
+.rrow{display:grid;grid-template-columns:24px 20px 1fr auto auto;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line);font-size:13px}
+.rrow:last-child{border-bottom:0}
+.rpos{font-family:var(--ff-mono);color:var(--dim);text-align:center;font-size:12px}
+.rrn{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rrt{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px}
+.rrp{font-family:var(--ff-mono);color:var(--yellow);font-weight:700;font-size:12.5px;text-align:right}
+.mrow{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:13px}
+.mrow:last-child{border-bottom:0}
+.mn2{font-weight:700}
+.msc{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp{font-family:var(--ff-mono);color:var(--green);font-weight:700}
+/* EDITOR */
+.ed-overlay{position:fixed;inset:0;z-index:200;background:rgba(6,9,14,.74);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:24px 14px;overflow-y:auto}
+.ed-overlay[hidden]{display:none}
+.ed-panel{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;width:100%;max-width:760px;box-shadow:var(--shadow);overflow:hidden;margin:auto}
+.ed-top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+.ed-title{font-family:var(--ff-disp);font-size:20px;letter-spacing:.03em}
+.ed-x{background:var(--surface);border:1px solid var(--line2);color:var(--text);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:13px}
+.ed-tabs{display:flex;gap:4px;padding:12px 18px 0;flex-wrap:wrap}
+.ed-tab{background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:9px 9px 0 0;font-weight:600;font-size:13px;cursor:pointer;border-bottom:0}
+.ed-tab.on{background:var(--surface);color:var(--yellow);border-color:var(--line2)}
+.ed-body{padding:18px;max-height:70vh;overflow-y:auto;border-top:1px solid var(--line)}
+.ed-section h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:800;margin:18px 0 8px}
+.ed-section h4 small{color:var(--dim);text-transform:none;letter-spacing:0;font-weight:600}
+.ed-field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;font-size:12px;color:var(--muted);font-weight:600}
+.ed-field span{font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.ed-body select,.ed-input,.ed-ta{background:var(--surface);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:9px 11px;font-family:var(--ff-body);font-size:13px}
+.ed-list{display:flex;flex-direction:column;gap:6px}
+.ed-li{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+.ed-pos{font-family:var(--ff-mono);color:var(--dim);width:20px;text-align:center;font-size:12px}
+.ed-nm{flex:1;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-fp{font-family:var(--ff-mono);color:var(--yellow);font-size:12px;font-weight:700}
+.ed-url{flex:2;font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ed-acts{display:flex;gap:4px}
+.ed-acts button{background:var(--bg2);border:1px solid var(--line2);color:var(--muted);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:11px}
+.ed-acts button:hover{color:var(--text)}
+.ed-addrow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ed-addrow select,.ed-addrow .ed-input{flex:1;min-width:140px}
+.ed-btn{background:var(--yellow);color:#1a1300;border:0;border-radius:8px;padding:9px 14px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap}
+.ed-btn:hover{filter:brightness(1.06)} .ed-btn:disabled{opacity:.4;cursor:not-allowed}
+.ed-btn.danger{background:transparent;border:1px solid rgba(230,51,41,.5);color:#ff8d85}
+.ed-btn.sm{padding:6px 10px;font-size:12px} .ed-btn.big{font-size:14px;padding:12px 18px;width:100%}
+.ed-foot{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+.ed-note{font-size:12px;color:var(--dim)}
+.ed-empty{color:var(--dim);font-size:13px;padding:8px 2px}
+.ed-jgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.ed-mgr{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+.ed-mgr-top{display:flex;align-items:center;gap:10px}
+.ed-mgr-top .ed-input{flex:1}
+.ed-budget{font-family:var(--ff-mono);font-weight:700;color:var(--green)} .ed-budget.over{color:var(--red)}
+.ed-chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.ed-chip{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:5px 6px 5px 9px;font-size:12px;font-weight:600}
+.ed-chip button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:12px;padding:0 2px}
+.ed-chip button:hover{color:var(--red)}
+.ed-fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.ed-export{margin:12px 0}
+.ed-ta{width:100%;height:150px;margin-top:12px;font-family:var(--ff-mono);font-size:11px;white-space:pre;overflow:auto}
+.ed-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--yellow);color:#1a1300;font-weight:700;padding:10px 18px;border-radius:10px;z-index:300;opacity:0;transition:.25s;pointer-events:none;font-size:13px}
+.ed-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:680px){.rc-grid{grid-template-columns:1fr}.rrt{display:none}.rrow{grid-template-columns:24px 20px 1fr auto}.ed-fgrid,.ed-jgrid{grid-template-columns:1fr}}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:4px}
+
+@media(max-width:920px){
+  .hero{min-height:480px}
+  .hero-inner{grid-template-columns:1fr;gap:24px}
+  .stages-layout{grid-template-columns:1fr}
+  .stage-list{max-height:none;display:flex;overflow-x:auto;overflow-y:hidden;gap:0}
+  .stage-item{flex:0 0 220px;border-bottom:0;border-right:1px solid var(--line)}
+  .stage-item.on{box-shadow:inset 0 3px 0 var(--yellow)}
+  .gc-head{display:none}
+  .gc-row{grid-template-columns:46px 1fr auto;grid-auto-rows:auto;gap:4px 10px;padding:14px 38px 14px 14px}
+  .gc-row .num.val,.gc-row .spark{display:none}
+  .gc-row .mgr{grid-column:2}
+  .gc-row .num.pts{grid-row:1;grid-column:3;justify-self:end}
+  .gc-row .num.today,.gc-row .num.gap{grid-row:2;font-size:12px}
+  .gc-row .num.today{grid-column:2;justify-self:start;text-align:left}
+  .gc-row .num.gap{grid-column:3;justify-self:end}
+  .gc-row .chev{position:absolute;right:12px;top:16px}
+}
+@media(max-width:680px){
+  nav.tabs{position:fixed;top:62px;right:0;left:0;flex-direction:column;background:var(--bg2);border-bottom:1px solid var(--line);padding:8px 16px;gap:2px;display:none;box-shadow:var(--shadow)}
+  nav.tabs.open{display:flex}
+  nav.tabs a{padding:13px}
+  .menu-btn{display:block}
+  .hero h1{font-size:clamp(42px,15vw,74px)}
+  .profile-box svg{height:200px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#standings" data-go="standings">
+      <svg class="jersey" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 2.5 3.2 5.8l1.9 3.6 2.1-1.1V21h9.6V8.3l2.1 1.1 1.9-3.6-5.3-3.3-1 .6a2.6 2.6 0 0 1-5 0z"/></svg>
+      <span><b>MAILLOT POOL</b><small>Tour de France · 2026</small></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <nav class="tabs" id="tabs">
+      <a href="#standings" data-go="standings" class="active">Standings</a>
+      <a href="#results" data-go="results">Results</a>
+      <a href="#rules" data-go="rules">Rules</a>
+      <a href="#riders" data-go="riders">Riders</a>
+      <a href="#stages" data-go="stages">Stages</a>
+      <a href="#stats" data-go="stats">Stats</a>
+    </nav>
+    <button class="gear" id="editorBtn" aria-label="Open editor" title="Editor — enter results &amp; teams">⚙</button>
+  </div>
+  <div class="progress-strip"><i id="progBar" style="width:0%"></i></div>
+</header>
+
+<main id="standings" class="page active">
+  <div class="hero">
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0A0D13"/><stop offset="0.5" stop-color="#141d31"/>
+            <stop offset="0.82" stop-color="#2a2c40"/><stop offset="1" stop-color="#3b3147"/>
+          </linearGradient>
+          <radialGradient id="sun" cx="0.74" cy="0.34" r="0.4">
+            <stop offset="0" stop-color="#ffcf6a" stop-opacity="0.55"/>
+            <stop offset="0.4" stop-color="#e89a5a" stop-opacity="0.18"/>
+            <stop offset="1" stop-color="#e89a5a" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="r1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c3450"/><stop offset="1" stop-color="#222a42"/></linearGradient>
+          <linearGradient id="r2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2336"/><stop offset="1" stop-color="#161d2e"/></linearGradient>
+          <linearGradient id="r3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1521"/><stop offset="1" stop-color="#0b0f18"/></linearGradient>
+          <g id="cyc" fill="none" stroke="#06090f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7" cy="20" r="6"/><circle cx="31" cy="20" r="6"/>
+            <path d="M7 20 L19 20 L15 9 L26 9 M19 20 L26 9 M15 9 L13.5 20 M26 9 L29 6 M13.5 11 L20 4 L28 7"/>
+            <circle cx="19.5" cy="3" r="2.5" fill="#06090f"/>
+            <path d="M19 20 L17 14 M19 20 L22 15"/>
+          </g>
+        </defs>
+        <rect width="1440" height="600" fill="url(#sky)"/>
+        <rect width="1440" height="600" fill="url(#sun)"/>
+        <circle cx="1066" cy="196" r="46" fill="#ffd58a" opacity="0.5"/>
+        <!-- far ridge -->
+        <path d="M0 360 L150 300 L300 340 L460 250 L620 320 L780 230 L960 310 L1140 240 L1320 300 L1440 270 L1440 600 L0 600 Z" fill="url(#r1)" opacity="0.85"/>
+        <!-- snow caps far -->
+        <path d="M460 250 L487 277 L433 277 Z" fill="#cdd6e8" opacity="0.5"/>
+        <path d="M780 230 L808 258 L752 258 Z" fill="#cdd6e8" opacity="0.5"/>
+        <path d="M1140 240 L1167 267 L1113 267 Z" fill="#cdd6e8" opacity="0.5"/>
+        <!-- mid ridge -->
+        <path d="M0 430 L180 350 L360 420 L520 330 L700 420 L880 320 L1080 410 L1260 340 L1440 410 L1440 600 L0 600 Z" fill="url(#r2)"/>
+        <path d="M520 330 L552 372 L488 372 Z" fill="#e7edf7" opacity="0.6"/>
+        <path d="M880 320 L914 364 L846 364 Z" fill="#e7edf7" opacity="0.6"/>
+        <!-- near ridge -->
+        <path d="M0 520 L220 450 L420 510 L640 430 L860 510 L1080 450 L1300 510 L1440 470 L1440 600 L0 600 Z" fill="url(#r3)"/>
+        <!-- road -->
+        <path d="M735 600 C720 540 690 520 715 470 C735 432 712 410 742 388 C760 374 752 366 760 356 L796 356 C792 366 800 374 786 392 C764 420 788 444 762 484 C744 520 776 546 805 600 Z" fill="#2a3346" opacity="0.9"/>
+        <path d="M770 600 C758 548 740 524 752 478 C760 446 748 424 756 398" fill="none" stroke="#FFD21E" stroke-width="2.5" stroke-dasharray="10 12" opacity="0.55"/>
+        <!-- peloton -->
+        <g opacity="0.92">
+          <use href="#cyc" transform="translate(706,470) scale(1.5)"/>
+          <use href="#cyc" transform="translate(742,486) scale(1.7)"/>
+          <use href="#cyc" transform="translate(700,500) scale(1.9)"/>
+          <use href="#cyc" transform="translate(752,520) scale(2.15)"/>
+          <use href="#cyc" transform="translate(706,548) scale(2.5)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-scrim"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <div class="eyebrow">Fantasy classification</div>
+        <h1>THE <span class="y">YELLOW</span><br>POOL</h1>
+        <p class="sub">One squad of eight riders. Locked for all twenty-one stages. From the Barcelona team time trial to the cobbles of the Champs-Élysées — the manager whose riders rack up the most points wears the jersey.</p>
+        <div class="route"><span class="dot"></span>Barcelona<span style="color:var(--dim)">→</span>Paris<span style="color:var(--dim)">·</span>4–26 July<span style="color:var(--dim)">·</span>3,333 km</div>
+      </div>
+      <div class="statuscard">
+        <div class="row1">
+          <div class="stagebig" id="stageBig">—<small id="stageBigSub"></small></div>
+          <div class="ring" id="progRing"><i id="progRingTxt">0%</i></div>
+        </div>
+        <div id="countdown" class="countdown"></div>
+        <div class="nextline" id="nextLine">The race has not started.</div>
+        <div class="leadchip" id="leadChip" style="display:none">
+          <svg class="jersey" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 2.5 3.2 5.8l1.9 3.6 2.1-1.1V21h9.6V8.3l2.1 1.1 1.9-3.6-5.3-3.3-1 .6a2.6 2.6 0 0 1-5 0z"/></svg>
+          <div><div class="lab">Pool leader</div><div class="nm" id="leadName">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block wrap" style="padding-bottom:8px">
+    <div class="preview-banner" id="previewBanner" style="margin-bottom:26px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      <span><b>Preview standings.</b> Sample squads with simulated results for the opening stages, so you can see the board in action. Send me your managers' real eight-rider teams and I'll lock them in — everything then scores automatically.</span>
+    </div>
+    <div class="eyebrow">The favourites</div>
+    <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">Top contenders</h2>
+    <p class="lead">The marquee names on the Barcelona start line. Swipe across — a yellow tag means the rider is already in a pool squad.</p>
+    <div class="contenders" id="contenders" style="margin-top:18px"></div>
+  </section>
+
+  <section class="block wrap" style="padding-top:30px">
+    <div class="eyebrow">General classification</div>
+    <h2 class="sec-title">The standings</h2>
+    <p class="lead">Tap any manager to open their squad and see who is scoring the points. The leader rides in yellow.</p>
+    <div class="gc" id="gcTable" style="margin-top:22px"></div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="eyebrow">On the road right now</div>
+    <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">The four jerseys</h2>
+    <p class="lead">Who holds each classification after the latest stage. A small tag means the rider sits in one of the pool squads.</p>
+    <div class="jerseys" id="jerseysPanel" style="margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px"></div>
+  </section>
+</main>
+
+<main id="rules" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">House rules</div>
+    <h2 class="sec-title">How the pool works</h2>
+    <p class="lead">A simple, classic format: draft once, commit for three weeks, and let the racing decide. No daily fiddling — your eight riders carry you the whole Tour.</p>
+    <div class="rules-grid">
+      <div class="card"><h3><span class="n">1</span>Your squad</h3>
+        <p>Every manager drafts <b>one team of eight riders</b> from the start list before Stage 1.</p>
+        <ul><li>You have a budget of <b>100 credits</b>. Each rider has a value on the Riders page; your eight picks must total <b>100 or less</b>.</li>
+        <li>Riders can be owned by more than one manager — pick the squad you believe in.</li>
+        <li>A balanced team usually means one or two leaders plus cheaper stage-hunters and climbers who collect points across the three weeks.</li></ul></div>
+      <div class="card"><h3><span class="n">2</span>Locked for the Tour</h3>
+        <p>This is the key rule that keeps it honest:</p>
+        <ul><li>Teams are <b>locked for the entire race</b> — the same eight riders score on all <b>21 stages</b>.</li>
+        <li><b>No transfers, no substitutions, no per-stage changes.</b> What you draft is what you ride to Paris.</li>
+        <li>If one of your riders abandons, you simply lose their future points. Choose durable riders.</li></ul></div>
+      <div class="card"><h3><span class="n">3</span>Points per stage</h3>
+        <p>Each of your riders scores by where they finish the stage:</p>
+        <table class="ptable"><thead><tr><th>Finish</th><th>Pts</th><th>Finish</th><th>Pts</th></tr></thead><tbody>
+        <tr><td>1st</td><td>50</td><td>9th</td><td>14</td></tr><tr><td>2nd</td><td>44</td><td>10th</td><td>10</td></tr>
+        <tr><td>3rd</td><td>38</td><td>11th</td><td>8</td></tr><tr><td>4th</td><td>34</td><td>12th</td><td>6</td></tr>
+        <tr><td>5th</td><td>30</td><td>13th</td><td>4</td></tr><tr><td>6th</td><td>26</td><td>14th</td><td>2</td></tr>
+        <tr><td>7th</td><td>22</td><td>15th</td><td>1</td></tr><tr><td>8th</td><td>18</td><td>16th+</td><td>0</td></tr></tbody></table></div>
+      <div class="card"><h3><span class="n">4</span>Jersey bonuses</h3>
+        <p>Extra points each stage for any of your riders <b>wearing a jersey</b> at the finish:</p>
+        <div class="bonus-row"><span class="sw y"></span><span class="bl"><b>Yellow</b> · overall leader</span><span class="bv">+20</span></div>
+        <div class="bonus-row"><span class="sw g"></span><span class="bl"><b>Green</b> · points leader</span><span class="bv">+10</span></div>
+        <div class="bonus-row"><span class="sw p"></span><span class="bl"><b>Polka-dot</b> · king of the mountains</span><span class="bv">+10</span></div>
+        <div class="bonus-row"><span class="sw w"></span><span class="bl"><b>White</b> · best young rider</span><span class="bv">+6</span></div>
+        <p style="margin-top:12px">Plus the daily <b>most combative</b> rider earns <b style="color:var(--yellow)">+8</b>.</p></div>
+      <div class="card"><h3><span class="n">5</span>Final bonuses in Paris</h3>
+        <p>Big points for riders who finish on the final classifications after Stage 21:</p>
+        <table class="ptable"><thead><tr><th>Final GC</th><th>Pts</th><th>Jersey win</th><th>Pts</th></tr></thead><tbody>
+        <tr><td>Winner</td><td>150</td><td>Green 1st</td><td>80</td></tr><tr><td>2nd</td><td>100</td><td>Polka 1st</td><td>80</td></tr>
+        <tr><td>3rd</td><td>75</td><td>White 1st</td><td>60</td></tr><tr><td>4th</td><td>60</td><td>Jersey 2nd</td><td>50/40</td></tr>
+        <tr><td>5th</td><td>50</td><td>Jersey 3rd</td><td>30/20</td></tr><tr><td>6–10th</td><td>40→15</td><td>—</td><td>—</td></tr></tbody></table></div>
+      <div class="card"><h3><span class="n">6</span>Winning &amp; tie-breaks</h3>
+        <ul><li>The manager with the <b>most total points</b> after Stage 21 wins the pool and the yellow jersey.</li>
+        <li><b>Tie-break:</b> most stage wins among owned riders, then the best single-stage points haul.</li>
+        <li>Standings update the moment results are entered — the board you see is always live.</li></ul>
+        <p style="margin-top:10px;color:var(--dim);font-size:12.5px">These are friendly house rules — tweak the values or bonuses to suit your group.</p></div>
+    </div>
+  </section>
+</main>
+<main id="riders" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">The start list</div>
+    <h2 class="sec-title">Riders &amp; values</h2>
+    <p class="lead">The full pool of selectable riders, their value, team, nationality and a form rating from 0–99 in each discipline. Brighter green is a strength; red is a weakness.</p>
+    <div class="controls">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="riderSearch" placeholder="Search rider or team…">
+      </label>
+      <div class="chips" id="roleChips">
+        <span class="chip on" data-cat="all">All</span>
+        <span class="chip" data-cat="gc">GC / Climbers</span>
+        <span class="chip" data-cat="sprint">Sprinters</span>
+        <span class="chip" data-cat="punch">Puncheurs</span>
+        <span class="chip" data-cat="break">Breakaway</span>
+        <span class="chip" data-cat="tt">Time trial</span>
+      </div>
+      <button class="helpbtn" id="helpBtn">⌘ Sorting</button>
+    </div>
+    <div class="sorthelp" id="sortHelp">
+      <b>Multi-column sorting.</b> The little numbered badges show the order columns are applied in.
+      <div class="g">
+        <div><kbd>Click</kbd><span>Sort by that column only.</span></div>
+        <div><kbd>Ctrl / ⌘ + Click</kbd><span>Add another column — sorts stack as <b>1</b>, <b>2</b>, <b>3</b>… Ctrl-click again to remove it.</span></div>
+        <div><kbd>Shift + Click</kbd><span>Reverse a column's direction (<b>▲</b> ascending / <b>▼</b> descending).</span></div>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="riders" id="ridersTable">
+        <thead><tr id="ridersHead">
+          <th data-key="name" data-type="txt">Rider <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="team" data-type="txt">Team <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="val" data-type="num" class="num">Value <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="climb" data-type="num" class="num">Climb <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="sprint" data-type="num" class="num">Sprint <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="punch" data-type="num" class="num">Punch <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="itt" data-type="num" class="num">ITT <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="brk" data-type="num" class="num">Break <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="pts" data-type="num" class="num">Pts <span class="hint">↕</span><span class="sortbadge"></span></th>
+        </tr></thead>
+        <tbody id="ridersBody"></tbody>
+      </table>
+    </div>
+    <p style="color:var(--dim);font-size:12px;margin-top:12px">Ratings are subjective form guides for the pool, not official data. <span id="riderCount"></span></p>
+  </section>
+</main>
+
+<main id="stages" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">The route · 21 stages</div>
+    <h2 class="sec-title">Stage guide</h2>
+    <p class="lead">Pick a stage on the left to see its profile, the numbers, and a read on who it suits — handy when you're deciding which riders to back. Favourites tagged with a name sit in a pool squad.</p>
+    <div class="stages-layout">
+      <div class="stage-list" id="stageList"></div>
+      <div class="stage-detail" id="stageDetail"></div>
+    </div>
+  </section>
+</main>
+
+<main id="results" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">Stage by stage</div>
+    <h2 class="sec-title">Results &amp; recaps</h2>
+    <p class="lead">What actually happened each day, who held the jerseys, and how many points it earned every manager. Newest stage first.</p>
+    <div id="resultsBody"></div>
+  </section>
+</main>
+
+<main id="stats" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">The numbers · how the race is unfolding</div>
+    <h2 class="sec-title">Statistics</h2>
+    <p class="lead">How the pool is progressing stage by stage — who is leading, how the gaps have moved, and which riders are doing the work.</p>
+    <div id="statsBody"></div>
+  </section>
+</main>
+
+<div id="editorOverlay" class="ed-overlay" hidden></div>
+
+<footer>
+  <div class="wrap">
+    <div style="max-width:430px"><b>Maillot Pool</b> — a friendly Tour de France 2026 sweepstake. Route and start-list details reflect the official 2026 race (Barcelona → Paris, 4–26 July). Rider ratings, values and the stage profiles are original and for the game only.</div>
+    <div style="max-width:430px"><b>Make it public:</b> download this file and host it free on Netlify Drop, GitHub Pages or Cloudflare Pages for a no-login link everyone can open. <b>Updating the board:</b> teams, results and final classifications live in one marked block at the top of the script.</div>
+  </div>
+</footer>
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   ║  EDIT HERE — TEAMS, RESULTS & FINAL CLASSIFICATIONS               ║
+   ════════════════════════════════════════════════════════════════════ */
+/*DATA_START*/
+const MANAGERS = [
+  { id:'chris', name:'Chris', riders:['pogacar','philipsen','mohoric','martinez','kuss','abrahamsen','affini','martin'] },
+  { id:'juan',  name:'Juan',  riders:['vingegaard','vanderpoel','kooij','landa','kuss','izagirre','turgis','martin'] },
+  { id:'jono',  name:'Jono',  riders:['milan','deltoro','pidcock','girmay','vauquelin','bauhaus','abrahamsen','gaudu'] },
+];
+const RESULTS = {
+  1:{ top:['pogacar','evenepoel','vingegaard','deltoro','almeida','ayuso','jorgenson','lipowitz','affini','campenaerts','kung','skjelmose','rodriguez','arensman','kuss'],
+      yellow:'pogacar', green:'pogacar', polka:'pogacar', white:'deltoro', combativity:null },
+  2:{ top:['pogacar','vanderpoel','pidcock','seixas','vingegaard','evenepoel','healy','skjelmose','matthews','deltoro','vauquelin','rodriguez','gregoire','alaphilippe','mohoric'],
+      yellow:'pogacar', green:'pogacar', polka:'martinez', white:'deltoro', combativity:'gregoire' },
+  3:{ top:['vingegaard','pogacar','evenepoel','seixas','deltoro','lipowitz','almeida','ayuso','uijtdebroeks','carapaz','tiberi','rodriguez','johannessen','gall','bernal'],
+      yellow:'pogacar', green:'pedersen', polka:'martinez', white:'deltoro', combativity:'carapaz' },
+  4:{ top:['healy','mohoric','cort','gregoire','vauquelin','pidcock','alaphilippe','turgis','abrahamsen','carapaz','martin','izagirre','skjelmose','matthews','vanderpoel'],
+      yellow:'pogacar', green:'pedersen', polka:'martinez', white:'deltoro', combativity:'healy' },
+};
+const FINAL = { gc:[], green:[], polka:[], white:[] };
+/* OPTIONAL — add a photo URL per rider id to show a real photo on the contender cards, e.g. pogacar:'https://...' */
+const PHOTOS = {};
+/*DATA_END*/
+const __clone=o=>JSON.parse(JSON.stringify(o));
+let DATA={MANAGERS:__clone(MANAGERS),RESULTS:__clone(RESULTS),FINAL:__clone(FINAL),PHOTOS:__clone(PHOTOS)};
+/* ════════════════════════════════════════════════════════════════════ */
+
+const TEAM_COLORS = {
+  'UAE Team Emirates-XRG':'#E0241B','Visma | Lease a Bike':'#F2C200','Red Bull–BORA–hansgrohe':'#1E3A8A',
+  'Alpecin–Premier Tech':'#E84855','Lidl–Trek':'#1559C4','Soudal Quick-Step':'#2EA0E0','Decathlon CMA CGM':'#0A7CC1',
+  'INEOS Grenadiers':'#15294C','Bahrain–Victorious':'#8E1D2D','Movistar Team':'#00A3E0','EF Education–EasyPost':'#FF2D8E',
+  'Groupama–FDJ United':'#2456A6','Uno-X Mobility':'#ED1C24','NSN Cycling Team':'#18B7A0','Lotto':'#E2001A',
+  'Team Jayco AlUla':'#16A36F','Q36.5 Pro Cycling':'#0FA3A3','Cofidis':'#E2231A','Tudor Pro Cycling':'#6D49C9','TotalEnergies':'#F26A21'
+};
+const _tc={}; Object.keys(TEAM_COLORS).forEach(k=>_tc[k.toLowerCase().replace(/[^a-z0-9]/g,'')]=TEAM_COLORS[k]);
+function teamColor(t){return _tc[(t||'').toLowerCase().replace(/[^a-z0-9]/g,'')]||'#3B8AE0';}
+function shade(c,f){let h=c.replace('#','');if(h.length===3)h=h.split('').map(x=>x+x).join('');let r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);const t=f<0?0:255,p=Math.abs(f);r=Math.round((t-r)*p+r);g=Math.round((t-g)*p+g);b=Math.round((t-b)*p+b);return `rgb(${r},${g},${b})`;}
+
+const R = [
+['pogacar','Tadej Pogačar','UAE Team Emirates-XRG','🇸🇮',32,97,62,93,90,55,'GC leader','gc'],
+['vingegaard','Jonas Vingegaard','Visma | Lease a Bike','🇩🇰',28,96,40,78,86,45,'GC leader','gc'],
+['evenepoel','Remco Evenepoel','Red Bull–BORA–hansgrohe','🇧🇪',24,88,45,82,96,40,'GC / time trial','gc'],
+['vanderpoel','Mathieu van der Poel','Alpecin–Premier Tech','🇳🇱',22,55,85,95,70,82,'Classics / puncheur','punch'],
+['deltoro','Isaac del Toro','UAE Team Emirates-XRG','🇲🇽',16,89,60,84,72,62,'GC / young rider','gc'],
+['ayuso','Juan Ayuso','Lidl–Trek','🇪🇸',16,90,42,72,80,48,'GC leader','gc'],
+['seixas','Paul Seixas','Decathlon CMA CGM','🇫🇷',15,88,48,80,78,58,'GC / young rider','gc'],
+['lipowitz','Florian Lipowitz','Red Bull–BORA–hansgrohe','🇩🇪',14,89,38,70,82,45,'GC contender','gc'],
+['pidcock','Tom Pidcock','Q36.5 Pro Cycling','🇬🇧',14,86,58,86,74,70,'GC / puncheur','punch'],
+['almeida','João Almeida','UAE Team Emirates-XRG','🇵🇹',14,90,40,68,86,42,'GC / time trial','gc'],
+['rodriguez','Carlos Rodríguez','INEOS Grenadiers','🇪🇸',13,88,46,72,80,46,'GC contender','gc'],
+['carapaz','Richard Carapaz','EF Education–EasyPost','🇪🇨',12,91,44,78,66,80,'Climber / KOM','gc'],
+['vauquelin','Kévin Vauquelin','INEOS Grenadiers','🇫🇷',12,84,55,85,76,68,'Puncheur / GC','punch'],
+['bernal','Egan Bernal','INEOS Grenadiers','🇨🇴',12,88,40,72,74,58,'Climber / GC','gc'],
+['healy','Ben Healy','EF Education–EasyPost','🇮🇪',12,74,52,86,72,92,'Breakaway / puncheur','break'],
+['tiberi','Antonio Tiberi','Bahrain–Victorious','🇮🇹',11,87,40,66,78,44,'GC contender','gc'],
+['uijtdebroeks','Cian Uijtdebroeks','Movistar Team','🇧🇪',11,87,40,68,74,46,'GC / young rider','gc'],
+['arensman','Thymen Arensman','INEOS Grenadiers','🇳🇱',11,87,38,62,82,50,'Climber / time trial','gc'],
+['skjelmose','Mattias Skjelmose','Lidl–Trek','🇩🇰',11,84,56,84,78,60,'Puncheur / GC','punch'],
+['mohoric','Matej Mohorič','Bahrain–Victorious','🇸🇮',11,60,64,82,68,90,'Breakaway / descender','break'],
+['cort','Magnus Cort','Uno-X Mobility','🇩🇰',11,62,74,80,66,90,'Stage hunter / KOM','break'],
+['martinez','Lenny Martínez','Bahrain–Victorious','🇫🇷',10,88,35,64,58,78,'Climber / KOM hunter','gc'],
+['jorgenson','Matteo Jorgenson','Visma | Lease a Bike','🇺🇸',10,82,52,78,80,66,'All-rounder','punch'],
+['landa','Mikel Landa','Soudal Quick-Step','🇪🇸',9,85,36,62,64,66,'Climber','gc'],
+['gall','Felix Gall','Decathlon CMA CGM','🇦🇹',9,86,38,66,70,58,'Climber','gc'],
+['johannessen','Tobias H. Johannessen','Uno-X Mobility','🇳🇴',9,85,42,68,72,64,'Climber / young','gc'],
+['gaudu','David Gaudu','Groupama–FDJ United','🇫🇷',9,85,44,70,66,56,'Climber','gc'],
+['gregoire','Romain Grégoire','Groupama–FDJ United','🇫🇷',9,66,66,86,70,76,'Puncheur / young','punch'],
+['alaphilippe','Julian Alaphilippe','Tudor Pro Cycling','🇫🇷',9,58,66,90,70,78,'Puncheur','punch'],
+['kuss','Sepp Kuss','Visma | Lease a Bike','🇺🇸',8,86,34,58,66,70,'Climbing domestique','gc'],
+['abrahamsen','Jonas Abrahamsen','Uno-X Mobility','🇳🇴',8,56,68,72,64,92,'Breakaway','break'],
+['kung','Stefan Küng','Groupama–FDJ United','🇨🇭',8,38,52,62,92,68,'Time trial specialist','tt'],
+['affini','Edoardo Affini','Visma | Lease a Bike','🇮🇹',7,40,55,58,90,66,'Time trial / rouleur','tt'],
+['campenaerts','Victor Campenaerts','Visma | Lease a Bike','🇧🇪',7,44,56,64,84,86,'Time trial / break','tt'],
+['izagirre','Ion Izagirre','Cofidis','🇪🇸',7,80,46,74,74,78,'All-rounder / break','break'],
+['turgis','Anthony Turgis','TotalEnergies','🇫🇷',6,52,72,78,62,86,'Breakaway / classics','break'],
+['martin','Guillaume Martin','Groupama–FDJ United','🇫🇷',6,84,34,62,64,82,'Climber / break','gc'],
+['philipsen','Jasper Philipsen','Alpecin–Premier Tech','🇧🇪',18,30,94,72,55,48,'Sprinter (green favourite)','sprint'],
+['merlier','Tim Merlier','Soudal Quick-Step','🇧🇪',18,25,96,62,52,35,'Pure sprinter','sprint'],
+['milan','Jonathan Milan','Lidl–Trek','🇮🇹',18,24,95,60,60,38,'Pure sprinter','sprint'],
+['pedersen','Mads Pedersen','Lidl–Trek','🇩🇰',18,52,88,90,72,78,'Puncheur-sprinter','punch'],
+['girmay','Biniam Girmay','NSN Cycling Team','🇪🇷',14,40,90,74,54,50,'Sprinter','sprint'],
+['kooij','Olav Kooij','Decathlon CMA CGM','🇳🇱',13,35,92,66,58,42,'Sprinter','sprint'],
+['delie','Arnaud De Lie','Lotto','🇧🇪',12,34,90,76,52,52,'Power sprinter','sprint'],
+['matthews','Michael Matthews','Team Jayco AlUla','🇦🇺',12,50,84,88,64,66,'Puncheur-sprinter','punch'],
+['groenewegen','Dylan Groenewegen','Team Jayco AlUla','🇳🇱',12,22,91,55,54,30,'Pure sprinter','sprint'],
+['groves','Kaden Groves','Alpecin–Premier Tech','🇦🇺',11,42,89,72,56,58,'Sprinter / break','sprint'],
+['bauhaus','Phil Bauhaus','Bahrain–Victorious','🇩🇪',9,30,87,60,54,38,'Sprinter','sprint'],
+['waerenskjold','Søren Wærenskjold','Uno-X Mobility','🇳🇴',9,34,86,66,70,48,'Sprinter / time trial','sprint'],
+['magnier','Paul Magnier','Soudal Quick-Step','🇫🇷',8,32,87,70,58,46,'Sprinter / young','sprint'],
+];
+const RIDERS={}; R.forEach(a=>RIDERS[a[0]]={id:a[0],name:a[1],team:a[2],flag:a[3],val:a[4],climb:a[5],sprint:a[6],punch:a[7],itt:a[8],brk:a[9],role:a[10],cat:a[11]});
+
+const STAGES=[
+[1,'ttt','Sat 4 Jul','Barcelona','Barcelona',19.4,220,23,180,`The first opening team time trial since 1971, on a Catalan city course that flattens out before two ramps up Montjuïc. Crucially, individual times are taken on the line, so the GC favourites can gain seconds on day one — and the first yellow jersey goes to the fastest rider of the winning team.`,['pogacar','vingegaard','evenepoel'],[[0,10],[0.5,18],[0.62,170,'Montjuïc'],[0.72,45],[0.86,165,'Montjuïc'],[1,30]]],
+[2,'hilly','Sun 5 Jul','Tarragona','Barcelona',169.2,2049,137,220,`A finishing circuit around Montjuïc with the short, steep Castell climb biting on each lap. Pure sprinters will be shelled on the gradients — this is puncheur terrain, a day for the explosive finishers and an early test for the overall men.`,['pogacar','seixas','pidcock','vanderpoel'],[[0,40],[0.3,130],[0.55,80],[0.7,185,'Castell de Montjuïc'],[0.8,90],[0.9,190,'Montjuïc'],[1,120]]],
+[3,'mountain','Mon 6 Jul','Granollers','Les Angles',196.2,3940,185,1900,`The first real mountain test crosses the Col de Toses and tips back into France for an uphill finish at Les Angles. The 6.5% final ramp may suit a strong puncheur or a brave breakaway, but it will already draw the first GC pecking order.`,['pogacar','vingegaard','evenepoel','seixas'],[[0,140],[0.2,520],[0.45,1000],[0.62,1800,'Col de Toses'],[0.72,1450],[0.85,1300],[1,1600,'Les Angles']]],
+[4,'hilly','Tue 7 Jul','Carcassonne','Foix',182.4,2784,108,950,`A nervy, rolling day through Cathar country with a lumpy run-in to Foix. The climbs are not severe enough to split the leaders, so the smart money is on the breakaway — a classic chance for the aggressive stage-hunters.`,['healy','mohoric','pidcock'],[[0,110],[0.25,460],[0.4,320],[0.55,780,'Col du Portel'],[0.7,520],[0.82,820],[1,420]]],
+[5,'flat','Wed 8 Jul','Lannemezan','Pau',158.3,1395,58,700,`A short transitional stage off the Pyrenean foothills into Pau. The lumps come early and the finale flattens out, so the sprint trains will fancy reeling in any escape for a bunch gallop.`,['merlier','milan','philipsen'],[[0,580],[0.15,650,'Côte de Capvern'],[0.3,400],[0.5,520],[0.7,350],[0.85,300],[1,200]]],
+[6,'mountain','Thu 9 Jul','Pau','Gavarnie-Gèdre',186.4,4149,316,2200,`The queen of the Pyrenees: the mighty Tourmalet on the way to a brutal summit finish at Gavarnie-Gèdre, with more than 4,000 m of climbing. The first day the yellow jersey can truly be won or lost — pure climbers only.`,['pogacar','vingegaard','seixas'],[[0,200],[0.25,700],[0.45,1300],[0.6,2115,'Col du Tourmalet'],[0.72,1100],[0.82,950],[1,1400,'Gavarnie-Gèdre']]],
+[7,'flat','Fri 10 Jul','Hagetmau','Bordeaux',175,701,13,150,`A flat run through the forests of the Landes to Bordeaux, traditionally happy hunting ground for the fast men. The odds are stacked against the break — expect a full-gas bunch sprint in the city.`,['merlier','milan','philipsen'],[[0,90],[0.3,115],[0.6,70],[0.85,95],[1,12]]],
+[8,'flat','Sat 11 Jul','Périgueux','Bergerac',180,1353,30,300,`A rolling Périgord stage with a handful of small rises that should not trouble the sprint teams. Momentum matters — the lead-out trains get another clear shot at a mass finish.`,['milan','pedersen','magnier'],[[0,190],[0.25,240],[0.45,150],[0.65,235],[0.85,160],[1,50]]],
+[9,'hilly','Sun 12 Jul','Malemort','Ussel',185,3244,124,950,`Explosive terrain through the Corrèze, with the punchy Suc au May inside the final 80 km. A made-for-the-breakaway day where the strongest aggressors and a few opportunist GC men will fight to get up the road.`,['seixas','healy','pidcock'],[[0,150],[0.25,500],[0.45,780],[0.6,880,'Suc au May'],[0.72,600],[0.85,820],[1,630]]],
+[10,'mountain','Tue 14 Jul','Aurillac','Le Lioran',167.3,3791,261,1650,`Bastille Day in the Massif Central, over the Puy Mary and Col de Pertus to the line where Vingegaard out-sprinted Pogačar in 2024. With French riders desperate for the break, expect fireworks all day.`,['vingegaard','pogacar','seixas'],[[0,630],[0.2,900],[0.38,1589,'Pas de Peyrol'],[0.5,1100],[0.62,1300,'Col de Pertus'],[0.75,1000],[0.88,1250],[1,1230,'Le Lioran']]],
+[11,'flat','Wed 15 Jul','Vichy','Nevers',161,1107,32,400,`A genuine transition stage for the sprinters before the race tilts east. One of the dwindling number of flat finishes left — the fast men cannot afford to miss it.`,['milan','pedersen','merlier'],[[0,250],[0.3,330],[0.55,260],[0.8,300],[1,180]]],
+[12,'flat','Thu 16 Jul','Magny-Cours','Chalon-sur-Saône',181,1555,39,400,`A debut Grand Départ from the Magny-Cours F1 circuit, finishing in Burgundy. Rolling but tame — another bunch sprint unless a determined move sneaks clear on the rises.`,['kooij','milan','magnier'],[[0,200],[0.25,300],[0.5,240],[0.7,320],[0.9,250],[1,180]]],
+[13,'hilly','Fri 17 Jul','Dole','Belfort',205,2373,58,1250,`The longest stage of the Tour, a rolling Franche-Comté route over the Ballon d'Alsace with a downhill drag to the line. Built for a breakaway — and a green-jersey contender hunting intermediate points.`,['pedersen','turgis','healy'],[[0,250],[0.25,600],[0.45,850],[0.62,1178,"Ballon d'Alsace"],[0.75,700],[0.88,550],[1,360]]],
+[14,'mountain','Sat 18 Jul','Mulhouse','Le Markstein',155,4602,313,1400,`The Vosges bare their teeth: the Grand Ballon leads a relentless chain of climbs with over 4,600 m of climbing across just 155 km. A short, savage day where the GC battle reignites.`,['pogacar','vingegaard','lipowitz'],[[0,240],[0.18,800],[0.3,1336,'Grand Ballon'],[0.42,900],[0.55,1178,"Ballon d'Alsace"],[0.68,800],[0.8,748,'Col du Hundsruck'],[1,1200,'Le Markstein']]],
+[15,'mountain','Sun 19 Jul','Champagnole','Plateau de Solaison',184,4701,428,1600,`The hardest stage on paper: a long haul out of the Jura into the Massif des Bornes for a brand-new summit finish at Plateau de Solaison, with almost 4,700 m of climbing. The final climb is where the contenders trade their biggest blows before the second rest day.`,['vingegaard','pogacar','evenepoel'],[[0,540],[0.25,1000],[0.45,700],[0.6,1300,'Col de Romme'],[0.72,900],[0.85,1100],[1,1503,'Plateau de Solaison']]],
+[16,'itt','Tue 21 Jul','Évian-les-Bains','Thonon-les-Bains',26,465,40,650,`A 26 km individual time trial along the shore of Lake Geneva — the only solo test of the race. Rolling rather than flat, it is a golden chance for the time-trial specialists and a place where the GC can be reshuffled by the watch.`,['evenepoel','pogacar','vingegaard'],[[0,375],[0.3,420],[0.5,560,'Côte de Marin'],[0.7,460],[1,375]]],
+[17,'hilly','Wed 22 Jul','Chambéry','Voiron',175,2361,67,950,`A rolling Alpine-foothills stage with no summit finish, so the breakaway has a real chance to stay clear. A day for a strong rouleur-puncheur or a green-jersey raid on the intermediate points.`,['pedersen','healy','cort'],[[0,270],[0.2,600],[0.38,850,'Col du Granier'],[0.55,500],[0.7,780],[0.85,550],[1,290]]],
+[18,'mountain','Thu 23 Jul','Voiron','Orcières-Merlette',185,3950,234,1900,`Back into the high mountains with a summit finish at Orcières-Merlette after nearly 4,000 m of climbing. The opening salvo of a savage final block — the overall men cannot afford an off day here.`,['pogacar','vingegaard','seixas'],[[0,290],[0.2,700],[0.4,1100,'Côte des Blancs'],[0.55,800],[0.7,1268,'Col de Manse'],[0.82,1000],[1,1825,'Orcières-Merlette']]],
+[19,'mountain','Fri 24 Jul','Gap',"Alpe d'Huez",128,3605,341,1950,`A short, explosive stage to the legendary 21 hairpins of Alpe d'Huez. Compact but ferocious — and the first of two consecutive finishes on the Alpe, a Tour first. Pure climbers and the yellow-jersey favourites only.`,['pogacar','vingegaard','seixas'],[[0,735],[0.3,650],[0.5,720],[0.7,800],[0.82,1100],[1,1850,"Alpe d'Huez"]]],
+[20,'mountain','Sat 25 Jul',"Le Bourg d'Oisans","Alpe d'Huez",171,5601,416,2700,`The queen stage and likely decider: roughly 5,600 m of climbing over the Croix de Fer, Télégraphe, Galibier and Col de Sarenne before a second ascent of Alpe d'Huez in 24 hours. Whoever is strongest here wins the Tour.`,['vingegaard','pogacar','evenepoel'],[[0,720],[0.18,2067,'Col de la Croix de Fer'],[0.3,720],[0.42,1566,'Col du Télégraphe'],[0.55,2642,'Col du Galibier'],[0.68,1300],[0.8,1999,'Col de Sarenne'],[0.9,1300],[1,1850,"Alpe d'Huez"]]],
+[21,'hilly','Sun 26 Jul','Thoiry','Paris',130,1978,72,220,`The grand finale rolls into Paris and, as in 2025, takes in the cobbled Rue Lepic over Montmartre before the run to the Champs-Élysées. With the line 15 km after the final climb, determined sprinters and puncheurs can fight back into it.`,['vanderpoel','pogacar','pedersen'],[[0,180],[0.4,90],[0.6,130,'Montmartre'],[0.72,75],[0.82,130,'Montmartre'],[1,40]]],
+];
+const STAGE_BY_N={}; STAGES.forEach(s=>STAGE_BY_N[s[0]]=s);
+function stageObj(s){return {n:s[0],type:s[1],date:s[2],from:s[3],to:s[4],km:s[5],vm:s[6],ps:s[7],peak:s[8],sum:s[9],favs:s[10],wp:s[11]};}
+const TYPE_LABEL={ttt:'Team time trial',itt:'Individual time trial',flat:'Flat — bunch sprint',hilly:'Hilly — break / puncheurs',mountain:'Mountain — summit finish'};
+
+const FINISH=[50,44,38,34,30,26,22,18,14,10,8,6,4,2,1];
+const JBON={yellow:20,green:10,polka:10,white:6}; const COMB=8;
+const FGC=[150,100,75,60,50,40,30,25,20,15]; const FSEC={green:[80,50,30],polka:[80,50,30],white:[60,40,20]};
+let completedStages=[], ownerMap={}, SC={total:{},daily:{},brk:{}};
+function recompute(){
+  completedStages=Object.keys(DATA.RESULTS).map(Number).filter(n=>DATA.RESULTS[n]&&DATA.RESULTS[n].top&&DATA.RESULTS[n].top.length).sort((a,b)=>a-b);
+  ownerMap={}; DATA.MANAGERS.forEach(m=>m.riders.forEach(r=>{(ownerMap[r]=ownerMap[r]||[]).push(m.name);}));
+  SC=computeScores();
+}
+function computeScores(){
+  const RESULTS=DATA.RESULTS, FINAL=DATA.FINAL;
+  const total={},daily={},brk={};
+  R.forEach(a=>{total[a[0]]=0;daily[a[0]]={};brk[a[0]]={finish:0,jersey:0,comb:0,final:0,wins:0};});
+  completedStages.forEach(s=>{const r=RESULTS[s];
+    r.top.forEach((rid,i)=>{if(!RIDERS[rid])return;const p=FINISH[i]||0;total[rid]+=p;daily[rid][s]=(daily[rid][s]||0)+p;brk[rid].finish+=p;if(i===0)brk[rid].wins++;});
+    ['yellow','green','polka','white'].forEach(j=>{const rid=r[j];if(rid&&RIDERS[rid]){total[rid]+=JBON[j];daily[rid][s]=(daily[rid][s]||0)+JBON[j];brk[rid].jersey+=JBON[j];}});
+    if(r.combativity&&RIDERS[r.combativity]){total[r.combativity]+=COMB;daily[r.combativity][s]=(daily[r.combativity][s]||0)+COMB;brk[r.combativity].comb+=COMB;}});
+  FINAL.gc.forEach((rid,i)=>{if(RIDERS[rid]){const p=FGC[i]||0;total[rid]+=p;brk[rid].final+=p;}});
+  ['green','polka','white'].forEach(sec=>FINAL[sec].forEach((rid,i)=>{if(RIDERS[rid]){const p=FSEC[sec][i]||0;total[rid]+=p;brk[rid].final+=p;}}));
+  return {total,daily,brk};
+}
+/* SC is computed by recompute() */
+function managerStandings(){
+  const MANAGERS=DATA.MANAGERS;
+  const rows=MANAGERS.map(m=>{let tot=0,val=0,wins=0,finalPts=0;const series=completedStages.map(()=>0);
+    m.riders.forEach(rid=>{tot+=SC.total[rid]||0;val+=(RIDERS[rid]?RIDERS[rid].val:0);finalPts+=SC.brk[rid]?SC.brk[rid].final:0;wins+=SC.brk[rid]?SC.brk[rid].wins:0;
+      completedStages.forEach((s,i)=>{series[i]+=(SC.daily[rid]&&SC.daily[rid][s])||0;});});
+    let cum=0;const cumSeries=series.map(v=>cum+=v);
+    return {m,tot,val,wins,finalPts,series,cumSeries,today:series.length?series[series.length-1]:0,best:series.length?Math.max(...series):0};});
+  rows.sort((a,b)=>b.tot-a.tot||b.wins-a.wins||b.best-a.best||a.m.name.localeCompare(b.m.name));
+  const lead=rows.length?rows[0].tot:0; rows.forEach((r,i)=>{r.pos=i+1;r.gap=lead-r.tot;});
+  return rows;
+}
+
+function rateColor(v){const h=Math.round((v/99)*125);return {bg:`hsla(${h},62%,40%,.30)`,fg:`hsl(${h},80%,74%)`,bd:`hsla(${h},60%,55%,.35)`};}
+const jerseySvg='<svg class="jersey" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 2.5 3.2 5.8l1.9 3.6 2.1-1.1V21h9.6V8.3l2.1 1.1 1.9-3.6-5.3-3.3-1 .6a2.6 2.6 0 0 1-5 0z"/></svg>';
+function ownerTag(rid){const o=ownerMap[rid];return o?`<span class="owned-tag">${o.join(' · ')}</span>`:'';}
+function bust(color){return `<svg viewBox="0 0 120 100" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><g fill="${color}"><path d="M14 100 C14 70 38 62 60 62 C82 62 106 70 106 100 Z"/><rect x="52" y="52" width="16" height="12" rx="3"/><circle cx="60" cy="42" r="15"/><path d="M45 43 C45 24 75 24 75 43 L75 38 C75 27 45 27 45 38 Z"/><path d="M49 41 q11 6 22 0 l0 6 q-11 5 -22 0 Z" fill="rgba(255,255,255,.18)"/></g></svg>`;}
+function riderTile(id){const r=RIDERS[id];if(!r)return '';const c=teamColor(r.team);const photo=DATA.PHOTOS[id];
+  const bg=photo?`background-image:linear-gradient(0deg,rgba(8,11,17,.4),transparent 60%),url('${photo}');background-size:cover;background-position:center top`:`background:radial-gradient(120% 90% at 50% 0%, ${shade(c,0.12)}, ${shade(c,-0.5)})`;
+  const own=ownerMap[id]?`<span class="ownpill">${ownerMap[id][0]}</span>`:'';
+  const sil=photo?'':`<div class="sil">${bust('rgba(4,7,12,.34)')}</div>`;
+  return `<div class="ctile" style="${bg}"><div class="topbar"><span class="flag">${r.flag}</span><span class="val">${r.val}</span></div>${own}${sil}<div class="meta"><div class="nm">${r.name}</div><div class="tm"><span class="tdot" style="background:${c}"></span>${r.team}</div><div class="rl">${r.role}</div></div></div>`;}
+function renderFeatured(){const ids=['pogacar','vingegaard','evenepoel','vanderpoel','deltoro','seixas','philipsen','pedersen','merlier','pidcock'];document.getElementById('contenders').innerHTML=ids.map(riderTile).join('');}
+
+function interp(wp,f){if(f<=wp[0][0])return wp[0][1];if(f>=wp[wp.length-1][0])return wp[wp.length-1][1];
+  for(let i=0;i<wp.length-1;i++){if(f>=wp[i][0]&&f<=wp[i+1][0]){const t=(f-wp[i][0])/(wp[i+1][0]-wp[i][0]);const k=(1-Math.cos(Math.PI*t))/2;return wp[i][1]+(wp[i+1][1]-wp[i][1])*k;}}return wp[wp.length-1][1];}
+function renderProfile(st){
+  const W=1000,H=240,mL=48,mR=18,mT=18,mB=30,plotW=W-mL-mR,plotH=H-mT-mB;
+  const raw=st.peak; const step=raw<=200?50:raw<=500?100:raw<=1000?250:500; const top=Math.ceil(raw/step)*step;
+  const wp=st.wp,N=170,xs=[],ys=[];
+  for(let i=0;i<=N;i++){const f=i/N,a=interp(wp,f);xs.push(mL+f*plotW);ys.push(mT+plotH-(a/top)*plotH);}
+  let line='M '+xs[0].toFixed(1)+' '+ys[0].toFixed(1); for(let i=1;i<=N;i++)line+=' L '+xs[i].toFixed(1)+' '+ys[i].toFixed(1);
+  const area=line+` L ${mL+plotW} ${mT+plotH} L ${mL} ${mT+plotH} Z`;
+  const uid='p'+Math.random().toString(36).slice(2,7);
+  let grid='';for(let a=0;a<=top;a+=step){const y=(mT+plotH-(a/top)*plotH).toFixed(1);
+    grid+=`<line x1="${mL}" x2="${mL+plotW}" y1="${y}" y2="${y}" stroke="#223049" stroke-width="1" opacity="${a===0?0.9:0.4}"/>`;
+    grid+=`<text x="${mL-7}" y="${y}" fill="#7c8aa0" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${a}</text>`;}
+  let xt='';[0,.25,.5,.75,1].forEach(f=>{const x=(mL+f*plotW).toFixed(1),km=Math.round(f*st.km);
+    xt+=`<line x1="${x}" x2="${x}" y1="${mT+plotH}" y2="${mT+plotH+4}" stroke="#39475e" stroke-width="1"/>`;
+    xt+=`<text x="${x}" y="${mT+plotH+16}" fill="#5E6B7E" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="${f===0?'start':f===1?'end':'middle'}">${km}${f===1?' km':''}</text>`;});
+  let marks='';wp.forEach(p=>{if(p[2]){const x=mL+p[0]*plotW,y=mT+plotH-(p[1]/top)*plotH;
+    marks+=`<path d="M ${(x-4).toFixed(1)} ${(y-2).toFixed(1)} L ${(x+4).toFixed(1)} ${(y-2).toFixed(1)} L ${x.toFixed(1)} ${(y-9).toFixed(1)} Z" fill="#E63329"/>`;
+    marks+=`<text x="${x.toFixed(1)}" y="${(y-12).toFixed(1)}" fill="#FFD21E" font-size="9.5" font-weight="700" font-family="'JetBrains Mono',monospace" text-anchor="middle">${p[1]}</text>`;}});
+  const anim=`<style>.pl-${uid}{stroke-dasharray:4000;stroke-dashoffset:4000;animation:draw 1.6s ease forwards}@media(prefers-reduced-motion:reduce){.pl-${uid}{stroke-dashoffset:0;animation:none}}</style>`;
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" role="img" aria-label="Stage elevation profile, altitude in metres">${anim}<defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD21E" stop-opacity="0.32"/><stop offset="1" stop-color="#FFD21E" stop-opacity="0.02"/></linearGradient></defs>${grid}${xt}<path d="${area}" fill="url(#${uid})"/><path class="pl-${uid}" d="${line}" fill="none" stroke="#FFD21E" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>${marks}</svg>`;}
+function sparkline(values,gmax){if(!values.length)return '';const W=110,H=28,max=gmax||Math.max(...values,1);
+  const xs=values.map((_,i)=>values.length===1?W/2:i*(W/(values.length-1)));const ys=values.map(v=>H-2-(v/max)*(H-5));
+  let d='M '+xs[0].toFixed(1)+' '+ys[0].toFixed(1);for(let i=1;i<values.length;i++)d+=' L '+xs[i].toFixed(1)+' '+ys[i].toFixed(1);
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${d.includes('L')?`<path d="${d} L ${W} ${H} L 0 ${H} Z" fill="rgba(255,210,30,.08)"/>`:''}<path d="${d}" fill="none" stroke="#FFD21E" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${xs[xs.length-1].toFixed(1)}" cy="${ys[ys.length-1].toFixed(1)}" r="2.4" fill="#FFD21E"/></svg>`;}
+
+const jcss=document.createElement('style');jcss.textContent=`.jcard{border:1px solid var(--line);border-radius:12px;padding:13px;background:var(--surface);position:relative;overflow:hidden}.jcard:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}.jcard.yellow:before{background:var(--yellow)}.jcard.green:before{background:var(--green)}.jcard.polka:before{background:var(--red)}.jcard.white:before{background:var(--white)}.jcard .jt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--muted);display:flex;align-items:center;gap:7px}.jcard .jt .sw{width:16px;height:16px;border-radius:4px}.jcard.yellow .sw{background:var(--yellow)}.jcard.green .sw{background:var(--green)}.jcard.white .sw{background:var(--white)}.jcard.polka .sw{background:#fff;background-image:radial-gradient(var(--red) 38%,transparent 40%);background-size:7px 7px}.jcard .jn{font-weight:700;margin-top:8px;font-size:15px}.jcard .jteam{font-size:11.5px;color:var(--dim);margin-top:2px}.jcard .jown{font-size:10px;margin-top:7px;color:var(--yellow);font-weight:700}`;document.head.appendChild(jcss);
+
+function renderStandings(){
+  const rows=managerStandings();const gmax=Math.max(1,...rows.map(r=>r.cumSeries.length?r.cumSeries[r.cumSeries.length-1]:0));const started=completedStages.length>0;
+  const head=`<div class="gc-head"><div>Pos</div><div>Manager</div><div class="ar">Squad</div><div class="ar">Last</div><div class="ar">Behind</div><div class="ar">Points</div><div class="ar">Form</div><div></div></div>`;
+  const body=rows.map(r=>{
+    const mini=r.m.riders.map(id=>RIDERS[id]?RIDERS[id].name.split(' ').slice(-1)[0]:id).join(' · ');
+    const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
+      return `<div class="rcard" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}</div><div class="rt">${rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
+    const overCap=r.val>100?' style="color:var(--red)"':'';
+    return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
+    <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
+  }).join('');
+  document.getElementById('gcTable').innerHTML=head+body;
+  document.querySelectorAll('.gc-row').forEach(row=>row.addEventListener('click',()=>{const id=row.dataset.mgr,d=document.querySelector(`[data-detail="${id}"]`),open=row.classList.contains('open');row.classList.toggle('open',!open);d.classList.toggle('open',!open);}));
+  const done=completedStages.length;
+  document.getElementById('stageBig').childNodes[0].nodeValue=done>0?String(done):'—';
+  document.getElementById('stageBigSub').textContent=done>0?'of 21 stages done':'Race not started';
+  const pct=Math.round(done/21*100);document.getElementById('progRing').style.setProperty('--p',pct);document.getElementById('progRingTxt').textContent=pct+'%';document.getElementById('progBar').style.width=pct+'%';
+  const next=done<21?stageObj(STAGES[done]):null;
+  document.getElementById('nextLine').innerHTML=next?`Next up · <b>Stage ${next.n}</b> — ${next.from} → ${next.to} <span style="color:var(--dim)">· ${next.date}</span>`:(done?'The race has finished — final bonuses applied.':'The race has not started.');
+  const lc=document.getElementById('leadChip');if(started&&rows.length){lc.style.display='flex';document.getElementById('leadName').textContent=rows[0].m.name;}else lc.style.display='none';
+  renderJerseys();
+}
+function renderJerseys(){const panel=document.getElementById('jerseysPanel');const RESULTS=DATA.RESULTS;
+  if(!completedStages.length){panel.innerHTML=`<div style="color:var(--dim);grid-column:1/-1">Awaiting the start in Barcelona on 4 July.</div>`;return;}
+  const last=RESULTS[completedStages[completedStages.length-1]];
+  const defs=[['yellow','Yellow · Overall'],['green','Green · Points'],['polka','Polka · Mountains'],['white','White · Young rider']];
+  panel.innerHTML=defs.map(([k,label])=>{const rid=last[k],rd=rid?RIDERS[rid]:null;
+    return `<div class="jcard ${k}"><div class="jt"><span class="sw"></span>${label}</div><div class="jn">${rd?rd.name:'—'}</div><div class="jteam">${rd?rd.team:''}</div>${rd&&ownerMap[rid]?`<div class="jown">In squad · ${ownerMap[rid].join(', ')}</div>`:''}</div>`;}).join('');}
+
+let sortSpec=[{key:'val',dir:'desc'}];let riderFilter={q:'',cat:'all'};
+const COLS={name:{t:'txt',get:r=>r.name},team:{t:'txt',get:r=>r.team},val:{t:'num',get:r=>r.val},climb:{t:'num',get:r=>r.climb},sprint:{t:'num',get:r=>r.sprint},punch:{t:'num',get:r=>r.punch},itt:{t:'num',get:r=>r.itt},brk:{t:'num',get:r=>r.brk},pts:{t:'num',get:r=>SC.total[r.id]||0}};
+function renderRiders(){
+  let list=R.map(a=>RIDERS[a[0]]);const q=riderFilter.q.toLowerCase();
+  if(q)list=list.filter(r=>r.name.toLowerCase().includes(q)||r.team.toLowerCase().includes(q));
+  if(riderFilter.cat!=='all')list=list.filter(r=>r.cat===riderFilter.cat);
+  list.sort((a,b)=>{for(const s of sortSpec){const c=COLS[s.key];let va=c.get(a),vb=c.get(b),cmp;cmp=c.t==='txt'?String(va).localeCompare(String(vb)):va-vb;if(cmp!==0)return s.dir==='asc'?cmp:-cmp;}return 0;});
+  const rk=['climb','sprint','punch','itt','brk'];
+  document.getElementById('ridersBody').innerHTML=list.map(r=>{
+    const cells=rk.map(k=>{const v=r[k],c=rateColor(v);return `<td class="ratecell"><span class="rate" style="background:${c.bg};color:${c.fg};box-shadow:inset 0 0 0 1px ${c.bd}">${v}</span></td>`;}).join('');
+    const pts=SC.total[r.id]||0;
+    return `<tr><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}${ownerTag(r.id)}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}<td class="valcell" style="color:${pts>0?'var(--yellow)':'var(--dim)'}">${pts}</td></tr>`;}).join('');
+  document.getElementById('riderCount').textContent=`Showing ${list.length} of ${R.length} riders.`;updateSortBadges();
+}
+function updateSortBadges(){document.querySelectorAll('#ridersHead th').forEach(th=>{const key=th.dataset.key,b=th.querySelector('.sortbadge');if(!b)return;const idx=sortSpec.findIndex(s=>s.key===key);
+  if(idx>=0){b.classList.add('on');b.textContent=(idx+1)+(sortSpec[idx].dir==='asc'?' ▲':' ▼');th.setAttribute('aria-sort',sortSpec[idx].dir==='asc'?'ascending':'descending');}else{b.classList.remove('on');b.textContent='';th.removeAttribute('aria-sort');}});}
+function headerSort(th,ev){const key=th.dataset.key,type=th.dataset.type||'txt',def=type==='num'?'desc':'asc';const idx=sortSpec.findIndex(s=>s.key===key);
+  if(ev.shiftKey){if(idx>=0)sortSpec[idx].dir=sortSpec[idx].dir==='asc'?'desc':'asc';else sortSpec.push({key,dir:def==='asc'?'desc':'asc'});}
+  else if(ev.ctrlKey||ev.metaKey){if(idx>=0){sortSpec.splice(idx,1);if(!sortSpec.length)sortSpec=[{key:'val',dir:'desc'}];}else sortSpec.push({key,dir:def});}
+  else{if(idx>=0&&sortSpec.length===1)sortSpec=[{key,dir:sortSpec[0].dir==='asc'?'desc':'asc'}];else sortSpec=[{key,dir:def}];}
+  renderRiders();}
+
+let selectedStage=completedStages.length?Math.min(completedStages.length+1,21):1;
+function renderStageList(){document.getElementById('stageList').innerHTML=STAGES.map(s=>{const o=stageObj(s);
+  return `<div class="stage-item${o.n===selectedStage?' on':''}" data-stage="${o.n}"><div class="snum">${o.n}</div><div class="sinfo"><div class="sd">${o.date}</div><div class="sr">${o.from} → ${o.to}</div></div><div class="tbadge t-${o.type}">${o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type}</div></div>`;}).join('');
+  document.querySelectorAll('.stage-item').forEach(el=>el.addEventListener('click',()=>{selectedStage=+el.dataset.stage;renderStageList();renderStageDetail();}));}
+function renderStageDetail(){const o=stageObj(STAGE_BY_N[selectedStage]);
+  const favs=o.favs.map(id=>{const r=RIDERS[id];if(!r)return '';const ow=ownerMap[id];return `<span class="fav"><span class="flag">${r.flag}</span>${r.name}${ow?`<span class="own">${ow.join(' · ')}</span>`:''}</span>`;}).join('');
+  const climbs=o.wp.filter(p=>p[2]).map(p=>`<span class="climbchip"><span class="tri"></span>${p[2]} <b>${p[1]}m</b></span>`).join('');
+  document.getElementById('stageDetail').innerHTML=`<div class="sd-top"><div><div class="sd-date">${o.date} · Stage ${o.n} of 21</div><h2>${o.from} → ${o.to}</h2><div class="sd-route"><span class="tbadge t-${o.type}">${TYPE_LABEL[o.type]}</span></div></div></div>
+    <div class="sd-stats"><div class="statpill"><div class="sv">${o.km}</div><div class="sl">km</div></div><div class="statpill"><div class="sv">${o.vm.toLocaleString()}</div><div class="sl">climbing m</div></div><div class="statpill"><div class="sv">${o.peak.toLocaleString()}</div><div class="sl">high point m</div></div><div class="statpill"><div class="sv">${o.ps}</div><div class="sl">difficulty</div></div></div>
+    <div class="profile-box"><span class="pf-label">Elevation · metres</span>${renderProfile(o)}</div>${climbs?`<div class="climbchips">${climbs}</div>`:''}
+    <p class="sd-sum">${o.sum}</p><div class="sd-suits"><div class="lab">Who it suits — favourites</div><div class="favs">${favs}</div></div>`;}
+
+/* ---------------- RESULTS / RECAPS ---------------- */
+function standingsAfter(k){
+  const totals={};
+  DATA.MANAGERS.forEach(m=>{let t=0;m.riders.forEach(rid=>{for(let j=0;j<=k;j++){const s=completedStages[j];t+=(SC.daily[rid]&&SC.daily[rid][s])||0;}});totals[m.id]=t;});
+  const arr=DATA.MANAGERS.map(m=>({id:m.id,name:m.name,t:totals[m.id]})).sort((a,b)=>b.t-a.t||a.name.localeCompare(b.name));
+  arr.forEach((e,i)=>e.pos=i+1);return arr;
+}
+function stageRecap(order,idx){
+  const after=standingsAfter(idx),leader=after[0],lead2=after[1];
+  if(idx===0) return `<b>${leader.name}</b> is first into yellow`+(lead2?`, ${leader.t-lead2.t} clear of ${lead2.name}`:'')+`.`;
+  const before=standingsAfter(idx-1);
+  if(before[0].id!==leader.id) return `<b>${leader.name}</b> takes over the lead`+(lead2?` by ${leader.t-lead2.t} from ${lead2.name}`:'')+`.`;
+  return `<b>${leader.name}</b> holds the lead`+(lead2?`, now ${leader.t-lead2.t} ahead of ${lead2.name}`:'')+`.`;
+}
+function renderResults(){
+  const body=document.getElementById('resultsBody');
+  if(!completedStages.length){body.innerHTML=`<div class="stats-empty"><div class="big">No results yet</div>Daily recaps appear here as each stage is completed — the first is the Barcelona team time trial on 4 July. Use the ⚙ editor to enter a stage.</div>`;return;}
+  const order=completedStages;let html='';
+  for(let idx=order.length-1;idx>=0;idx--){
+    const sN=order[idx],o=stageObj(STAGE_BY_N[sN]),res=DATA.RESULTS[sN];
+    const fin=res.top.slice(0,10).map((rid,i)=>{const r=RIDERS[rid],pts=FINISH[i]||0,ow=ownerMap[rid];
+      return `<div class="rrow"><span class="rpos">${i+1}</span><span class="flag">${r?r.flag:''}</span><span class="rrn">${r?r.name:rid}${ow?`<span class="owned-tag">${ow.join(' · ')}</span>`:''}</span><span class="rrt">${r?r.team:''}</span><span class="rrp">${pts?'+'+pts:''}</span></div>`;}).join('');
+    const jdefs=[['yellow','Yellow'],['green','Green'],['polka','Polka'],['white','White'],['combativity','Combative']];
+    const jrow=jdefs.map(([k,lab])=>{const rid=res[k];if(!rid)return '';const r=RIDERS[rid];return `<span class="jpill ${k}">${lab}: <b>${r?r.name:rid}</b></span>`;}).join('');
+    const mpts=DATA.MANAGERS.map(m=>{let p=0;const sc=[];m.riders.forEach(rid=>{const d=(SC.daily[rid]&&SC.daily[rid][sN])||0;if(d>0){p+=d;sc.push((RIDERS[rid]?RIDERS[rid].name.split(' ').pop():rid)+' +'+d);}});return {name:m.name,p,sc};}).sort((a,b)=>b.p-a.p);
+    const mtable=mpts.map(m=>`<div class="mrow"><span class="mn2">${m.name}</span><span class="msc">${m.sc.length?m.sc.join(', '):'—'}</span><span class="mp">+${m.p}</span></div>`).join('');
+    html+=`<div class="rcard2"><div class="rc-head"><div><div class="sd-date">${o.date} · Stage ${o.n}</div><h3 class="rc-title">${o.from} → ${o.to}</h3></div><span class="tbadge t-${o.type}">${o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type}</span></div>
+      <p class="rc-recap">${stageRecap(order,idx)}</p><div class="rc-jerseys">${jrow}</div>
+      <div class="rc-grid"><div class="rc-col"><h4>Stage result</h4>${fin}</div><div class="rc-col"><h4>Manager points today</h4>${mtable}</div></div></div>`;
+  }
+  body.innerHTML=html;
+}
+
+/* ---------------- COUNTDOWN ---------------- */
+const RACE_START=new Date('2026-07-04T13:20:00+02:00');
+function initCountdown(){
+  const elc=document.getElementById('countdown');if(!elc)return;
+  const pad=n=>String(n).padStart(2,'0');
+  function tick(){
+    if(completedStages.length>0){elc.style.display='none';return;} elc.style.display='block';
+    let diff=RACE_START-new Date();
+    if(diff<=0){elc.innerHTML='<span class="cd-go">The Tour is under way</span>';return;}
+    const d=Math.floor(diff/864e5);diff-=d*864e5;const h=Math.floor(diff/36e5);diff-=h*36e5;const m=Math.floor(diff/6e4);diff-=m*6e4;const s=Math.floor(diff/1e3);
+    elc.innerHTML=`<div class="cd-lab">Grand Départ · Barcelona</div><div class="cd-clock">${pad(d)}<small>d</small> ${pad(h)}<small>h</small> ${pad(m)}<small>m</small> ${pad(s)}<small>s</small></div>`;
+  }
+  tick();if(window.__cd)clearInterval(window.__cd);window.__cd=setInterval(tick,1000);
+}
+
+/* ---------------- EDITOR ---------------- */
+let edTab='results', edStage=1;
+function edRiderOptions(sel){return '<option value="">— rider —</option>'+R.slice().sort((a,b)=>a[1].localeCompare(b[1])).map(a=>'<option value="'+a[0]+'"'+(a[0]===sel?' selected':'')+'>'+a[1]+' ('+a[4]+'cr)</option>').join('');}
+function ov(){return document.getElementById('editorOverlay');}
+function ensureStage(){if(!DATA.RESULTS[edStage])DATA.RESULTS[edStage]={top:[],yellow:null,green:null,polka:null,white:null,combativity:null};}
+function cleanStage(){const r=DATA.RESULTS[edStage];if(r&&(!r.top||!r.top.length)&&!r.yellow&&!r.green&&!r.polka&&!r.white&&!r.combativity)delete DATA.RESULTS[edStage];}
+function openEditor(){edStage=Math.min((completedStages.length||0)+1,21);ov().hidden=false;document.body.style.overflow='hidden';renderEditor();}
+function closeEditor(){ov().hidden=true;document.body.style.overflow='';}
+function edApply(){recompute();renderAll();renderEditor();}
+function edToast(msg){let t=document.getElementById('edToast');if(!t){t=document.createElement('div');t.id='edToast';t.className='ed-toast';document.body.appendChild(t);}t.textContent=msg;t.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.classList.remove('show'),1800);}
+function edSerialize(){return '/*DATA_START*/\nconst MANAGERS = '+JSON.stringify(DATA.MANAGERS,null,2)+';\nconst RESULTS = '+JSON.stringify(DATA.RESULTS,null,2)+';\nconst FINAL = '+JSON.stringify(DATA.FINAL,null,2)+';\nconst PHOTOS = '+JSON.stringify(DATA.PHOTOS,null,2)+';\n/*DATA_END*/';}
+function edDownloadSite(){fetch(location.href).then(r=>r.text()).then(src=>{const re=/\/\*DATA_START\*\/[\s\S]*?\/\*DATA_END\*\//;if(!re.test(src)){alert('Could not find the data markers. Use “Copy data block” instead.');return;}const out=src.replace(re,edSerialize());const blob=new Blob([out],{type:'text/html'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='tour-de-france-pool-2026.html';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);edToast('Updated site downloaded');}).catch(()=>alert('Download needs the page to be hosted (or served locally). For now use “Copy data block”.'));}
+function edCopyData(){const txt=edSerialize();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>edToast('Data copied to clipboard')).catch(()=>edToast('Select & copy from the box below'));}else{const ta=document.getElementById('edDataOut');if(ta&&ta.select){ta.select();try{document.execCommand('copy');edToast('Copied');}catch(e){edToast('Select & copy from the box');}}}}
+function renderEditor(){
+  const tabs=[['results','Results'],['teams','Teams'],['final','Final'],['photos','Photos'],['export','Export']];
+  ov().innerHTML=`<div class="ed-panel"><div class="ed-top"><div class="ed-title">⚙ Pool editor</div><button class="ed-x" data-act="close" aria-label="Close">✕</button></div>
+    <div class="ed-tabs">${tabs.map(t=>`<button class="ed-tab${t[0]===edTab?' on':''}" data-act="tab" data-tab="${t[0]}">${t[1]}</button>`).join('')}</div>
+    <div class="ed-body">${edTabHtml()}</div></div>`;
+}
+function edTabHtml(){return edTab==='results'?edResultsHtml():edTab==='teams'?edTeamsHtml():edTab==='final'?edFinalHtml():edTab==='photos'?edPhotosHtml():edExportHtml();}
+function edResultsHtml(){
+  const r=DATA.RESULTS[edStage]||null;
+  const stageOpts=STAGES.map(s=>`<option value="${s[0]}"${s[0]===edStage?' selected':''}>Stage ${s[0]} — ${s[3]} → ${s[4]} ${DATA.RESULTS[s[0]]&&DATA.RESULTS[s[0]].top&&DATA.RESULTS[s[0]].top.length?'✓':''}</option>`).join('');
+  const top=(r&&r.top)||[];
+  const finList=top.length?top.map((rid,i)=>`<div class="ed-li"><span class="ed-pos">${i+1}</span><span class="ed-nm">${RIDERS[rid]?RIDERS[rid].name:rid}</span><span class="ed-fp">${FINISH[i]?'+'+FINISH[i]:''}</span><span class="ed-acts"><button data-act="res-up" data-i="${i}" title="Move up">▲</button><button data-act="res-down" data-i="${i}" title="Move down">▼</button><button data-act="res-del" data-i="${i}" title="Remove">✕</button></span></div>`).join(''):'<div class="ed-empty">No finishers yet — add them in order below.</div>';
+  const jsel=(k,lab)=>`<label class="ed-field"><span>${lab}</span><select data-act="jersey" data-k="${k}">${edRiderOptions(r?r[k]:'')}</select></label>`;
+  return `<div class="ed-section"><label class="ed-field"><span>Editing stage</span><select data-act="stage-sel">${stageOpts}</select></label>
+    <h4>Finish order <small>(first 15 score points)</small></h4><div class="ed-list">${finList}</div>
+    <div class="ed-addrow"><select id="edFinSel">${edRiderOptions('')}</select><button class="ed-btn" data-act="res-add">Add finisher</button></div>
+    <h4>Jerseys after the stage</h4><div class="ed-jgrid">${jsel('yellow','Yellow')}${jsel('green','Green')}${jsel('polka','Polka')}${jsel('white','White')}${jsel('combativity','Most combative')}</div>
+    <div class="ed-foot"><button class="ed-btn danger" data-act="res-clear">Clear this stage</button><span class="ed-note">Changes update the live board instantly.</span></div></div>`;
+}
+function edTeamsHtml(){
+  const cards=DATA.MANAGERS.map((m,mi)=>{const val=m.riders.reduce((a,id)=>a+(RIDERS[id]?RIDERS[id].val:0),0),over=val>100;
+    const chips=m.riders.length?m.riders.map(id=>`<span class="ed-chip" style="border-left:3px solid ${teamColor(RIDERS[id]?RIDERS[id].team:'')}">${RIDERS[id]?RIDERS[id].name:id}<button data-act="team-del-rider" data-m="${mi}" data-r="${id}">✕</button></span>`).join(''):'<span class="ed-empty">No riders yet.</span>';
+    return `<div class="ed-mgr"><div class="ed-mgr-top"><input class="ed-input" value="${m.name.replace(/"/g,'&quot;')}" data-act="mgr-name" data-m="${mi}"><span class="ed-budget ${over?'over':''}">${val}/100</span><button class="ed-btn danger sm" data-act="team-del-mgr" data-m="${mi}">Remove</button></div>
+      <div class="ed-chips">${chips}</div><div class="ed-addrow"><select data-role="ridersel" data-m="${mi}">${edRiderOptions('')}</select><button class="ed-btn" data-act="team-add-rider" data-m="${mi}"${m.riders.length>=8?' disabled':''}>Add (${m.riders.length}/8)</button></div></div>`;}).join('');
+  return `<div class="ed-section"><div class="ed-list">${cards}</div><div class="ed-foot"><button class="ed-btn" data-act="team-add-mgr">+ Add manager</button><span class="ed-note">Eight riders each, total ≤ 100 credits.</span></div></div>`;
+}
+function edFinalHtml(){
+  const cls=[['gc','Final GC (top 10)',10],['green','Green (top 3)',3],['polka','Polka (top 3)',3],['white','White (top 3)',3]];
+  const block=c=>{const k=c[0],arr=DATA.FINAL[k]||[];const li=arr.length?arr.map((rid,i)=>`<div class="ed-li"><span class="ed-pos">${i+1}</span><span class="ed-nm">${RIDERS[rid]?RIDERS[rid].name:rid}</span><span class="ed-acts"><button data-act="fin-del" data-cls="${k}" data-i="${i}">✕</button></span></div>`).join(''):'<div class="ed-empty">—</div>';
+    return `<div><h4>${c[1]}</h4><div class="ed-list">${li}</div><div class="ed-addrow"><select data-role="finsel-${k}">${edRiderOptions('')}</select><button class="ed-btn" data-act="fin-add" data-cls="${k}"${arr.length>=c[2]?' disabled':''}>Add</button></div></div>`;};
+  return `<div class="ed-section"><p class="ed-note">Fill these in only after Stage 21 — they award the big final bonuses.</p><div class="ed-fgrid">${cls.map(block).join('')}</div></div>`;
+}
+function edPhotosHtml(){
+  const cur=Object.keys(DATA.PHOTOS).length?Object.keys(DATA.PHOTOS).map(id=>`<div class="ed-li"><span class="ed-nm">${RIDERS[id]?RIDERS[id].name:id}</span><span class="ed-url">${DATA.PHOTOS[id]}</span><span class="ed-acts"><button data-act="photo-del" data-id="${id}">✕</button></span></div>`).join(''):'<div class="ed-empty">No photos set — contender cards use the illustrated style.</div>';
+  return `<div class="ed-section"><h4>Rider photos</h4><p class="ed-note">Add a direct image URL you have the rights to; it shows on that rider's contender card.</p><div class="ed-list">${cur}</div>
+    <div class="ed-addrow"><select data-role="photosel">${edRiderOptions('')}</select><input class="ed-input" data-role="photourl" placeholder="https://image-url.jpg"><button class="ed-btn" data-act="photo-add">Add</button></div></div>`;
+}
+function edExportHtml(){
+  return `<div class="ed-section"><h4>Publish your changes</h4><p class="ed-note">Everything you enter here stays in this page until you save it. Two ways to keep it:</p>
+    <div class="ed-export"><button class="ed-btn big" data-act="download-site">⬇  Download updated site (.html)</button><div class="ed-note" style="margin-top:6px">Best when the page is hosted (Netlify / Pages) — re-upload this file to publish.</div></div>
+    <div class="ed-export"><button class="ed-btn big" data-act="copy-data">⧉  Copy data block</button><div class="ed-note" style="margin-top:6px">Paste between the DATA markers in the file's script, or send it over.</div></div>
+    <textarea class="ed-ta" id="edDataOut" readonly>${edSerialize().replace(/&/g,'&amp;').replace(/</g,'&lt;')}</textarea></div>`;
+}
+function edClick(e){
+  if(e.target.id==='editorOverlay'){closeEditor();return;}
+  const b=e.target.closest('[data-act]');if(!b)return;const act=b.dataset.act;
+  if(act==='close')return closeEditor();
+  if(act==='tab'){edTab=b.dataset.tab;renderEditor();return;}
+  if(act==='res-add'){const s=document.getElementById('edFinSel'),id=s&&s.value;if(!id)return;ensureStage();if(!DATA.RESULTS[edStage].top.includes(id))DATA.RESULTS[edStage].top.push(id);edApply();return;}
+  if(act==='res-del'){DATA.RESULTS[edStage].top.splice(+b.dataset.i,1);cleanStage();edApply();return;}
+  if(act==='res-up'){const i=+b.dataset.i,t=DATA.RESULTS[edStage].top;if(i>0){[t[i-1],t[i]]=[t[i],t[i-1]];edApply();}return;}
+  if(act==='res-down'){const i=+b.dataset.i,t=DATA.RESULTS[edStage].top;if(i<t.length-1){[t[i+1],t[i]]=[t[i],t[i+1]];edApply();}return;}
+  if(act==='res-clear'){delete DATA.RESULTS[edStage];edApply();return;}
+  if(act==='team-add-mgr'){DATA.MANAGERS.push({id:'m'+Date.now(),name:'New manager',riders:[]});edApply();return;}
+  if(act==='team-del-mgr'){DATA.MANAGERS.splice(+b.dataset.m,1);edApply();return;}
+  if(act==='team-add-rider'){const mi=+b.dataset.m,sel=ov().querySelector('[data-role="ridersel"][data-m="'+mi+'"]'),id=sel&&sel.value;if(!id)return;const m=DATA.MANAGERS[mi];if(m.riders.length<8&&!m.riders.includes(id))m.riders.push(id);edApply();return;}
+  if(act==='team-del-rider'){const m=DATA.MANAGERS[+b.dataset.m];m.riders=m.riders.filter(x=>x!==b.dataset.r);edApply();return;}
+  if(act==='fin-add'){const k=b.dataset.cls,sel=ov().querySelector('[data-role="finsel-'+k+'"]'),id=sel&&sel.value;if(!id)return;DATA.FINAL[k]=DATA.FINAL[k]||[];if(!DATA.FINAL[k].includes(id))DATA.FINAL[k].push(id);edApply();return;}
+  if(act==='fin-del'){DATA.FINAL[b.dataset.cls].splice(+b.dataset.i,1);edApply();return;}
+  if(act==='photo-add'){const sel=ov().querySelector('[data-role="photosel"]'),url=ov().querySelector('[data-role="photourl"]');if(sel&&url&&sel.value&&url.value.trim()){DATA.PHOTOS[sel.value]=url.value.trim();edApply();}return;}
+  if(act==='photo-del'){delete DATA.PHOTOS[b.dataset.id];edApply();return;}
+  if(act==='copy-data')return edCopyData();
+  if(act==='download-site')return edDownloadSite();
+}
+function edChange(e){
+  const t=e.target;if(!t.dataset)return;
+  if(t.dataset.act==='stage-sel'){edStage=+t.value;renderEditor();return;}
+  if(t.dataset.act==='jersey'){ensureStage();DATA.RESULTS[edStage][t.dataset.k]=t.value||null;cleanStage();edApply();return;}
+  if(t.dataset.act==='mgr-name'){DATA.MANAGERS[+t.dataset.m].name=t.value;edApply();return;}
+}
+function buildEditor(){
+  document.getElementById('editorBtn').addEventListener('click',openEditor);
+  ov().addEventListener('click',edClick);
+  ov().addEventListener('change',edChange);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ov().hidden)closeEditor();});
+}
+function renderAll(){renderFeatured();renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();}
+
+const PAGES=['standings','results','rules','riders','stages','stats'];
+function go(id){if(!PAGES.includes(id))id='standings';PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
+  document.querySelectorAll('nav.tabs a').forEach(a=>a.classList.toggle('active',a.dataset.go===id));
+  document.getElementById('tabs').classList.remove('open');if(history.replaceState)history.replaceState(null,'','#'+id);else location.hash=id;window.scrollTo({top:0});}
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();go(a.dataset.go);}));
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('tabs').classList.toggle('open'));
+window.addEventListener('hashchange',()=>go(location.hash.replace('#','')));
+document.querySelectorAll('#ridersHead th[data-key]').forEach(th=>{th.setAttribute('tabindex','0');th.addEventListener('click',e=>headerSort(th,e));th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();headerSort(th,e);}});});
+document.getElementById('riderSearch').addEventListener('input',e=>{riderFilter.q=e.target.value;renderRiders();});
+document.getElementById('roleChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;document.querySelectorAll('#roleChips .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');riderFilter.cat=c.dataset.cat;renderRiders();});
+document.getElementById('helpBtn').addEventListener('click',()=>document.getElementById('sortHelp').classList.toggle('show'));
+
+/* ---------------- STATS CHARTS ---------------- */
+const MGR_COLORS=['#FFD21E','#3B8AE0','#16B65A','#FF4D9D','#F26A21','#9D7BFF','#27D3C4','#E2231A'];
+function mgrColor(i){return MGR_COLORS[i%MGR_COLORS.length];}
+function niceMax(v){if(v<=10)return 10;const p=Math.pow(10,Math.floor(Math.log10(v)));const n=v/p;const m=n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10;return m*p;}
+function chartLine(opts){
+  const series=opts.series,xL=opts.xLabels,inv=opts.invertY,H=opts.height||300,W=720,mL=44,mR=16,mT=14,mB=34,pW=W-mL-mR,pH=H-mT-mB,n=xL.length;
+  const xAt=i=>n===1?mL+pW/2:mL+i*(pW/(n-1));
+  let yMin,yMax,ticks=[];
+  if(inv){yMin=1;yMax=Math.max(2,series.length);for(let r=1;r<=yMax;r++)ticks.push(r);}
+  else{yMin=0;let mx=0;series.forEach(s=>s.values.forEach(v=>{if(v>mx)mx=v;}));yMax=niceMax(Math.max(1,mx));const step=yMax/5;for(let t=0;t<=yMax+0.001;t+=step)ticks.push(Math.round(t));}
+  const yAt=v=>inv?mT+((v-1)/(yMax-1))*pH:mT+pH-((v-yMin)/(yMax-yMin))*pH;
+  let grid='';ticks.forEach(t=>{const y=yAt(t).toFixed(1);grid+=`<line x1="${mL}" x2="${mL+pW}" y1="${y}" y2="${y}" stroke="#223049" stroke-width="1" opacity="0.45"/><text x="${mL-7}" y="${y}" fill="#7c8aa0" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${inv?'P'+t:t}</text>`;});
+  let xt='';xL.forEach((lab,i)=>{xt+=`<text x="${xAt(i).toFixed(1)}" y="${mT+pH+16}" fill="#5E6B7E" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="middle">${lab}</text>`;});
+  xt+=`<text x="${mL+pW/2}" y="${mT+pH+30}" fill="#46536b" font-size="9" text-anchor="middle" letter-spacing="3">STAGE</text>`;
+  let paths='';series.forEach((s,si)=>{const uid='ln'+si+Math.random().toString(36).slice(2,5);let d='';s.values.forEach((v,i)=>{d+=(i?' L ':'M ')+xAt(i).toFixed(1)+' '+yAt(v).toFixed(1);});
+    const dots=s.values.map((v,i)=>`<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(v).toFixed(1)}" r="${inv?3.6:2.8}" fill="${s.color}" stroke="#0B0E14" stroke-width="1.3"/>`).join('');
+    paths+=`<style>.${uid}{stroke-dasharray:2600;stroke-dashoffset:2600;animation:draw 1.5s ease forwards}@media(prefers-reduced-motion:reduce){.${uid}{stroke-dashoffset:0;animation:none}}</style><path class="${uid}" d="${d}" fill="none" stroke="${s.color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" role="img" aria-label="${opts.aria||'line chart'}">${grid}${xt}${paths}</svg>`;
+}
+function chartBars(opts){
+  const stages=opts.stages,groups=opts.groups,n=stages.length,g=groups.length;
+  const clusterW=Math.max(54,g*20+22),mL=40,mR=14,mT=14,mB=30,pW=n*clusterW,W=mL+mR+pW,H=opts.height||280,pH=H-mT-mB;
+  let mx=0;groups.forEach(s=>s.values.forEach(v=>{if(v>mx)mx=v;}));const yMax=niceMax(Math.max(1,mx));
+  let grid='';for(let t=0;t<=4;t++){const val=yMax*t/4,y=(mT+pH-(val/yMax)*pH).toFixed(1);grid+=`<line x1="${mL}" x2="${mL+pW}" y1="${y}" y2="${y}" stroke="#223049" stroke-width="1" opacity="0.4"/><text x="${mL-7}" y="${y}" fill="#7c8aa0" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${Math.round(val)}</text>`;}
+  let bars='';stages.forEach((lab,i)=>{const cx=mL+i*clusterW+clusterW/2;const barW=Math.min(18,(clusterW-14)/g);const start=cx-(g*barW)/2;
+    groups.forEach((gr,j)=>{const v=gr.values[i]||0;const h=(v/yMax)*pH;const x=start+j*barW;const y=mT+pH-h;bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(barW-2).toFixed(1)}" height="${Math.max(0,h).toFixed(1)}" rx="2" fill="${gr.color}"/>`;});
+    bars+=`<text x="${cx.toFixed(1)}" y="${mT+pH+15}" fill="#5E6B7E" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="middle">${lab}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="display:block;margin:0 auto;max-width:100%;height:auto" role="img" aria-label="points per stage">${grid}${bars}</svg>`;
+}
+function chartStackedH(opts){
+  const rows=opts.rows,max=opts.max,n=rows.length,W=720,mL=14,mR=14,labelW=90,valW=52,rowH=34,gap=12,top=8;
+  const barX=mL+labelW,barMax=W-barX-valW-mR,H=top+n*(rowH+gap);
+  let out='';rows.forEach((r,i)=>{const y=top+i*(rowH+gap);let x=barX;
+    out+=`<text x="${mL}" y="${y+rowH/2}" fill="#ECF1F8" font-size="13" font-weight="600" dominant-baseline="middle">${r.label}</text>`;
+    out+=`<rect x="${barX}" y="${y+7}" width="${barMax}" height="${rowH-14}" rx="5" fill="#0B0E14"/>`;
+    r.segs.forEach(s=>{if(s.v<=0)return;const w=(s.v/max)*barMax;out+=`<rect x="${x.toFixed(1)}" y="${y+7}" width="${w.toFixed(1)}" height="${rowH-14}" fill="${s.color}"/>`;x+=w;});
+    out+=`<text x="${W-mR}" y="${y+rowH/2}" fill="#FFD21E" font-size="13" font-family="'JetBrains Mono',monospace" font-weight="700" text-anchor="end" dominant-baseline="middle">${r.total}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">${out}</svg>`;
+}
+function renderStats(){
+  const MANAGERS=DATA.MANAGERS;
+  const body=document.getElementById('statsBody');
+  if(!completedStages.length){body.innerHTML=`<div class="stats-empty"><div class="big">Statistics unlock at the Grand Départ</div>These charts come to life once Stage 1 is in the books on 4 July — check back after the Barcelona team time trial.</div>`;return;}
+  const rows=managerStandings(),byId={};rows.forEach(r=>byId[r.m.id]=r);
+  const colorById={};MANAGERS.forEach((m,i)=>colorById[m.id]=mgrColor(i));
+  const sx=completedStages.map(String);
+  const cumSeries=MANAGERS.map(m=>({name:m.name,color:colorById[m.id],values:byId[m.id].cumSeries}));
+  const rankSeries=MANAGERS.map(m=>({name:m.name,color:colorById[m.id],values:[]}));
+  completedStages.forEach((s,k)=>{const arr=MANAGERS.map(m=>({id:m.id,v:byId[m.id].cumSeries[k]}));arr.sort((a,b)=>b.v-a.v);const ro={};arr.forEach((e,idx)=>ro[e.id]=idx+1);MANAGERS.forEach((m,mi)=>rankSeries[mi].values.push(ro[m.id]));});
+  const dailyGroups=MANAGERS.map(m=>({name:m.name,color:colorById[m.id],values:byId[m.id].series}));
+  const srcRows=MANAGERS.map(m=>{let fin=0,jer=0,com=0,fnl=0;m.riders.forEach(rid=>{const b=SC.brk[rid];if(b){fin+=b.finish;jer+=b.jersey;com+=b.comb;fnl+=b.final;}});return {label:m.name,segs:[{v:fin,color:'#3B8AE0'},{v:jer,color:'#FFD21E'},{v:com,color:'#16B65A'},{v:fnl,color:'#FF4D9D'}],total:fin+jer+com+fnl};});
+  const srcMax=Math.max(1,...srcRows.map(r=>r.total));
+  const owned=Object.keys(ownerMap).map(id=>({id,pts:SC.total[id]||0,r:RIDERS[id]})).filter(x=>x.r).sort((a,b)=>b.pts-a.pts).slice(0,10);
+  const topMax=Math.max(1,...owned.map(o=>o.pts));
+  const leader=rows[0],margin=rows[1]?rows[0].tot-rows[1].tot:0;
+  let bigDay={v:-1};MANAGERS.forEach(m=>byId[m.id].series.forEach((v,k)=>{if(v>bigDay.v)bigDay={v,mgr:m.name,stage:completedStages[k]};}));
+  const topWins=rows.slice().sort((a,b)=>b.wins-a.wins)[0],topRider=owned[0];
+  const tiles=`<div class="stat-tiles">
+    <div class="stile"><div class="sl">Race leader</div><div class="sv">${leader.m.name}</div><div class="sx">${leader.tot} pts${margin>0?' · +'+margin+' ahead':''}</div></div>
+    <div class="stile blue"><div class="sl">Biggest single day</div><div class="sv">+${bigDay.v}</div><div class="sx">${bigDay.mgr} · Stage ${bigDay.stage}</div></div>
+    <div class="stile green"><div class="sl">Most stage wins</div><div class="sv">${topWins.wins}<span class="u"> wins</span></div><div class="sx">${topWins.wins>0?'by '+topWins.m.name+"'s riders":'none yet'}</div></div>
+    <div class="stile pink"><div class="sl">Top rider in the pool</div><div class="sv" style="font-size:21px">${topRider?topRider.r.name:'—'}</div><div class="sx">${topRider?topRider.pts+' pts · '+ownerMap[topRider.id].join(', '):''}</div></div>
+  </div>`;
+  const leg=s=>`<div class="legend">${s.map(x=>`<span><i style="background:${x.color}"></i>${x.name}</span>`).join('')}</div>`;
+  const legKeys=`<div class="legend"><span><i style="background:#3B8AE0"></i>Stage finishes</span><span><i style="background:#FFD21E"></i>Jersey bonuses</span><span><i style="background:#16B65A"></i>Most combative</span><span><i style="background:#FF4D9D"></i>Final bonuses</span></div>`;
+  const toplist=`<div class="toplist">${owned.map(o=>`<div class="toprow"><div class="tn"><span class="tdot" style="background:${teamColor(o.r.team)}"></span><span class="tnm">${o.r.name}</span><span class="towner">${ownerMap[o.id].join(' · ')}</span></div><div class="tbar"><i style="width:${(o.pts/topMax*100).toFixed(1)}%;background:${teamColor(o.r.team)}"></i></div><div class="tv">${o.pts}</div></div>`).join('')}</div>`;
+  body.innerHTML=tiles
+    +`<div class="chart-card"><h3>Cumulative points by stage</h3><div class="ch-sub">The race for the yellow jersey — total points after each stage.</div>${leg(cumSeries)}${chartLine({series:cumSeries,xLabels:sx,aria:'cumulative points'})}</div>`
+    +`<div class="chart-card"><h3>Position by stage</h3><div class="ch-sub">Where each manager sat in the standings after every stage (P1 = leading).</div>${leg(rankSeries)}${chartLine({series:rankSeries,xLabels:sx,invertY:true,height:Math.max(180,80+MANAGERS.length*40),aria:'position by stage'})}</div>`
+    +`<div class="chart-card"><h3>Points scored per stage</h3><div class="ch-sub">Daily hauls — who is in form and which stages moved the needle.</div>${leg(dailyGroups)}${chartBars({stages:sx,groups:dailyGroups})}</div>`
+    +`<div class="chart-card"><h3>Where the points come from</h3><div class="ch-sub">Each squad's total split by source — proof of whether the strategy is paying off.</div>${legKeys}${chartStackedH({rows:srcRows,max:srcMax})}</div>`
+    +`<div class="chart-card"><h3>Top scoring riders in the pool</h3><div class="ch-sub">The owned riders doing the heavy lifting — bar colour is their trade team, tag shows who picked them.</div>${toplist}</div>`;
+}
+
+recompute();
+renderAll();
+initCountdown();
+buildEditor();
+go(location.hash.replace('#','')||'standings');
+</script>
+</body>
+</html>
