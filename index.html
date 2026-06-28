@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- live-edit pipeline verified -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -345,6 +344,39 @@ footer b{color:var(--muted)}
 .ed-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--yellow);color:#1a1300;font-weight:700;padding:10px 18px;border-radius:10px;z-index:300;opacity:0;transition:.25s;pointer-events:none;font-size:13px}
 .ed-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:680px){.rc-grid{grid-template-columns:1fr}.rrt{display:none}.rrow{grid-template-columns:24px 20px 1fr auto}.ed-fgrid,.ed-jgrid{grid-template-columns:1fr}}
+/* TEAM PICKER */
+.tray{position:sticky;top:65px;z-index:40;background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:13px 15px;margin-bottom:18px;box-shadow:var(--shadow)}
+.tray-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tray-meters{display:flex;gap:22px;flex-shrink:0}
+.tmeter{display:flex;flex-direction:column;gap:1px}
+.tm-lab{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.tm-val{font-family:var(--ff-mono);font-size:17px;font-weight:700;color:var(--text)}
+.tm-val.over{color:var(--red)}
+.tray-bar{flex:1;min-width:120px;height:8px;background:var(--surface);border-radius:99px;overflow:hidden}
+.tray-bar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .25s}
+.tray-bar i.over{background:var(--red)}
+.tray-chips{display:flex;flex-wrap:nowrap;gap:6px;margin-top:11px;overflow-x:auto;padding-bottom:2px}
+.tray-empty{font-size:13px;color:var(--dim);padding:3px 0;white-space:nowrap}
+.tchip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:5px 6px 5px 9px;font-size:12.5px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.tchip b{font-family:var(--ff-mono);color:var(--yellow);font-weight:700}
+.tchip button{background:none;border:0;color:var(--dim);cursor:pointer;font-size:11px;padding:0 1px}
+.tchip button:hover{color:var(--red)}
+.tray-actions{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap;align-items:center}
+.tray-name{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--line2);color:var(--text);border-radius:8px;padding:9px 11px;font-family:var(--ff-body);font-size:13px}
+.tray-clear{background:transparent;border:1px solid var(--line2);color:var(--muted);border-radius:8px;padding:9px 13px;font-weight:600;font-size:13px;cursor:pointer}
+.tray-clear:hover{color:var(--text);border-color:var(--muted)}
+.tray-note{font-size:12.5px;color:var(--dim);margin-top:9px}
+.tray-note .warn{color:#ff8d85;font-weight:600}
+.tray-note .ok{color:var(--green);font-weight:600}
+.pickcol{width:42px;text-align:center}
+.pickbox{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;border:1.5px solid var(--line2);color:var(--muted);font-size:13px;font-weight:700;transition:.14s}
+.pickbox.on{background:var(--yellow);border-color:var(--yellow);color:#1a1300}
+.pickrow{cursor:pointer}
+.pickrow:hover{background:rgba(255,255,255,.025)}
+.pickrow.picked{background:rgba(255,210,30,.07)}
+.pickrow.picked:hover{background:rgba(255,210,30,.11)}
+.pickrow.dis{opacity:.4}
+.pickrow.dis .pickbox{cursor:not-allowed}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:4px}
 
 @media(max-width:920px){
@@ -386,6 +418,7 @@ footer b{color:var(--muted)}
     <nav class="tabs" id="tabs">
       <a href="#standings" data-go="standings" class="active">Standings</a>
       <a href="#results" data-go="results">Results</a>
+      <a href="#pick" data-go="pick">Pick Team</a>
       <a href="#rules" data-go="rules">Rules</a>
       <a href="#riders" data-go="riders">Riders</a>
       <a href="#stages" data-go="stages">Stages</a>
@@ -586,6 +619,63 @@ footer b{color:var(--muted)}
       </table>
     </div>
     <p style="color:var(--dim);font-size:12px;margin-top:12px">Ratings are subjective form guides for the pool, not official data. <span id="riderCount"></span></p>
+  </section>
+</main>
+
+<main id="pick" class="page">
+  <section class="block wrap">
+    <div class="eyebrow">Draft your squad</div>
+    <h2 class="sec-title">Pick a team</h2>
+    <p class="lead">Sort the riders however you like, then tap a row to add them to your squad. Build a team of eight within 100 credits — the running total updates as you go. When you're happy, copy your team and send it over to be locked in.</p>
+
+    <div class="tray" id="pickTray">
+      <div class="tray-top">
+        <div class="tray-meters">
+          <div class="tmeter"><span class="tm-lab">Squad</span><span class="tm-val" id="pickCount">0 / 8</span></div>
+          <div class="tmeter"><span class="tm-lab">Budget</span><span class="tm-val" id="pickBudget">0 / 100</span></div>
+        </div>
+        <div class="tray-bar"><i id="pickBar" style="width:0%"></i></div>
+      </div>
+      <div class="tray-chips" id="pickChips"><span class="tray-empty">No riders picked yet — tap a row below to start.</span></div>
+      <div class="tray-actions">
+        <input type="text" id="pickName" class="tray-name" placeholder="Your name / team name" maxlength="40">
+        <button class="ed-btn" id="pickCopy" disabled>Copy team to send</button>
+        <button class="tray-clear" id="pickClear">Clear</button>
+      </div>
+      <div class="tray-note" id="pickNote">Pick 8 riders to complete your squad of eight.</div>
+    </div>
+
+    <div class="controls">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="pickSearch" placeholder="Search rider or team…">
+      </label>
+      <div class="chips" id="pickChipsCat">
+        <span class="chip on" data-cat="all">All</span>
+        <span class="chip" data-cat="gc">GC / Climbers</span>
+        <span class="chip" data-cat="sprint">Sprinters</span>
+        <span class="chip" data-cat="punch">Puncheurs</span>
+        <span class="chip" data-cat="break">Breakaway</span>
+        <span class="chip" data-cat="tt">Time trial</span>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="riders" id="pickTable">
+        <thead><tr id="pickHead">
+          <th class="pickcol"></th>
+          <th data-key="name" data-type="txt">Rider <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="team" data-type="txt">Team <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="val" data-type="num" class="num">Value <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="climb" data-type="num" class="num">Climb <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="sprint" data-type="num" class="num">Sprint <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="punch" data-type="num" class="num">Punch <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="itt" data-type="num" class="num">ITT <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="brk" data-type="num" class="num">Break <span class="hint">↕</span><span class="sortbadge"></span></th>
+        </tr></thead>
+        <tbody id="pickBody"></tbody>
+      </table>
+    </div>
+    <p style="color:var(--dim);font-size:12px;margin-top:12px">Tip: on a phone, scroll the table sideways to see every rating. Tap a column heading to sort by it; tap again to reverse.</p>
   </section>
 </main>
 
@@ -871,6 +961,48 @@ function headerSort(th,ev){const key=th.dataset.key,type=th.dataset.type||'txt',
   else{if(idx>=0&&sortSpec.length===1)sortSpec=[{key,dir:sortSpec[0].dir==='asc'?'desc':'asc'}];else sortSpec=[{key,dir:def}];}
   renderRiders();}
 
+/* ---------------- TEAM PICKER ---------------- */
+let pickSort={key:'val',dir:'desc'}, pickFilter={q:'',cat:'all'}, pickSet=[];
+const SQUAD_MAX=8, BUDGET=100;
+function pickVal(){return pickSet.reduce((a,id)=>a+(RIDERS[id]?RIDERS[id].val:0),0);}
+function renderPick(){
+  let list=R.map(a=>RIDERS[a[0]]);const q=pickFilter.q.toLowerCase();
+  if(q)list=list.filter(r=>r.name.toLowerCase().includes(q)||r.team.toLowerCase().includes(q));
+  if(pickFilter.cat!=='all')list=list.filter(r=>r.cat===pickFilter.cat);
+  const col=COLS[pickSort.key];list.sort((a,b)=>{let va=col.get(a),vb=col.get(b),cmp=col.t==='txt'?String(va).localeCompare(String(vb)):va-vb;return pickSort.dir==='asc'?cmp:-cmp;});
+  const rk=['climb','sprint','punch','itt','brk'],full=pickSet.length>=SQUAD_MAX;
+  const body=document.getElementById('pickBody');if(body)body.innerHTML=list.map(r=>{
+    const on=pickSet.includes(r.id),dis=!on&&full;
+    const cells=rk.map(k=>{const v=r[k],c=rateColor(v);return `<td class="ratecell"><span class="rate" style="background:${c.bg};color:${c.fg};box-shadow:inset 0 0 0 1px ${c.bd}">${v}</span></td>`;}).join('');
+    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}</tr>`;}).join('');
+  document.querySelectorAll('#pickHead th[data-key]').forEach(th=>{const b=th.querySelector('.sortbadge');if(!b)return;if(th.dataset.key===pickSort.key){b.classList.add('on');b.textContent=pickSort.dir==='asc'?'▲':'▼';}else{b.classList.remove('on');b.textContent='';}});
+  renderTray();
+}
+function renderTray(){
+  const n=pickSet.length,val=pickVal(),over=val>BUDGET;
+  const cEl=document.getElementById('pickCount');if(cEl)cEl.textContent=n+' / '+SQUAD_MAX;
+  const bEl=document.getElementById('pickBudget');if(bEl){bEl.textContent=val+' / '+BUDGET;bEl.classList.toggle('over',over);}
+  const bar=document.getElementById('pickBar');if(bar){bar.style.width=Math.min(100,val/BUDGET*100)+'%';bar.classList.toggle('over',over);}
+  const chips=document.getElementById('pickChips');
+  if(chips)chips.innerHTML=n?pickSet.map(id=>{const r=RIDERS[id];return `<span class="tchip"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.name}<b>${r.val}</b><button data-rm="${id}" aria-label="Remove ${r.name}">✕</button></span>`;}).join(''):'<span class="tray-empty">No riders picked yet — tap a row below to start.</span>';
+  const nameEl=document.getElementById('pickName'),name=nameEl?nameEl.value.trim():'';
+  const copy=document.getElementById('pickCopy');if(copy)copy.disabled=!(name&&n===SQUAD_MAX&&!over);
+  const note=document.getElementById('pickNote');
+  if(note){if(over)note.innerHTML='<span class="warn">Over budget by '+(val-BUDGET)+' credits — swap someone cheaper in.</span>';
+    else if(n<SQUAD_MAX)note.innerHTML='Pick '+(SQUAD_MAX-n)+' more rider'+(SQUAD_MAX-n===1?'':'s')+' to complete your squad of eight.';
+    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used. Add your name, then copy it to send.</span>';}
+}
+function pickToggle(id){if(!RIDERS[id])return;const i=pickSet.indexOf(id);if(i>=0)pickSet.splice(i,1);else{if(pickSet.length>=SQUAD_MAX)return;pickSet.push(id);}renderPick();}
+function headerSortPick(th){const key=th.dataset.key;if(!key)return;const type=th.dataset.type||'txt';if(pickSort.key===key)pickSort.dir=pickSort.dir==='asc'?'desc':'asc';else pickSort={key,dir:type==='num'?'desc':'asc'};renderPick();}
+function pickCopyTeam(){
+  const nameEl=document.getElementById('pickName'),name=(nameEl&&nameEl.value.trim())||'(no name)';
+  const names=pickSet.map(id=>RIDERS[id]?RIDERS[id].name:id),val=pickVal();
+  const txt='🚴 Maillot Pool — squad entry\nManager: '+name+'\nRiders ('+pickSet.length+'): '+names.join(', ')+'\nBudget: '+val+' / 100\nids: '+pickSet.join(', ');
+  const done=()=>edToast('Team copied — send it over to lock it in');
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{window.prompt('Copy your team and send it:',txt);});
+  else window.prompt('Copy your team and send it:',txt);
+}
+
 let selectedStage=completedStages.length?Math.min(completedStages.length+1,21):1;
 function renderStageList(){document.getElementById('stageList').innerHTML=STAGES.map(s=>{const o=stageObj(s);
   return `<div class="stage-item${o.n===selectedStage?' on':''}" data-stage="${o.n}"><div class="snum">${o.n}</div><div class="sinfo"><div class="sd">${o.date}</div><div class="sr">${o.from} → ${o.to}</div></div><div class="tbadge t-${o.type}">${o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type}</div></div>`;}).join('');
@@ -1020,9 +1152,9 @@ function buildEditor(){
   ov().addEventListener('change',edChange);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ov().hidden)closeEditor();});
 }
-function renderAll(){renderFeatured();renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();}
+function renderAll(){renderFeatured();renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();}
 
-const PAGES=['standings','results','rules','riders','stages','stats'];
+const PAGES=['standings','results','pick','rules','riders','stages','stats'];
 function go(id){if(!PAGES.includes(id))id='standings';PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
   document.querySelectorAll('nav.tabs a').forEach(a=>a.classList.toggle('active',a.dataset.go===id));
   document.getElementById('tabs').classList.remove('open');if(history.replaceState)history.replaceState(null,'','#'+id);else location.hash=id;window.scrollTo({top:0});}
@@ -1033,6 +1165,14 @@ document.querySelectorAll('#ridersHead th[data-key]').forEach(th=>{th.setAttribu
 document.getElementById('riderSearch').addEventListener('input',e=>{riderFilter.q=e.target.value;renderRiders();});
 document.getElementById('roleChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;document.querySelectorAll('#roleChips .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');riderFilter.cat=c.dataset.cat;renderRiders();});
 document.getElementById('helpBtn').addEventListener('click',()=>document.getElementById('sortHelp').classList.toggle('show'));
+document.querySelectorAll('#pickHead th[data-key]').forEach(th=>{th.setAttribute('tabindex','0');th.addEventListener('click',()=>headerSortPick(th));th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();headerSortPick(th);}});});
+document.getElementById('pickSearch').addEventListener('input',e=>{pickFilter.q=e.target.value;renderPick();});
+document.getElementById('pickChipsCat').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;document.querySelectorAll('#pickChipsCat .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');pickFilter.cat=c.dataset.cat;renderPick();});
+document.getElementById('pickBody').addEventListener('click',e=>{const row=e.target.closest('.pickrow');if(!row)return;pickToggle(row.dataset.id);});
+document.getElementById('pickChips').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;pickToggle(b.dataset.rm);});
+document.getElementById('pickName').addEventListener('input',renderTray);
+document.getElementById('pickCopy').addEventListener('click',pickCopyTeam);
+document.getElementById('pickClear').addEventListener('click',()=>{pickSet=[];renderPick();});
 
 /* ---------------- STATS CHARTS ---------------- */
 const MGR_COLORS=['#FFD21E','#3B8AE0','#16B65A','#FF4D9D','#F26A21','#9D7BFF','#27D3C4','#E2231A'];
