@@ -424,7 +424,6 @@ footer b{color:var(--muted)}
       <a href="#stages" data-go="stages">Stages</a>
       <a href="#stats" data-go="stats">Stats</a>
     </nav>
-    <button class="gear" id="editorBtn" aria-label="Open editor" title="Editor — enter results &amp; teams">⚙</button>
   </div>
   <div class="progress-strip"><i id="progBar" style="width:0%"></i></div>
 </header>
@@ -1147,7 +1146,8 @@ function edChange(e){
   if(t.dataset.act==='mgr-name'){DATA.MANAGERS[+t.dataset.m].name=t.value;edApply();return;}
 }
 function buildEditor(){
-  document.getElementById('editorBtn').addEventListener('click',openEditor);
+  const btn=document.getElementById('editorBtn'); if(!btn)return; /* editor disabled — site is view-only */
+  btn.addEventListener('click',openEditor);
   ov().addEventListener('click',edClick);
   ov().addEventListener('change',edChange);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ov().hidden)closeEditor();});
