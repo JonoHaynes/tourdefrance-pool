@@ -6,17 +6,18 @@
 <title>Maillot Pool — Tour de France 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0A0D13; --bg2:#0E1320; --surface:#131A27; --surface2:#19212F; --surface3:#212C3F;
-  --line:#243042; --line2:#36465f;
-  --text:#ECF1F8; --muted:#94A2B6; --dim:#5E6B7E;
-  --yellow:#FFD21E; --yellow-deep:#C99E05; --green:#16B65A; --red:#E63329; --white:#F4F6FA; --blue:#3B8AE0;
-  --maxw:1180px; --r:14px;
-  --shadow:0 18px 50px -22px rgba(0,0,0,.75);
-  --ff-disp:'Anton','Arial Narrow',sans-serif;
-  --ff-body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --bg:#EDEFF2; --bg2:#FFFFFF; --surface:#FFFFFF; --surface2:#F5F6F9; --surface3:#ECEEF2;
+  --line:#E3E6EB; --line2:#D1D6DE;
+  --text:#15181E; --muted:#5A6472; --dim:#98A0AD;
+  --yellow:#F4C300; --yellow-deep:#9A7400; --green:#15824A; --red:#CF2A22; --white:#FFFFFF; --blue:#2C6FD6;
+  --ink-accent:#946C00;
+  --maxw:1180px; --r:12px;
+  --shadow:0 14px 40px -20px rgba(20,30,55,.26);
+  --ff-disp:'Fraunces','Iowan Old Style',Georgia,serif;
+  --ff-body:'Hanken Grotesk',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   --ff-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *{box-sizing:border-box}
@@ -26,7 +27,7 @@ a{color:inherit}
 h1,h2,h3{margin:0}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
 
-header.nav{position:sticky;top:0;z-index:60;background:rgba(10,13,19,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .nav-row{display:flex;align-items:center;gap:18px;height:62px}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
 .brand .jersey{width:30px;height:30px;color:var(--yellow);filter:drop-shadow(0 2px 6px rgba(255,210,30,.35))}
@@ -52,7 +53,7 @@ section.block{padding:42px 0}
 /* HERO */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);min-height:540px;display:flex;align-items:flex-end}
 .hero-art{position:absolute;inset:0;z-index:0}
-.hero-art svg{width:100%;height:100%;display:block}
+.hero-art svg,.hero-art img{width:100%;height:100%;display:block;object-fit:cover}
 .hero-scrim{position:absolute;inset:0;z-index:1;background:
   linear-gradient(90deg,rgba(10,13,19,.92) 0%,rgba(10,13,19,.6) 42%,rgba(10,13,19,.15) 70%,rgba(10,13,19,.4) 100%),
   linear-gradient(0deg,rgba(10,13,19,.9),transparent 55%)}
@@ -62,7 +63,7 @@ section.block{padding:42px 0}
 .hero .sub{margin-top:16px;color:#c6cedb;font-size:15px;max-width:520px}
 .hero .route{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-family:var(--ff-mono);font-size:13px;color:var(--text);background:rgba(19,26,39,.7);border:1px solid var(--line2);padding:8px 14px;border-radius:999px;backdrop-filter:blur(6px)}
 .hero .route .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow)}
-.statuscard{background:linear-gradient(180deg,rgba(25,33,47,.92),rgba(19,26,39,.92));border:1px solid var(--line2);border-radius:var(--r);padding:18px 18px 16px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.statuscard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;box-shadow:0 18px 50px -20px rgba(15,23,42,.4)}
 .statuscard .row1{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .statuscard .stagebig{font-family:var(--ff-disp);font-size:40px;line-height:.85;letter-spacing:.02em}
 .statuscard .stagebig small{display:block;font-size:12px;color:var(--muted);font-family:var(--ff-body);font-weight:700;letter-spacing:.04em;margin-top:5px}
@@ -74,8 +75,8 @@ section.block{padding:42px 0}
 .leadchip .jersey{width:22px;height:22px;color:var(--yellow);flex-shrink:0}
 .leadchip .nm{font-weight:700}
 .leadchip .lab{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);font-weight:800}
-.preview-banner{position:relative;z-index:2;background:rgba(59,138,224,.12);border:1px solid rgba(59,138,224,.4);border-radius:10px;padding:10px 14px;margin:0 0 -10px;font-size:12.5px;color:#cfe2f7;display:flex;gap:10px;align-items:flex-start}
-.preview-banner b{color:#fff}
+.preview-banner{position:relative;z-index:2;background:rgba(44,111,214,.08);border:1px solid rgba(44,111,214,.28);border-radius:10px;padding:10px 14px;margin:0 0 -10px;font-size:12.5px;color:#1f3a5f;display:flex;gap:10px;align-items:flex-start}
+.preview-banner b{color:#15181E}
 .preview-banner svg{width:16px;height:16px;flex-shrink:0;margin-top:2px;color:var(--blue)}
 
 /* CONTENDERS STRIP */
@@ -95,7 +96,7 @@ section.block{padding:42px 0}
 .ctile .meta .rl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:800;margin-top:6px}
 .ctile .ownpill{position:absolute;top:42px;right:12px;z-index:2;font-size:9px;font-weight:800;letter-spacing:.06em;background:var(--yellow);color:#1a1300;padding:2px 7px;border-radius:6px}
 
-.tdot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.15)}
+.tdot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;box-shadow:0 0 0 1px rgba(0,0,0,.14)}
 
 /* CLASSIFICATION */
 .gc{margin-top:6px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
@@ -372,11 +373,32 @@ footer b{color:var(--muted)}
 .pickbox{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;border:1.5px solid var(--line2);color:var(--muted);font-size:13px;font-weight:700;transition:.14s}
 .pickbox.on{background:var(--yellow);border-color:var(--yellow);color:#1a1300}
 .pickrow{cursor:pointer}
-.pickrow:hover{background:rgba(255,255,255,.025)}
+.pickrow:hover{background:rgba(0,0,0,.03)}
 .pickrow.picked{background:rgba(255,210,30,.07)}
 .pickrow.picked:hover{background:rgba(255,210,30,.11)}
 .pickrow.dis{opacity:.4}
 .pickrow.dis .pickbox{cursor:not-allowed}
+/* ===== LIGHT EDITORIAL OVERRIDES ===== */
+/* Serif display: drop the all-caps/condensed treatment that suited the old heavy sans */
+.brand b,.sec-title,.hero h1,.statuscard .stagebig,.rc-title,.cd-go{text-transform:none;letter-spacing:-.012em;font-weight:600}
+.hero h1{line-height:.96;color:#fff}
+.sec-title{line-height:1.02}
+.brand b{letter-spacing:0;font-weight:700}
+.statuscard .stagebig{letter-spacing:-.01em}
+/* Yellow-as-text → legible amber ink on light surfaces */
+.eyebrow,.num.pts,.rcard .rp,.tv,.rrp,.tchip b,.bonus-row .bv,.ed-fp,.cd-lab,.cd-go,.fav .own,.stage-item.on .snum,.leadchip .lab,.card h3 .n{color:var(--ink-accent)}
+.card h3 .n{background:rgba(244,195,0,.13);border-color:rgba(244,195,0,.4)}
+/* dark ink on yellow fills */
+nav.tabs a.active,.chip.on{color:#231a00}
+/* a touch more polish for the light theme */
+nav.tabs a:hover{background:var(--surface3)}
+.table-scroll{box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.hero .route{color:#eef1f6}
+.ctile .meta .nm{color:#fff;text-transform:none}
+table.riders thead th[data-key]:hover{background:var(--surface3)}
+.photo-band{position:relative;height:280px;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:8px}
+.photo-band img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-band-cap{position:absolute;left:0;right:0;bottom:0;padding:20px 26px;font-family:var(--ff-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:linear-gradient(0deg,rgba(12,16,24,.72),transparent)}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:4px}
 
 @media(max-width:920px){
@@ -430,55 +452,8 @@ footer b{color:var(--muted)}
 
 <main id="standings" class="page active">
   <div class="hero">
-    <div class="hero-art" aria-hidden="true">
-      <svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#0A0D13"/><stop offset="0.5" stop-color="#141d31"/>
-            <stop offset="0.82" stop-color="#2a2c40"/><stop offset="1" stop-color="#3b3147"/>
-          </linearGradient>
-          <radialGradient id="sun" cx="0.74" cy="0.34" r="0.4">
-            <stop offset="0" stop-color="#ffcf6a" stop-opacity="0.55"/>
-            <stop offset="0.4" stop-color="#e89a5a" stop-opacity="0.18"/>
-            <stop offset="1" stop-color="#e89a5a" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="r1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c3450"/><stop offset="1" stop-color="#222a42"/></linearGradient>
-          <linearGradient id="r2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2336"/><stop offset="1" stop-color="#161d2e"/></linearGradient>
-          <linearGradient id="r3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f1521"/><stop offset="1" stop-color="#0b0f18"/></linearGradient>
-          <g id="cyc" fill="none" stroke="#06090f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="7" cy="20" r="6"/><circle cx="31" cy="20" r="6"/>
-            <path d="M7 20 L19 20 L15 9 L26 9 M19 20 L26 9 M15 9 L13.5 20 M26 9 L29 6 M13.5 11 L20 4 L28 7"/>
-            <circle cx="19.5" cy="3" r="2.5" fill="#06090f"/>
-            <path d="M19 20 L17 14 M19 20 L22 15"/>
-          </g>
-        </defs>
-        <rect width="1440" height="600" fill="url(#sky)"/>
-        <rect width="1440" height="600" fill="url(#sun)"/>
-        <circle cx="1066" cy="196" r="46" fill="#ffd58a" opacity="0.5"/>
-        <!-- far ridge -->
-        <path d="M0 360 L150 300 L300 340 L460 250 L620 320 L780 230 L960 310 L1140 240 L1320 300 L1440 270 L1440 600 L0 600 Z" fill="url(#r1)" opacity="0.85"/>
-        <!-- snow caps far -->
-        <path d="M460 250 L487 277 L433 277 Z" fill="#cdd6e8" opacity="0.5"/>
-        <path d="M780 230 L808 258 L752 258 Z" fill="#cdd6e8" opacity="0.5"/>
-        <path d="M1140 240 L1167 267 L1113 267 Z" fill="#cdd6e8" opacity="0.5"/>
-        <!-- mid ridge -->
-        <path d="M0 430 L180 350 L360 420 L520 330 L700 420 L880 320 L1080 410 L1260 340 L1440 410 L1440 600 L0 600 Z" fill="url(#r2)"/>
-        <path d="M520 330 L552 372 L488 372 Z" fill="#e7edf7" opacity="0.6"/>
-        <path d="M880 320 L914 364 L846 364 Z" fill="#e7edf7" opacity="0.6"/>
-        <!-- near ridge -->
-        <path d="M0 520 L220 450 L420 510 L640 430 L860 510 L1080 450 L1300 510 L1440 470 L1440 600 L0 600 Z" fill="url(#r3)"/>
-        <!-- road -->
-        <path d="M735 600 C720 540 690 520 715 470 C735 432 712 410 742 388 C760 374 752 366 760 356 L796 356 C792 366 800 374 786 392 C764 420 788 444 762 484 C744 520 776 546 805 600 Z" fill="#2a3346" opacity="0.9"/>
-        <path d="M770 600 C758 548 740 524 752 478 C760 446 748 424 756 398" fill="none" stroke="#FFD21E" stroke-width="2.5" stroke-dasharray="10 12" opacity="0.55"/>
-        <!-- peloton -->
-        <g opacity="0.92">
-          <use href="#cyc" transform="translate(706,470) scale(1.5)"/>
-          <use href="#cyc" transform="translate(742,486) scale(1.7)"/>
-          <use href="#cyc" transform="translate(700,500) scale(1.9)"/>
-          <use href="#cyc" transform="translate(752,520) scale(2.15)"/>
-          <use href="#cyc" transform="translate(706,548) scale(2.5)"/>
-        </g>
-      </svg>
+        <div class="hero-art" aria-hidden="true">
+      <img src="https://images.pexels.com/photos/16135515/pexels-photo-16135515.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="">
     </div>
     <div class="hero-scrim"></div>
     <div class="wrap hero-inner">
@@ -708,6 +683,11 @@ footer b{color:var(--muted)}
   </section>
 </main>
 
+<div class="photo-band" aria-hidden="true">
+  <img src="https://images.pexels.com/photos/5970278/pexels-photo-5970278.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="">
+  <div class="photo-band-cap">Barcelona → Paris · 21 stages · 4–26 July 2026</div>
+</div>
+
 <div id="editorOverlay" class="ed-overlay" hidden></div>
 
 <footer>
@@ -870,7 +850,7 @@ function managerStandings(){
   return rows;
 }
 
-function rateColor(v){const h=Math.round((v/99)*125);return {bg:`hsla(${h},62%,40%,.30)`,fg:`hsl(${h},80%,74%)`,bd:`hsla(${h},60%,55%,.35)`};}
+function rateColor(v){const h=Math.round((v/99)*125);return {bg:`hsla(${h},66%,93%,.9)`,fg:`hsl(${h},70%,30%)`,bd:`hsla(${h},48%,72%,.55)`};}
 const jerseySvg='<svg class="jersey" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 2.5 3.2 5.8l1.9 3.6 2.1-1.1V21h9.6V8.3l2.1 1.1 1.9-3.6-5.3-3.3-1 .6a2.6 2.6 0 0 1-5 0z"/></svg>';
 function ownerTag(rid){const o=ownerMap[rid];return o?`<span class="owned-tag">${o.join(' · ')}</span>`:'';}
 function bust(color){return `<svg viewBox="0 0 120 100" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><g fill="${color}"><path d="M14 100 C14 70 38 62 60 62 C82 62 106 70 106 100 Z"/><rect x="52" y="52" width="16" height="12" rx="3"/><circle cx="60" cy="42" r="15"/><path d="M45 43 C45 24 75 24 75 43 L75 38 C75 27 45 27 45 38 Z"/><path d="M49 41 q11 6 22 0 l0 6 q-11 5 -22 0 Z" fill="rgba(255,255,255,.18)"/></g></svg>`;}
@@ -892,20 +872,20 @@ function renderProfile(st){
   const area=line+` L ${mL+plotW} ${mT+plotH} L ${mL} ${mT+plotH} Z`;
   const uid='p'+Math.random().toString(36).slice(2,7);
   let grid='';for(let a=0;a<=top;a+=step){const y=(mT+plotH-(a/top)*plotH).toFixed(1);
-    grid+=`<line x1="${mL}" x2="${mL+plotW}" y1="${y}" y2="${y}" stroke="#223049" stroke-width="1" opacity="${a===0?0.9:0.4}"/>`;
-    grid+=`<text x="${mL-7}" y="${y}" fill="#7c8aa0" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${a}</text>`;}
+    grid+=`<line x1="${mL}" x2="${mL+plotW}" y1="${y}" y2="${y}" stroke="#E3E6EB" stroke-width="1" opacity="${a===0?0.9:0.4}"/>`;
+    grid+=`<text x="${mL-7}" y="${y}" fill="#8A93A1" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${a}</text>`;}
   let xt='';[0,.25,.5,.75,1].forEach(f=>{const x=(mL+f*plotW).toFixed(1),km=Math.round(f*st.km);
     xt+=`<line x1="${x}" x2="${x}" y1="${mT+plotH}" y2="${mT+plotH+4}" stroke="#39475e" stroke-width="1"/>`;
     xt+=`<text x="${x}" y="${mT+plotH+16}" fill="#5E6B7E" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="${f===0?'start':f===1?'end':'middle'}">${km}${f===1?' km':''}</text>`;});
   let marks='';wp.forEach(p=>{if(p[2]){const x=mL+p[0]*plotW,y=mT+plotH-(p[1]/top)*plotH;
     marks+=`<path d="M ${(x-4).toFixed(1)} ${(y-2).toFixed(1)} L ${(x+4).toFixed(1)} ${(y-2).toFixed(1)} L ${x.toFixed(1)} ${(y-9).toFixed(1)} Z" fill="#E63329"/>`;
-    marks+=`<text x="${x.toFixed(1)}" y="${(y-12).toFixed(1)}" fill="#FFD21E" font-size="9.5" font-weight="700" font-family="'JetBrains Mono',monospace" text-anchor="middle">${p[1]}</text>`;}});
+    marks+=`<text x="${x.toFixed(1)}" y="${(y-12).toFixed(1)}" fill="#15181E" font-size="9.5" font-weight="700" font-family="'JetBrains Mono',monospace" text-anchor="middle">${p[1]}</text>`;}});
   const anim=`<style>.pl-${uid}{stroke-dasharray:4000;stroke-dashoffset:4000;animation:draw 1.6s ease forwards}@media(prefers-reduced-motion:reduce){.pl-${uid}{stroke-dashoffset:0;animation:none}}</style>`;
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" role="img" aria-label="Stage elevation profile, altitude in metres">${anim}<defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD21E" stop-opacity="0.32"/><stop offset="1" stop-color="#FFD21E" stop-opacity="0.02"/></linearGradient></defs>${grid}${xt}<path d="${area}" fill="url(#${uid})"/><path class="pl-${uid}" d="${line}" fill="none" stroke="#FFD21E" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>${marks}</svg>`;}
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block" role="img" aria-label="Stage elevation profile, altitude in metres">${anim}<defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD21E" stop-opacity="0.32"/><stop offset="1" stop-color="#FFD21E" stop-opacity="0.02"/></linearGradient></defs>${grid}${xt}<path d="${area}" fill="url(#${uid})"/><path class="pl-${uid}" d="${line}" fill="none" stroke="#C99E05" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>${marks}</svg>`;}
 function sparkline(values,gmax){if(!values.length)return '';const W=110,H=28,max=gmax||Math.max(...values,1);
   const xs=values.map((_,i)=>values.length===1?W/2:i*(W/(values.length-1)));const ys=values.map(v=>H-2-(v/max)*(H-5));
   let d='M '+xs[0].toFixed(1)+' '+ys[0].toFixed(1);for(let i=1;i<values.length;i++)d+=' L '+xs[i].toFixed(1)+' '+ys[i].toFixed(1);
-  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${d.includes('L')?`<path d="${d} L ${W} ${H} L 0 ${H} Z" fill="rgba(255,210,30,.08)"/>`:''}<path d="${d}" fill="none" stroke="#FFD21E" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${xs[xs.length-1].toFixed(1)}" cy="${ys[ys.length-1].toFixed(1)}" r="2.4" fill="#FFD21E"/></svg>`;}
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${d.includes('L')?`<path d="${d} L ${W} ${H} L 0 ${H} Z" fill="rgba(244,195,0,.16)"/>`:''}<path d="${d}" fill="none" stroke="#B98A00" stroke-width="1.6" stroke-linejoin="round"/><circle cx="${xs[xs.length-1].toFixed(1)}" cy="${ys[ys.length-1].toFixed(1)}" r="2.4" fill="#B98A00"/></svg>`;}
 
 const jcss=document.createElement('style');jcss.textContent=`.jcard{border:1px solid var(--line);border-radius:12px;padding:13px;background:var(--surface);position:relative;overflow:hidden}.jcard:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}.jcard.yellow:before{background:var(--yellow)}.jcard.green:before{background:var(--green)}.jcard.polka:before{background:var(--red)}.jcard.white:before{background:var(--white)}.jcard .jt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--muted);display:flex;align-items:center;gap:7px}.jcard .jt .sw{width:16px;height:16px;border-radius:4px}.jcard.yellow .sw{background:var(--yellow)}.jcard.green .sw{background:var(--green)}.jcard.white .sw{background:var(--white)}.jcard.polka .sw{background:#fff;background-image:radial-gradient(var(--red) 38%,transparent 40%);background-size:7px 7px}.jcard .jn{font-weight:700;margin-top:8px;font-size:15px}.jcard .jteam{font-size:11.5px;color:var(--dim);margin-top:2px}.jcard .jown{font-size:10px;margin-top:7px;color:var(--yellow);font-weight:700}`;document.head.appendChild(jcss);
 
@@ -1175,7 +1155,7 @@ document.getElementById('pickCopy').addEventListener('click',pickCopyTeam);
 document.getElementById('pickClear').addEventListener('click',()=>{pickSet=[];renderPick();});
 
 /* ---------------- STATS CHARTS ---------------- */
-const MGR_COLORS=['#FFD21E','#3B8AE0','#16B65A','#FF4D9D','#F26A21','#9D7BFF','#27D3C4','#E2231A'];
+const MGR_COLORS=['#E0A100','#2C6FD6','#188A4C','#D6248A','#E0631A','#7C5CE0','#138A86','#D02A22'];
 function mgrColor(i){return MGR_COLORS[i%MGR_COLORS.length];}
 function niceMax(v){if(v<=10)return 10;const p=Math.pow(10,Math.floor(Math.log10(v)));const n=v/p;const m=n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10;return m*p;}
 function chartLine(opts){
@@ -1185,9 +1165,9 @@ function chartLine(opts){
   if(inv){yMin=1;yMax=Math.max(2,series.length);for(let r=1;r<=yMax;r++)ticks.push(r);}
   else{yMin=0;let mx=0;series.forEach(s=>s.values.forEach(v=>{if(v>mx)mx=v;}));yMax=niceMax(Math.max(1,mx));const step=yMax/5;for(let t=0;t<=yMax+0.001;t+=step)ticks.push(Math.round(t));}
   const yAt=v=>inv?mT+((v-1)/(yMax-1))*pH:mT+pH-((v-yMin)/(yMax-yMin))*pH;
-  let grid='';ticks.forEach(t=>{const y=yAt(t).toFixed(1);grid+=`<line x1="${mL}" x2="${mL+pW}" y1="${y}" y2="${y}" stroke="#223049" stroke-width="1" opacity="0.45"/><text x="${mL-7}" y="${y}" fill="#7c8aa0" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${inv?'P'+t:t}</text>`;});
+  let grid='';ticks.forEach(t=>{const y=yAt(t).toFixed(1);grid+=`<line x1="${mL}" x2="${mL+pW}" y1="${y}" y2="${y}" stroke="#E3E6EB" stroke-width="1" opacity="0.45"/><text x="${mL-7}" y="${y}" fill="#8A93A1" font-size="10" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${inv?'P'+t:t}</text>`;});
   let xt='';xL.forEach((lab,i)=>{xt+=`<text x="${xAt(i).toFixed(1)}" y="${mT+pH+16}" fill="#5E6B7E" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="middle">${lab}</text>`;});
-  xt+=`<text x="${mL+pW/2}" y="${mT+pH+30}" fill="#46536b" font-size="9" text-anchor="middle" letter-spacing="3">STAGE</text>`;
+  xt+=`<text x="${mL+pW/2}" y="${mT+pH+30}" fill="#C2C8D2" font-size="9" text-anchor="middle" letter-spacing="3">STAGE</text>`;
   let paths='';series.forEach((s,si)=>{const uid='ln'+si+Math.random().toString(36).slice(2,5);let d='';s.values.forEach((v,i)=>{d+=(i?' L ':'M ')+xAt(i).toFixed(1)+' '+yAt(v).toFixed(1);});
     const dots=s.values.map((v,i)=>`<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(v).toFixed(1)}" r="${inv?3.6:2.8}" fill="${s.color}" stroke="#0B0E14" stroke-width="1.3"/>`).join('');
     paths+=`<style>.${uid}{stroke-dasharray:2600;stroke-dashoffset:2600;animation:draw 1.5s ease forwards}@media(prefers-reduced-motion:reduce){.${uid}{stroke-dashoffset:0;animation:none}}</style><path class="${uid}" d="${d}" fill="none" stroke="${s.color}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>${dots}`;});
@@ -1197,7 +1177,7 @@ function chartBars(opts){
   const stages=opts.stages,groups=opts.groups,n=stages.length,g=groups.length;
   const clusterW=Math.max(54,g*20+22),mL=40,mR=14,mT=14,mB=30,pW=n*clusterW,W=mL+mR+pW,H=opts.height||280,pH=H-mT-mB;
   let mx=0;groups.forEach(s=>s.values.forEach(v=>{if(v>mx)mx=v;}));const yMax=niceMax(Math.max(1,mx));
-  let grid='';for(let t=0;t<=4;t++){const val=yMax*t/4,y=(mT+pH-(val/yMax)*pH).toFixed(1);grid+=`<line x1="${mL}" x2="${mL+pW}" y1="${y}" y2="${y}" stroke="#223049" stroke-width="1" opacity="0.4"/><text x="${mL-7}" y="${y}" fill="#7c8aa0" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${Math.round(val)}</text>`;}
+  let grid='';for(let t=0;t<=4;t++){const val=yMax*t/4,y=(mT+pH-(val/yMax)*pH).toFixed(1);grid+=`<line x1="${mL}" x2="${mL+pW}" y1="${y}" y2="${y}" stroke="#E3E6EB" stroke-width="1" opacity="0.4"/><text x="${mL-7}" y="${y}" fill="#8A93A1" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="end" dominant-baseline="middle">${Math.round(val)}</text>`;}
   let bars='';stages.forEach((lab,i)=>{const cx=mL+i*clusterW+clusterW/2;const barW=Math.min(18,(clusterW-14)/g);const start=cx-(g*barW)/2;
     groups.forEach((gr,j)=>{const v=gr.values[i]||0;const h=(v/yMax)*pH;const x=start+j*barW;const y=mT+pH-h;bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(barW-2).toFixed(1)}" height="${Math.max(0,h).toFixed(1)}" rx="2" fill="${gr.color}"/>`;});
     bars+=`<text x="${cx.toFixed(1)}" y="${mT+pH+15}" fill="#5E6B7E" font-size="9.5" font-family="'JetBrains Mono',monospace" text-anchor="middle">${lab}</text>`;});
@@ -1207,10 +1187,10 @@ function chartStackedH(opts){
   const rows=opts.rows,max=opts.max,n=rows.length,W=720,mL=14,mR=14,labelW=90,valW=52,rowH=34,gap=12,top=8;
   const barX=mL+labelW,barMax=W-barX-valW-mR,H=top+n*(rowH+gap);
   let out='';rows.forEach((r,i)=>{const y=top+i*(rowH+gap);let x=barX;
-    out+=`<text x="${mL}" y="${y+rowH/2}" fill="#ECF1F8" font-size="13" font-weight="600" dominant-baseline="middle">${r.label}</text>`;
-    out+=`<rect x="${barX}" y="${y+7}" width="${barMax}" height="${rowH-14}" rx="5" fill="#0B0E14"/>`;
+    out+=`<text x="${mL}" y="${y+rowH/2}" fill="#15181E" font-size="13" font-weight="600" dominant-baseline="middle">${r.label}</text>`;
+    out+=`<rect x="${barX}" y="${y+7}" width="${barMax}" height="${rowH-14}" rx="5" fill="#ECEEF2"/>`;
     r.segs.forEach(s=>{if(s.v<=0)return;const w=(s.v/max)*barMax;out+=`<rect x="${x.toFixed(1)}" y="${y+7}" width="${w.toFixed(1)}" height="${rowH-14}" fill="${s.color}"/>`;x+=w;});
-    out+=`<text x="${W-mR}" y="${y+rowH/2}" fill="#FFD21E" font-size="13" font-family="'JetBrains Mono',monospace" font-weight="700" text-anchor="end" dominant-baseline="middle">${r.total}</text>`;});
+    out+=`<text x="${W-mR}" y="${y+rowH/2}" fill="#946C00" font-size="13" font-family="'JetBrains Mono',monospace" font-weight="700" text-anchor="end" dominant-baseline="middle">${r.total}</text>`;});
   return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block">${out}</svg>`;
 }
 function renderStats(){
