@@ -481,7 +481,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap" style="padding-bottom:8px">
     <div class="preview-banner" id="previewBanner" style="margin-bottom:26px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      <span><b>Preview standings.</b> Sample squads with simulated results for the opening stages, so you can see the board in action. Send me your managers' real eight-rider teams and I'll lock them in — everything then scores automatically.</span>
+      <span><b>The race hasn't started.</b> Standings, daily recaps and stats all go live with Stage 1 — the Barcelona team time trial on 4 July — and update automatically as the Tour unfolds. Managers' eight-rider teams appear once they're locked in.</span>
     </div>
     <div class="eyebrow">The favourites</div>
     <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">Top contenders</h2>
@@ -702,19 +702,13 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
    ════════════════════════════════════════════════════════════════════ */
 /*DATA_START*/
 const MANAGERS = [
-  { id:'chris', name:'Chris', riders:['pogacar','philipsen','mohoric','martinez','kuss','abrahamsen','affini','martin'] },
-  { id:'juan',  name:'Juan',  riders:['vingegaard','vanderpoel','kooij','landa','kuss','izagirre','turgis','martin'] },
-  { id:'jono',  name:'Jono',  riders:['milan','deltoro','pidcock','girmay','vauquelin','bauhaus','abrahamsen','gaudu'] },
+  /* Managers' real eight-rider teams get added here once locked in, e.g.
+  { id:'alex', name:'Alex', riders:['pogacar','milan','pidcock','healy','kuss','cort','affini','turgis'] }, */
 ];
 const RESULTS = {
-  1:{ top:['pogacar','evenepoel','vingegaard','deltoro','almeida','ayuso','jorgenson','lipowitz','affini','campenaerts','kung','skjelmose','rodriguez','arensman','kuss'],
-      yellow:'pogacar', green:'pogacar', polka:'pogacar', white:'deltoro', combativity:null },
-  2:{ top:['pogacar','vanderpoel','pidcock','seixas','vingegaard','evenepoel','healy','skjelmose','matthews','deltoro','vauquelin','rodriguez','gregoire','alaphilippe','mohoric'],
-      yellow:'pogacar', green:'pogacar', polka:'martinez', white:'deltoro', combativity:'gregoire' },
-  3:{ top:['vingegaard','pogacar','evenepoel','seixas','deltoro','lipowitz','almeida','ayuso','uijtdebroeks','carapaz','tiberi','rodriguez','johannessen','gall','bernal'],
-      yellow:'pogacar', green:'pedersen', polka:'martinez', white:'deltoro', combativity:'carapaz' },
-  4:{ top:['healy','mohoric','cort','gregoire','vauquelin','pidcock','alaphilippe','turgis','abrahamsen','carapaz','martin','izagirre','skjelmose','matthews','vanderpoel'],
-      yellow:'pogacar', green:'pedersen', polka:'martinez', white:'deltoro', combativity:'healy' },
+  /* Stage results get added here as the race unfolds, e.g.
+  1:{ top:['pogacar','vingegaard','evenepoel','deltoro','ayuso','almeida','jorgenson','lipowitz','affini','kung','campenaerts','skjelmose','rodriguez','arensman','kuss'],
+      yellow:'pogacar', green:'merlier', polka:'martinez', white:'deltoro', combativity:'healy' }, */
 };
 const FINAL = { gc:[], green:[], polka:[], white:[] };
 /* OPTIONAL — add a photo URL per rider id to show a real photo on the contender cards, e.g. pogacar:'https://...' */
@@ -900,7 +894,7 @@ function renderStandings(){
     return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
     <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
   }).join('');
-  document.getElementById('gcTable').innerHTML=head+body;
+  document.getElementById('gcTable').innerHTML = rows.length ? head+body : '<div class="stats-empty"><div class="big">Teams not locked in yet</div>Each manager\'s eight-rider squad appears here once it\'s confirmed — the board goes live with Stage 1, the Barcelona team time trial on 4 July.</div>';
   document.querySelectorAll('.gc-row').forEach(row=>row.addEventListener('click',()=>{const id=row.dataset.mgr,d=document.querySelector(`[data-detail="${id}"]`),open=row.classList.contains('open');row.classList.toggle('open',!open);d.classList.toggle('open',!open);}));
   const done=completedStages.length;
   document.getElementById('stageBig').childNodes[0].nodeValue=done>0?String(done):'—';
@@ -1010,7 +1004,7 @@ function stageRecap(order,idx){
 }
 function renderResults(){
   const body=document.getElementById('resultsBody');
-  if(!completedStages.length){body.innerHTML=`<div class="stats-empty"><div class="big">No results yet</div>Daily recaps appear here as each stage is completed — the first is the Barcelona team time trial on 4 July. Use the ⚙ editor to enter a stage.</div>`;return;}
+  if(!completedStages.length){body.innerHTML=`<div class="stats-empty"><div class="big">No results yet</div>Daily recaps appear here as each stage is completed — the first is the Barcelona team time trial on 4 July.</div>`;return;}
   const order=completedStages;let html='';
   for(let idx=order.length-1;idx>=0;idx--){
     const sN=order[idx],o=stageObj(STAGE_BY_N[sN]),res=DATA.RESULTS[sN];
