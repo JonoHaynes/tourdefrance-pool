@@ -554,11 +554,11 @@ footer b{color:var(--muted)}
         <tr><td>7th</td><td>22</td><td>15th</td><td>1</td></tr><tr><td>8th</td><td>18</td><td>16th+</td><td>0</td></tr></tbody></table></div>
       <div class="card"><h3><span class="n">4</span>Jersey bonuses</h3>
         <p>Extra points each stage for any of your riders <b>wearing a jersey</b> at the finish:</p>
-        <div class="bonus-row"><span class="sw y"></span><span class="bl"><b>Yellow</b> · overall leader</span><span class="bv">+20</span></div>
-        <div class="bonus-row"><span class="sw g"></span><span class="bl"><b>Green</b> · points leader</span><span class="bv">+10</span></div>
-        <div class="bonus-row"><span class="sw p"></span><span class="bl"><b>Polka-dot</b> · king of the mountains</span><span class="bv">+10</span></div>
-        <div class="bonus-row"><span class="sw w"></span><span class="bl"><b>White</b> · best young rider</span><span class="bv">+6</span></div>
-        <p style="margin-top:12px">Plus the daily <b>most combative</b> rider earns <b style="color:var(--yellow)">+8</b>.</p></div>
+        <div class="bonus-row"><span class="sw y"></span><span class="bl"><b>Yellow</b> · overall leader</span><span class="bv">+10</span></div>
+        <div class="bonus-row"><span class="sw g"></span><span class="bl"><b>Green</b> · points leader</span><span class="bv">+6</span></div>
+        <div class="bonus-row"><span class="sw p"></span><span class="bl"><b>Polka-dot</b> · king of the mountains</span><span class="bv">+6</span></div>
+        <div class="bonus-row"><span class="sw w"></span><span class="bl"><b>White</b> · best young rider</span><span class="bv">+4</span></div>
+        <p style="margin-top:12px">Plus the daily <b>most combative</b> rider earns <b style="color:var(--yellow)">+5</b>.</p></div>
       <div class="card"><h3><span class="n">5</span>Final bonuses in Paris</h3>
         <p>Big points for riders who finish on the final classifications after Stage 21:</p>
         <table class="ptable"><thead><tr><th>Final GC</th><th>Pts</th><th>Jersey win</th><th>Pts</th></tr></thead><tbody>
@@ -837,7 +837,7 @@ function stageObj(s){return {n:s[0],type:s[1],date:s[2],from:s[3],to:s[4],km:s[5
 const TYPE_LABEL={ttt:'Team time trial',itt:'Individual time trial',flat:'Flat — bunch sprint',hilly:'Hilly — break / puncheurs',mountain:'Mountain — summit finish'};
 
 const FINISH=[50,44,38,34,30,26,22,18,14,10,8,6,4,2,1];
-const JBON={yellow:20,green:10,polka:10,white:6}; const COMB=8;
+const JBON={yellow:10,green:6,polka:6,white:4}; const COMB=5;
 const FGC=[150,100,75,60,50,40,30,25,20,15]; const FSEC={green:[80,50,30],polka:[80,50,30],white:[60,40,20]};
 let completedStages=[], ownerMap={}, SC={total:{},daily:{},brk:{}};
 function recompute(){
