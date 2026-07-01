@@ -703,11 +703,11 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
 /*DATA_START*/
 const MANAGERS = [
   /* Managers' real eight-rider teams get added here once locked in, e.g.
-  { id:'alex', name:'Alex', riders:['pogacar','milan','pidcock','healy','kuss','cort','affini','turgis'] }, */
+  { id:'alex', name:'Alex', riders:['pogacar','girmay','pidcock','healy','kuss','cort','affini','turgis'] }, */
 ];
 const RESULTS = {
   /* Stage results get added here as the race unfolds, e.g.
-  1:{ top:['pogacar','vingegaard','evenepoel','deltoro','ayuso','almeida','jorgenson','lipowitz','affini','kung','campenaerts','skjelmose','rodriguez','arensman','kuss'],
+  1:{ top:['pogacar','vingegaard','evenepoel','deltoro','ayuso','ciccone','jorgenson','lipowitz','affini','ganna','campenaerts','skjelmose','rodriguez','arensman','kuss'],
       yellow:'pogacar', green:'merlier', polka:'martinez', white:'deltoro', combativity:'healy' }, */
 };
 const FINAL = { gc:[], green:[], polka:[], white:[] };
@@ -721,9 +721,9 @@ let DATA={MANAGERS:__clone(MANAGERS),RESULTS:__clone(RESULTS),FINAL:__clone(FINA
 const TEAM_COLORS = {
   'UAE Team Emirates-XRG':'#E0241B','Visma | Lease a Bike':'#F2C200','Red Bull–BORA–hansgrohe':'#1E3A8A',
   'Alpecin–Premier Tech':'#E84855','Lidl–Trek':'#1559C4','Soudal Quick-Step':'#2EA0E0','Decathlon CMA CGM':'#0A7CC1',
-  'INEOS Grenadiers':'#15294C','Bahrain–Victorious':'#8E1D2D','Movistar Team':'#00A3E0','EF Education–EasyPost':'#FF2D8E',
+  'Netcompany INEOS':'#15294C','Bahrain–Victorious':'#8E1D2D','Movistar Team':'#00A3E0','EF Education–EasyPost':'#FF2D8E',
   'Groupama–FDJ United':'#2456A6','Uno-X Mobility':'#ED1C24','NSN Cycling Team':'#18B7A0','Lotto':'#E2001A',
-  'Team Jayco AlUla':'#16A36F','Q36.5 Pro Cycling':'#0FA3A3','Cofidis':'#E2231A','Tudor Pro Cycling':'#6D49C9','TotalEnergies':'#F26A21'
+  'Team Jayco AlUla':'#16A36F','Pinarello Q36.5':'#0FA3A3','Cofidis':'#E2231A','Tudor Pro Cycling':'#6D49C9','TotalEnergies':'#F26A21'
 };
 const _tc={}; Object.keys(TEAM_COLORS).forEach(k=>_tc[k.toLowerCase().replace(/[^a-z0-9]/g,'')]=TEAM_COLORS[k]);
 function teamColor(t){return _tc[(t||'').toLowerCase().replace(/[^a-z0-9]/g,'')]||'#3B8AE0';}
@@ -738,30 +738,26 @@ const R = [
 ['ayuso','Juan Ayuso','Lidl–Trek','🇪🇸',16,90,42,72,80,48,'GC leader','gc'],
 ['seixas','Paul Seixas','Decathlon CMA CGM','🇫🇷',15,88,48,80,78,58,'GC / young rider','gc'],
 ['lipowitz','Florian Lipowitz','Red Bull–BORA–hansgrohe','🇩🇪',14,89,38,70,82,45,'GC contender','gc'],
-['pidcock','Tom Pidcock','Q36.5 Pro Cycling','🇬🇧',14,86,58,86,74,70,'GC / puncheur','punch'],
-['almeida','João Almeida','UAE Team Emirates-XRG','🇵🇹',14,90,40,68,86,42,'GC / time trial','gc'],
-['rodriguez','Carlos Rodríguez','INEOS Grenadiers','🇪🇸',13,88,46,72,80,46,'GC contender','gc'],
+['pidcock','Tom Pidcock','Pinarello Q36.5','🇬🇧',14,86,58,86,74,70,'GC / puncheur','punch'],
+['rodriguez','Carlos Rodríguez','Netcompany INEOS','🇪🇸',13,88,46,72,80,46,'GC contender','gc'],
 ['carapaz','Richard Carapaz','EF Education–EasyPost','🇪🇨',12,91,44,78,66,80,'Climber / KOM','gc'],
-['vauquelin','Kévin Vauquelin','INEOS Grenadiers','🇫🇷',12,84,55,85,76,68,'Puncheur / GC','punch'],
-['bernal','Egan Bernal','INEOS Grenadiers','🇨🇴',12,88,40,72,74,58,'Climber / GC','gc'],
+['vauquelin','Kévin Vauquelin','Netcompany INEOS','🇫🇷',12,84,55,85,76,68,'Puncheur / GC','punch'],
 ['healy','Ben Healy','EF Education–EasyPost','🇮🇪',12,74,52,86,72,92,'Breakaway / puncheur','break'],
 ['tiberi','Antonio Tiberi','Bahrain–Victorious','🇮🇹',11,87,40,66,78,44,'GC contender','gc'],
 ['uijtdebroeks','Cian Uijtdebroeks','Movistar Team','🇧🇪',11,87,40,68,74,46,'GC / young rider','gc'],
-['arensman','Thymen Arensman','INEOS Grenadiers','🇳🇱',11,87,38,62,82,50,'Climber / time trial','gc'],
+['arensman','Thymen Arensman','Netcompany INEOS','🇳🇱',11,87,38,62,82,50,'Climber / time trial','gc'],
 ['skjelmose','Mattias Skjelmose','Lidl–Trek','🇩🇰',11,84,56,84,78,60,'Puncheur / GC','punch'],
 ['mohoric','Matej Mohorič','Bahrain–Victorious','🇸🇮',11,60,64,82,68,90,'Breakaway / descender','break'],
 ['cort','Magnus Cort','Uno-X Mobility','🇩🇰',11,62,74,80,66,90,'Stage hunter / KOM','break'],
 ['martinez','Lenny Martínez','Bahrain–Victorious','🇫🇷',10,88,35,64,58,78,'Climber / KOM hunter','gc'],
 ['jorgenson','Matteo Jorgenson','Visma | Lease a Bike','🇺🇸',10,82,52,78,80,66,'All-rounder','punch'],
 ['landa','Mikel Landa','Soudal Quick-Step','🇪🇸',9,85,36,62,64,66,'Climber','gc'],
-['gall','Felix Gall','Decathlon CMA CGM','🇦🇹',9,86,38,66,70,58,'Climber','gc'],
 ['johannessen','Tobias H. Johannessen','Uno-X Mobility','🇳🇴',9,85,42,68,72,64,'Climber / young','gc'],
 ['gaudu','David Gaudu','Groupama–FDJ United','🇫🇷',9,85,44,70,66,56,'Climber','gc'],
 ['gregoire','Romain Grégoire','Groupama–FDJ United','🇫🇷',9,66,66,86,70,76,'Puncheur / young','punch'],
 ['alaphilippe','Julian Alaphilippe','Tudor Pro Cycling','🇫🇷',9,58,66,90,70,78,'Puncheur','punch'],
 ['kuss','Sepp Kuss','Visma | Lease a Bike','🇺🇸',8,86,34,58,66,70,'Climbing domestique','gc'],
 ['abrahamsen','Jonas Abrahamsen','Uno-X Mobility','🇳🇴',8,56,68,72,64,92,'Breakaway','break'],
-['kung','Stefan Küng','Groupama–FDJ United','🇨🇭',8,38,52,62,92,68,'Time trial specialist','tt'],
 ['affini','Edoardo Affini','Visma | Lease a Bike','🇮🇹',7,40,55,58,90,66,'Time trial / rouleur','tt'],
 ['campenaerts','Victor Campenaerts','Visma | Lease a Bike','🇧🇪',7,44,56,64,84,86,'Time trial / break','tt'],
 ['izagirre','Ion Izagirre','Cofidis','🇪🇸',7,80,46,74,74,78,'All-rounder / break','break'],
@@ -769,17 +765,19 @@ const R = [
 ['martin','Guillaume Martin','Groupama–FDJ United','🇫🇷',6,84,34,62,64,82,'Climber / break','gc'],
 ['philipsen','Jasper Philipsen','Alpecin–Premier Tech','🇧🇪',18,30,94,72,55,48,'Sprinter (green favourite)','sprint'],
 ['merlier','Tim Merlier','Soudal Quick-Step','🇧🇪',18,25,96,62,52,35,'Pure sprinter','sprint'],
-['milan','Jonathan Milan','Lidl–Trek','🇮🇹',18,24,95,60,60,38,'Pure sprinter','sprint'],
 ['pedersen','Mads Pedersen','Lidl–Trek','🇩🇰',18,52,88,90,72,78,'Puncheur-sprinter','punch'],
 ['girmay','Biniam Girmay','NSN Cycling Team','🇪🇷',14,40,90,74,54,50,'Sprinter','sprint'],
 ['kooij','Olav Kooij','Decathlon CMA CGM','🇳🇱',13,35,92,66,58,42,'Sprinter','sprint'],
-['delie','Arnaud De Lie','Lotto','🇧🇪',12,34,90,76,52,52,'Power sprinter','sprint'],
+['delie','Arnaud De Lie','Lotto Intermarché','🇧🇪',12,34,90,76,52,52,'Power sprinter','sprint'],
 ['matthews','Michael Matthews','Team Jayco AlUla','🇦🇺',12,50,84,88,64,66,'Puncheur-sprinter','punch'],
-['groenewegen','Dylan Groenewegen','Team Jayco AlUla','🇳🇱',12,22,91,55,54,30,'Pure sprinter','sprint'],
 ['groves','Kaden Groves','Alpecin–Premier Tech','🇦🇺',11,42,89,72,56,58,'Sprinter / break','sprint'],
 ['bauhaus','Phil Bauhaus','Bahrain–Victorious','🇩🇪',9,30,87,60,54,38,'Sprinter','sprint'],
 ['waerenskjold','Søren Wærenskjold','Uno-X Mobility','🇳🇴',9,34,86,66,70,48,'Sprinter / time trial','sprint'],
-['magnier','Paul Magnier','Soudal Quick-Step','🇫🇷',8,32,87,70,58,46,'Sprinter / young','sprint'],
+['ganna','Filippo Ganna','Netcompany INEOS','🇮🇹',10,38,58,58,98,58,'Time trial specialist','tt'],
+['ciccone','Giulio Ciccone','Lidl–Trek','🇮🇹',11,90,40,72,62,74,'Climber / KOM','gc'],
+['oconnor','Ben O\'Connor','Team Jayco AlUla','🇦🇺',12,88,40,66,74,58,'GC leader','gc'],
+['hindley','Jai Hindley','Red Bull–BORA–hansgrohe','🇦🇺',11,88,38,66,70,56,'Climber / GC','gc'],
+['ackermann','Pascal Ackermann','Team Jayco AlUla','🇩🇪',10,30,88,62,54,40,'Sprinter','sprint'],
 ];
 const RIDERS={}; R.forEach(a=>RIDERS[a[0]]={id:a[0],name:a[1],team:a[2],flag:a[3],val:a[4],climb:a[5],sprint:a[6],punch:a[7],itt:a[8],brk:a[9],role:a[10],cat:a[11]});
 
@@ -788,14 +786,14 @@ const STAGES=[
 [2,'hilly','Sun 5 Jul','Tarragona','Barcelona',169.2,2049,137,220,`A finishing circuit around Montjuïc with the short, steep Castell climb biting on each lap. Pure sprinters will be shelled on the gradients — this is puncheur terrain, a day for the explosive finishers and an early test for the overall men.`,['pogacar','seixas','pidcock','vanderpoel'],[[0,40],[0.3,130],[0.55,80],[0.7,185,'Castell de Montjuïc'],[0.8,90],[0.9,190,'Montjuïc'],[1,120]]],
 [3,'mountain','Mon 6 Jul','Granollers','Les Angles',196.2,3940,185,1900,`The first real mountain test crosses the Col de Toses and tips back into France for an uphill finish at Les Angles. The 6.5% final ramp may suit a strong puncheur or a brave breakaway, but it will already draw the first GC pecking order.`,['pogacar','vingegaard','evenepoel','seixas'],[[0,140],[0.2,520],[0.45,1000],[0.62,1800,'Col de Toses'],[0.72,1450],[0.85,1300],[1,1600,'Les Angles']]],
 [4,'hilly','Tue 7 Jul','Carcassonne','Foix',182.4,2784,108,950,`A nervy, rolling day through Cathar country with a lumpy run-in to Foix. The climbs are not severe enough to split the leaders, so the smart money is on the breakaway — a classic chance for the aggressive stage-hunters.`,['healy','mohoric','pidcock'],[[0,110],[0.25,460],[0.4,320],[0.55,780,'Col du Portel'],[0.7,520],[0.82,820],[1,420]]],
-[5,'flat','Wed 8 Jul','Lannemezan','Pau',158.3,1395,58,700,`A short transitional stage off the Pyrenean foothills into Pau. The lumps come early and the finale flattens out, so the sprint trains will fancy reeling in any escape for a bunch gallop.`,['merlier','milan','philipsen'],[[0,580],[0.15,650,'Côte de Capvern'],[0.3,400],[0.5,520],[0.7,350],[0.85,300],[1,200]]],
+[5,'flat','Wed 8 Jul','Lannemezan','Pau',158.3,1395,58,700,`A short transitional stage off the Pyrenean foothills into Pau. The lumps come early and the finale flattens out, so the sprint trains will fancy reeling in any escape for a bunch gallop.`,['merlier','philipsen','girmay'],[[0,580],[0.15,650,'Côte de Capvern'],[0.3,400],[0.5,520],[0.7,350],[0.85,300],[1,200]]],
 [6,'mountain','Thu 9 Jul','Pau','Gavarnie-Gèdre',186.4,4149,316,2200,`The queen of the Pyrenees: the mighty Tourmalet on the way to a brutal summit finish at Gavarnie-Gèdre, with more than 4,000 m of climbing. The first day the yellow jersey can truly be won or lost — pure climbers only.`,['pogacar','vingegaard','seixas'],[[0,200],[0.25,700],[0.45,1300],[0.6,2115,'Col du Tourmalet'],[0.72,1100],[0.82,950],[1,1400,'Gavarnie-Gèdre']]],
-[7,'flat','Fri 10 Jul','Hagetmau','Bordeaux',175,701,13,150,`A flat run through the forests of the Landes to Bordeaux, traditionally happy hunting ground for the fast men. The odds are stacked against the break — expect a full-gas bunch sprint in the city.`,['merlier','milan','philipsen'],[[0,90],[0.3,115],[0.6,70],[0.85,95],[1,12]]],
-[8,'flat','Sat 11 Jul','Périgueux','Bergerac',180,1353,30,300,`A rolling Périgord stage with a handful of small rises that should not trouble the sprint teams. Momentum matters — the lead-out trains get another clear shot at a mass finish.`,['milan','pedersen','magnier'],[[0,190],[0.25,240],[0.45,150],[0.65,235],[0.85,160],[1,50]]],
+[7,'flat','Fri 10 Jul','Hagetmau','Bordeaux',175,701,13,150,`A flat run through the forests of the Landes to Bordeaux, traditionally happy hunting ground for the fast men. The odds are stacked against the break — expect a full-gas bunch sprint in the city.`,['philipsen','merlier','kooij'],[[0,90],[0.3,115],[0.6,70],[0.85,95],[1,12]]],
+[8,'flat','Sat 11 Jul','Périgueux','Bergerac',180,1353,30,300,`A rolling Périgord stage with a handful of small rises that should not trouble the sprint teams. Momentum matters — the lead-out trains get another clear shot at a mass finish.`,['pedersen','girmay','delie'],[[0,190],[0.25,240],[0.45,150],[0.65,235],[0.85,160],[1,50]]],
 [9,'hilly','Sun 12 Jul','Malemort','Ussel',185,3244,124,950,`Explosive terrain through the Corrèze, with the punchy Suc au May inside the final 80 km. A made-for-the-breakaway day where the strongest aggressors and a few opportunist GC men will fight to get up the road.`,['seixas','healy','pidcock'],[[0,150],[0.25,500],[0.45,780],[0.6,880,'Suc au May'],[0.72,600],[0.85,820],[1,630]]],
 [10,'mountain','Tue 14 Jul','Aurillac','Le Lioran',167.3,3791,261,1650,`Bastille Day in the Massif Central, over the Puy Mary and Col de Pertus to the line where Vingegaard out-sprinted Pogačar in 2024. With French riders desperate for the break, expect fireworks all day.`,['vingegaard','pogacar','seixas'],[[0,630],[0.2,900],[0.38,1589,'Pas de Peyrol'],[0.5,1100],[0.62,1300,'Col de Pertus'],[0.75,1000],[0.88,1250],[1,1230,'Le Lioran']]],
-[11,'flat','Wed 15 Jul','Vichy','Nevers',161,1107,32,400,`A genuine transition stage for the sprinters before the race tilts east. One of the dwindling number of flat finishes left — the fast men cannot afford to miss it.`,['milan','pedersen','merlier'],[[0,250],[0.3,330],[0.55,260],[0.8,300],[1,180]]],
-[12,'flat','Thu 16 Jul','Magny-Cours','Chalon-sur-Saône',181,1555,39,400,`A debut Grand Départ from the Magny-Cours F1 circuit, finishing in Burgundy. Rolling but tame — another bunch sprint unless a determined move sneaks clear on the rises.`,['kooij','milan','magnier'],[[0,200],[0.25,300],[0.5,240],[0.7,320],[0.9,250],[1,180]]],
+[11,'flat','Wed 15 Jul','Vichy','Nevers',161,1107,32,400,`A genuine transition stage for the sprinters before the race tilts east. One of the dwindling number of flat finishes left — the fast men cannot afford to miss it.`,['merlier','pedersen','groves'],[[0,250],[0.3,330],[0.55,260],[0.8,300],[1,180]]],
+[12,'flat','Thu 16 Jul','Magny-Cours','Chalon-sur-Saône',181,1555,39,400,`A debut Grand Départ from the Magny-Cours F1 circuit, finishing in Burgundy. Rolling but tame — another bunch sprint unless a determined move sneaks clear on the rises.`,['kooij','philipsen','ackermann'],[[0,200],[0.25,300],[0.5,240],[0.7,320],[0.9,250],[1,180]]],
 [13,'hilly','Fri 17 Jul','Dole','Belfort',205,2373,58,1250,`The longest stage of the Tour, a rolling Franche-Comté route over the Ballon d'Alsace with a downhill drag to the line. Built for a breakaway — and a green-jersey contender hunting intermediate points.`,['pedersen','turgis','healy'],[[0,250],[0.25,600],[0.45,850],[0.62,1178,"Ballon d'Alsace"],[0.75,700],[0.88,550],[1,360]]],
 [14,'mountain','Sat 18 Jul','Mulhouse','Le Markstein',155,4602,313,1400,`The Vosges bare their teeth: the Grand Ballon leads a relentless chain of climbs with over 4,600 m of climbing across just 155 km. A short, savage day where the GC battle reignites.`,['pogacar','vingegaard','lipowitz'],[[0,240],[0.18,800],[0.3,1336,'Grand Ballon'],[0.42,900],[0.55,1178,"Ballon d'Alsace"],[0.68,800],[0.8,748,'Col du Hundsruck'],[1,1200,'Le Markstein']]],
 [15,'mountain','Sun 19 Jul','Champagnole','Plateau de Solaison',184,4701,428,1600,`The hardest stage on paper: a long haul out of the Jura into the Massif des Bornes for a brand-new summit finish at Plateau de Solaison, with almost 4,700 m of climbing. The final climb is where the contenders trade their biggest blows before the second rest day.`,['vingegaard','pogacar','evenepoel'],[[0,540],[0.25,1000],[0.45,700],[0.6,1300,'Col de Romme'],[0.72,900],[0.85,1100],[1,1503,'Plateau de Solaison']]],
