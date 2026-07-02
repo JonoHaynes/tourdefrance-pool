@@ -405,6 +405,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
 .pick-status.pending{background:var(--surface2);border:1px solid var(--line);color:var(--muted)}
 .pick-status.ok{background:rgba(21,130,74,.1);border:1px solid rgba(21,130,74,.35);color:var(--green)}
 .pick-status.err{background:rgba(207,42,34,.08);border:1px solid rgba(207,42,34,.3);color:var(--red)}
+.tray-privacy{margin-top:9px;font-size:11.5px;line-height:1.45;color:var(--dim)}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:4px}
 
 @media(max-width:920px){
@@ -487,7 +488,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap" style="padding-bottom:8px">
     <div class="preview-banner" id="previewBanner" style="margin-bottom:26px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-      <span><b>The race hasn't started.</b> Standings, daily recaps and stats all go live with Stage 1 — the Barcelona team time trial on 4 July — and update automatically as the Tour unfolds. Managers' eight-rider teams appear once they're locked in.</span>
+      <span><b>The race hasn't started.</b> Standings, daily recaps and stats all go live with Stage 1 — the Barcelona team time trial on 4 July — and update automatically as the Tour unfolds. Submitted teams stay hidden until Stage 1 begins, so nobody can pick based on another manager's choices.</span>
     </div>
     <div class="eyebrow">The favourites</div>
     <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">Top contenders</h2>
@@ -546,6 +547,13 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <ul><li>The manager with the <b>most total points</b> after Stage 21 wins the pool and the yellow jersey.</li>
         <li><b>Tie-break:</b> most stage wins among owned riders, then the best single-stage points haul.</li>
         <li>Standings update the moment results are entered — the board you see is always live.</li></ul>
+        </div>
+      <div class="card"><h3><span class="n">7</span>Prize pool</h3>
+        <ul><li><b>Entry fee:</b> 20 CHF per manager.</li>
+        <li>The pot — 20 CHF × the number of managers — is shared between the top three:</li>
+        <li><b>Winner</b> — 60% of the pot</li>
+        <li><b>2nd place</b> — 30%</li>
+        <li><b>3rd place</b> — 10%</li></ul>
         </div>
     </div>
   </section>
@@ -619,6 +627,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       </div>
       <div id="pickStatus" class="pick-status" hidden></div>
       <div class="tray-note" id="pickNote">Pick 8 riders to complete your squad of eight.</div>
+      <div class="tray-privacy">Submitted teams stay hidden until Stage 1 begins — no one can pick based on another manager's choices.</div>
     </div>
 
     <div class="controls">
@@ -1121,7 +1130,7 @@ async function pickSubmit(){
   try{
     const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Maillot Pool entry — '+name,from_name:'Maillot Pool',name:name,message:msg})});
     const data=await res.json().catch(()=>({}));
-    if(res.ok&&data.success){btn.textContent='Submitted ✓';pickStatus('Your team has been submitted. You\'ll be confirmed before Stage 1.','ok');}
+    if(res.ok&&data.success){btn.textContent='Submitted ✓';pickStatus('Your team has been submitted — it stays hidden until Stage 1 begins. You\'ll be confirmed before then.','ok');}
     else{btn.disabled=false;btn.textContent='Submit team';pickStatus('Could not send automatically'+(data.message?' ('+data.message+')':'')+'. Please tap Copy and send your team to Jono directly.','err');}
   }catch(e){btn.disabled=false;btn.textContent='Submit team';pickStatus('Network problem — could not send. Please tap Copy and send your team to Jono directly.','err');}
 }
