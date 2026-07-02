@@ -399,6 +399,12 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
 .photo-band{position:relative;height:280px;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:8px}
 .photo-band img{width:100%;height:100%;object-fit:cover;display:block}
 .photo-band-cap{position:absolute;left:0;right:0;bottom:0;padding:20px 26px;font-family:var(--ff-mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:linear-gradient(0deg,rgba(12,16,24,.72),transparent)}
+.ed-btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line2);box-shadow:none}
+.ed-btn-ghost:hover:not(:disabled){color:var(--text);border-color:var(--muted)}
+.pick-status{margin-top:12px;font-size:13px;line-height:1.45;padding:10px 13px;border-radius:9px}
+.pick-status.pending{background:var(--surface2);border:1px solid var(--line);color:var(--muted)}
+.pick-status.ok{background:rgba(21,130,74,.1);border:1px solid rgba(21,130,74,.35);color:var(--green)}
+.pick-status.err{background:rgba(207,42,34,.08);border:1px solid rgba(207,42,34,.3);color:var(--red)}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:4px}
 
 @media(max-width:920px){
@@ -613,9 +619,11 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <div class="tray-chips" id="pickChips"><span class="tray-empty">No riders picked yet — tap a row below to start.</span></div>
       <div class="tray-actions">
         <input type="text" id="pickName" class="tray-name" placeholder="Your name / team name" maxlength="40">
-        <button class="ed-btn" id="pickCopy" disabled>Copy team to send</button>
+        <button class="ed-btn" id="pickSubmit" disabled>Submit team</button>
+        <button class="ed-btn ed-btn-ghost" id="pickCopy" disabled>Copy</button>
         <button class="tray-clear" id="pickClear">Clear</button>
       </div>
+      <div id="pickStatus" class="pick-status" hidden></div>
       <div class="tray-note" id="pickNote">Pick 8 riders to complete your squad of eight.</div>
     </div>
 
@@ -957,11 +965,13 @@ function renderTray(){
   const chips=document.getElementById('pickChips');
   if(chips)chips.innerHTML=n?pickSet.map(id=>{const r=RIDERS[id];return `<span class="tchip"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.name}<b>${r.val}</b><button data-rm="${id}" aria-label="Remove ${r.name}">✕</button></span>`;}).join(''):'<span class="tray-empty">No riders picked yet — tap a row below to start.</span>';
   const nameEl=document.getElementById('pickName'),name=nameEl?nameEl.value.trim():'';
-  const copy=document.getElementById('pickCopy');if(copy)copy.disabled=!(name&&n===SQUAD_MAX&&!over);
+  const valid=name&&n===SQUAD_MAX&&!over;
+  const copy=document.getElementById('pickCopy');if(copy)copy.disabled=!valid;
+  const sub=document.getElementById('pickSubmit');if(sub){sub.disabled=!valid;if(valid)sub.textContent='Submit team';}
   const note=document.getElementById('pickNote');
   if(note){if(over)note.innerHTML='<span class="warn">Over budget by '+(val-BUDGET)+' credits — swap someone cheaper in.</span>';
     else if(n<SQUAD_MAX)note.innerHTML='Pick '+(SQUAD_MAX-n)+' more rider'+(SQUAD_MAX-n===1?'':'s')+' to complete your squad of eight.';
-    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used. Add your name, then copy it to send.</span>';}
+    else note.innerHTML='<span class="ok">Squad complete — '+val+'/100 credits used. Add your name, then submit your team.</span>';}
 }
 function pickToggle(id){if(!RIDERS[id])return;const i=pickSet.indexOf(id);if(i>=0)pickSet.splice(i,1);else{if(pickSet.length>=SQUAD_MAX)return;pickSet.push(id);}renderPick();}
 function headerSortPick(th){const key=th.dataset.key;if(!key)return;const type=th.dataset.type||'txt';if(pickSort.key===key)pickSort.dir=pickSort.dir==='asc'?'desc':'asc';else pickSort={key,dir:type==='num'?'desc':'asc'};renderPick();}
@@ -972,6 +982,22 @@ function pickCopyTeam(){
   const done=()=>edToast('Team copied — send it over to lock it in');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(()=>{window.prompt('Copy your team and send it:',txt);});
   else window.prompt('Copy your team and send it:',txt);
+}
+const W3F_KEY='325dd786-41d5-4213-99fa-ff4646f2703f';
+function pickStatus(txt,kind){const el=document.getElementById('pickStatus');if(!el)return;el.textContent=txt;el.className='pick-status '+kind;el.hidden=false;}
+async function pickSubmit(){
+  const nameEl=document.getElementById('pickName'),name=(nameEl&&nameEl.value.trim())||'';
+  if(!(name&&pickSet.length===SQUAD_MAX&&pickVal()<=BUDGET)){pickStatus('Add your name and a full squad of '+SQUAD_MAX+' riders within budget first.','err');return;}
+  const btn=document.getElementById('pickSubmit');
+  const names=pickSet.map(id=>RIDERS[id]?RIDERS[id].name:id),val=pickVal();
+  const msg='Manager: '+name+'\nBudget: '+val+' / '+BUDGET+'\n\nRiders ('+pickSet.length+'):\n'+names.map((x,i)=>(i+1)+'. '+x).join('\n')+'\n\nids: '+pickSet.join(', ');
+  btn.disabled=true;btn.textContent='Submitting…';pickStatus('Sending your team…','pending');
+  try{
+    const res=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3F_KEY,subject:'Maillot Pool entry — '+name,from_name:'Maillot Pool',name:name,message:msg})});
+    const data=await res.json().catch(()=>({}));
+    if(res.ok&&data.success){btn.textContent='Submitted ✓';pickStatus('Your team has been submitted. You\'ll be confirmed before Stage 1.','ok');}
+    else{btn.disabled=false;btn.textContent='Submit team';pickStatus('Could not send automatically'+(data.message?' ('+data.message+')':'')+'. Please tap Copy and send your team to Jono directly.','err');}
+  }catch(e){btn.disabled=false;btn.textContent='Submit team';pickStatus('Network problem — could not send. Please tap Copy and send your team to Jono directly.','err');}
 }
 
 let selectedStage=completedStages.length?Math.min(completedStages.length+1,21):1;
@@ -1144,6 +1170,7 @@ document.getElementById('pickBody').addEventListener('click',e=>{const row=e.tar
 document.getElementById('pickChips').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;pickToggle(b.dataset.rm);});
 document.getElementById('pickName').addEventListener('input',renderTray);
 document.getElementById('pickCopy').addEventListener('click',pickCopyTeam);
+document.getElementById('pickSubmit').addEventListener('click',pickSubmit);
 document.getElementById('pickClear').addEventListener('click',()=>{pickSet=[];renderPick();});
 
 /* ---------------- STATS CHARTS ---------------- */
