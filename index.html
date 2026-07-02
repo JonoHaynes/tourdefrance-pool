@@ -491,21 +491,18 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
     </div>
     <div class="eyebrow">The favourites</div>
     <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">Top contenders</h2>
-    <p class="lead">The marquee names on the Barcelona start line. Swipe across — a yellow tag means the rider is already in a pool squad.</p>
     <div class="contenders" id="contenders" style="margin-top:18px"></div>
   </section>
 
   <section class="block wrap" style="padding-top:30px">
     <div class="eyebrow">General classification</div>
     <h2 class="sec-title">The standings</h2>
-    <p class="lead">Tap any manager to open their squad and see who is scoring the points. The leader rides in yellow.</p>
     <div class="gc" id="gcTable" style="margin-top:22px"></div>
   </section>
 
   <section class="block wrap" style="padding-top:0">
     <div class="eyebrow">On the road right now</div>
     <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">The four jerseys</h2>
-    <p class="lead">Who holds each classification after the latest stage. A small tag means the rider sits in one of the pool squads.</p>
     <div class="jerseys" id="jerseysPanel" style="margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px"></div>
   </section>
 </main>
@@ -514,7 +511,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">House rules</div>
     <h2 class="sec-title">How the pool works</h2>
-    <p class="lead">A simple, classic format: draft once, commit for three weeks, and let the racing decide. No daily fiddling — your eight riders carry you the whole Tour.</p>
     <div class="rules-grid">
       <div class="card"><h3><span class="n">1</span>Your squad</h3>
         <p>Every manager drafts <b>one team of eight riders</b> from the start list before Stage 1.</p>
@@ -550,7 +546,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <ul><li>The manager with the <b>most total points</b> after Stage 21 wins the pool and the yellow jersey.</li>
         <li><b>Tie-break:</b> most stage wins among owned riders, then the best single-stage points haul.</li>
         <li>Standings update the moment results are entered — the board you see is always live.</li></ul>
-        <p style="margin-top:10px;color:var(--dim);font-size:12.5px">These are friendly house rules — tweak the values or bonuses to suit your group.</p></div>
+        </div>
     </div>
   </section>
 </main>
@@ -558,7 +554,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">The start list</div>
     <h2 class="sec-title">Riders &amp; values</h2>
-    <p class="lead">The full pool of selectable riders, their value, team, nationality and a form rating from 0–99 in each discipline. Brighter green is a strength; red is a weakness.</p>
     <div class="controls">
       <label class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -606,7 +601,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">Draft your squad</div>
     <h2 class="sec-title">Pick a team</h2>
-    <p class="lead">Sort the riders however you like, then tap a row to add them to your squad. Build a team of eight within 100 credits — the running total updates as you go. When you're happy, copy your team and send it over to be locked in.</p>
 
     <div class="tray" id="pickTray">
       <div class="tray-top">
@@ -665,7 +659,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">The route · 21 stages</div>
     <h2 class="sec-title">Stage guide</h2>
-    <p class="lead">Pick a stage on the left to see its profile, the numbers, and a read on who it suits — handy when you're deciding which riders to back. Favourites tagged with a name sit in a pool squad.</p>
     <div class="stages-layout">
       <div class="stage-list" id="stageList"></div>
       <div class="stage-detail" id="stageDetail"></div>
@@ -677,7 +670,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">Stage by stage</div>
     <h2 class="sec-title">Results &amp; recaps</h2>
-    <p class="lead">What actually happened each day, who held the jerseys, and how many points it earned every manager. Newest stage first.</p>
     <div id="resultsBody"></div>
   </section>
 </main>
@@ -686,7 +678,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
   <section class="block wrap">
     <div class="eyebrow">The numbers · how the race is unfolding</div>
     <h2 class="sec-title">Statistics</h2>
-    <p class="lead">How the pool is progressing stage by stage — who is leading, how the gaps have moved, and which riders are doing the work.</p>
     <div id="statsBody"></div>
   </section>
 </main>
