@@ -406,6 +406,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
 .pick-status.ok{background:rgba(21,130,74,.1);border:1px solid rgba(21,130,74,.35);color:var(--green)}
 .pick-status.err{background:rgba(207,42,34,.08);border:1px solid rgba(207,42,34,.3);color:var(--red)}
 .tray-privacy{margin-top:9px;font-size:11.5px;line-height:1.45;color:var(--dim)}
+.tray-deadline{margin-top:10px;font-size:12px;line-height:1.5;color:var(--text);background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:9px 11px}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px;border-radius:4px}
 
 @media(max-width:920px){
@@ -549,7 +550,8 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <li>Standings update the moment results are entered — the board you see is always live.</li></ul>
         </div>
       <div class="card"><h3><span class="n">7</span>Prize pool</h3>
-        <ul><li><b>Entry fee:</b> 20 CHF per manager.</li>
+        <ul><li><b>Entry fee:</b> 20 CHF per manager, paid via TWINT to <b>+41 79 410 38 40</b>.</li>
+        <li><b>Deadline:</b> teams must be submitted and the entry fee transferred before the start of Stage 1 (Saturday 4 July).</li>
         <li>The pot — 20 CHF × the number of managers — is shared between the top three:</li>
         <li><b>Winner</b> — 60% of the pot</li>
         <li><b>2nd place</b> — 30%</li>
@@ -627,6 +629,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       </div>
       <div id="pickStatus" class="pick-status" hidden></div>
       <div class="tray-note" id="pickNote">Pick 8 riders to complete your squad of eight.</div>
+      <div class="tray-deadline"><b>Deadline:</b> submit your team and transfer the 20 CHF entry fee via TWINT to <b>+41 79 410 38 40</b> before Stage 1 starts (Sat 4 July).</div>
       <div class="tray-privacy">Submitted teams stay hidden until Stage 1 begins — no one can pick based on another manager's choices.</div>
     </div>
 
