@@ -150,6 +150,8 @@ section.block{padding:42px 0}
 .ptable td{padding:7px 8px;border-bottom:1px solid var(--line);font-family:var(--ff-mono)}
 .ptable td:first-child{color:var(--muted);font-family:var(--ff-body)}
 .ptable tr:last-child td{border-bottom:0}
+.ptable-cap{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 2px}
+.ptable-note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.55}
 .bonus-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
 .bonus-row:last-child{border-bottom:0}
 .bonus-row .sw{width:24px;height:24px;border-radius:6px;flex-shrink:0}
@@ -539,11 +541,25 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <div class="bonus-row"><span class="sw w"></span><span class="bl"><b>White</b> · best young rider</span><span class="bv">+4</span></div>
         <p style="margin-top:12px">Plus the daily <b>most combative</b> rider earns <b style="color:var(--yellow)">+5</b>.</p></div>
       <div class="card"><h3><span class="n">5</span>Final bonuses in Paris</h3>
-        <p>Big points for riders who finish on the final classifications after Stage 21:</p>
-        <table class="ptable"><thead><tr><th>Final GC</th><th>Pts</th><th>Jersey win</th><th>Pts</th></tr></thead><tbody>
-        <tr><td>Winner</td><td>150</td><td>Green 1st</td><td>80</td></tr><tr><td>2nd</td><td>100</td><td>Polka 1st</td><td>80</td></tr>
-        <tr><td>3rd</td><td>75</td><td>White 1st</td><td>60</td></tr><tr><td>4th</td><td>60</td><td>Jersey 2nd</td><td>50/40</td></tr>
-        <tr><td>5th</td><td>50</td><td>Jersey 3rd</td><td>30/20</td></tr><tr><td>6–10th</td><td>40→15</td><td>—</td><td>—</td></tr></tbody></table></div>
+        <p>Through the three weeks your riders collect stage points as the race unfolds. When it finishes in Paris, they earn one last set of bonus points for where they place in each of the four classifications. You receive these for <b>every</b> rider in your squad who lands in a position below — added on top of everything they scored during the stages.</p>
+        <p class="ptable-cap">Overall standings · the yellow jersey</p>
+        <table class="ptable"><thead><tr><th>Final position</th><th>Points</th></tr></thead><tbody>
+        <tr><td>1st — race winner</td><td>150</td></tr>
+        <tr><td>2nd</td><td>100</td></tr>
+        <tr><td>3rd</td><td>75</td></tr>
+        <tr><td>4th</td><td>60</td></tr>
+        <tr><td>5th</td><td>50</td></tr>
+        <tr><td>6th</td><td>40</td></tr>
+        <tr><td>7th</td><td>35</td></tr>
+        <tr><td>8th</td><td>30</td></tr>
+        <tr><td>9th</td><td>25</td></tr>
+        <tr><td>10th</td><td>20</td></tr></tbody></table>
+        <p class="ptable-cap">Green, polka-dot &amp; white jersey standings</p>
+        <table class="ptable"><thead><tr><th>Classification</th><th>1st</th><th>2nd</th><th>3rd</th></tr></thead><tbody>
+        <tr><td>Green · points</td><td>80</td><td>50</td><td>30</td></tr>
+        <tr><td>Polka-dot · mountains</td><td>80</td><td>50</td><td>30</td></tr>
+        <tr><td>White · young rider</td><td>60</td><td>40</td><td>20</td></tr></tbody></table>
+        <p class="ptable-note">The overall winner already appears as the yellow jersey above, so it is not repeated here. One rider can score from both tables — for example a top-ten on general classification <i>and</i> a place in the green jersey.</p></div>
       <div class="card"><h3><span class="n">6</span>Winning &amp; tie-breaks</h3>
         <ul><li>The manager with the <b>most total points</b> after Stage 21 wins the pool and the yellow jersey.</li>
         <li><b>Tie-break:</b> most stage wins among owned riders, then the best single-stage points haul.</li>
