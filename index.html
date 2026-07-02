@@ -551,7 +551,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         </div>
       <div class="card"><h3><span class="n">7</span>Prize pool</h3>
         <ul><li><b>Entry fee:</b> 20 CHF per manager, paid via TWINT to <b>+41 79 410 38 40</b>.</li>
-        <li><b>Deadline:</b> teams must be submitted and the entry fee transferred before the start of Stage 1 (Saturday 4 July).</li>
+        <li><b>Deadline:</b> teams must be submitted and the entry fee transferred before the start of Stage 1 (Saturday 4 July, 17:05 CEST).</li>
         <li>The pot — 20 CHF × the number of managers — is shared between the top three:</li>
         <li><b>Winner</b> — 60% of the pot</li>
         <li><b>2nd place</b> — 30%</li>
@@ -629,7 +629,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       </div>
       <div id="pickStatus" class="pick-status" hidden></div>
       <div class="tray-note" id="pickNote">Pick 8 riders to complete your squad of eight.</div>
-      <div class="tray-deadline"><b>Deadline:</b> submit your team and transfer the 20 CHF entry fee via TWINT to <b>+41 79 410 38 40</b> before Stage 1 starts (Sat 4 July).</div>
+      <div class="tray-deadline"><b>Deadline:</b> submit your team and transfer the 20 CHF entry fee via TWINT to <b>+41 79 410 38 40</b> before Stage 1 starts (Sat 4 July, 17:05 CEST).</div>
       <div class="tray-privacy">Submitted teams stay hidden until Stage 1 begins — no one can pick based on another manager's choices.</div>
     </div>
 
@@ -1184,7 +1184,7 @@ function renderResults(){
 }
 
 /* ---------------- COUNTDOWN ---------------- */
-const RACE_START=new Date('2026-07-04T13:20:00+02:00');
+const RACE_START=new Date('2026-07-04T17:05:00+02:00');
 function initCountdown(){
   const elc=document.getElementById('countdown');if(!elc)return;
   const pad=n=>String(n).padStart(2,'0');
@@ -1193,7 +1193,7 @@ function initCountdown(){
     let diff=RACE_START-new Date();
     if(diff<=0){elc.innerHTML='<span class="cd-go">The Tour is under way</span>';return;}
     const d=Math.floor(diff/864e5);diff-=d*864e5;const h=Math.floor(diff/36e5);diff-=h*36e5;const m=Math.floor(diff/6e4);diff-=m*6e4;const s=Math.floor(diff/1e3);
-    elc.innerHTML=`<div class="cd-lab">Grand Départ · Barcelona</div><div class="cd-clock">${pad(d)}<small>d</small> ${pad(h)}<small>h</small> ${pad(m)}<small>m</small> ${pad(s)}<small>s</small></div>`;
+    elc.innerHTML=`<div class="cd-lab">Grand Départ · Barcelona · Sat 4 Jul, 17:05 CEST</div><div class="cd-clock">${pad(d)}<small>d</small> ${pad(h)}<small>h</small> ${pad(m)}<small>m</small> ${pad(s)}<small>s</small></div>`;
   }
   tick();if(window.__cd)clearInterval(window.__cd);window.__cd=setInterval(tick,1000);
 }
