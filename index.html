@@ -152,6 +152,9 @@ section.block{padding:42px 0}
 .ptable tr:last-child td{border-bottom:0}
 .ptable-cap{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:18px 0 2px}
 .ptable-note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.55}
+.yr-badge{display:inline-block;margin-left:6px;padding:1px 5px;border-radius:5px;font-family:var(--ff-mono);font-size:9.5px;font-weight:700;letter-spacing:.04em;background:#fff;color:#181818;border:1px solid var(--dim);vertical-align:middle;line-height:1.6}
+.yr-legend{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.55}
+.yr-legend .yr-badge{margin-left:0}
 .bonus-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
 .bonus-row:last-child{border-bottom:0}
 .bonus-row .sw{width:24px;height:24px;border-radius:6px;flex-shrink:0}
@@ -452,7 +455,6 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
       <a href="#results" data-go="results">Results</a>
       <a href="#pick" data-go="pick">Pick Team</a>
       <a href="#rules" data-go="rules">Rules</a>
-      <a href="#riders" data-go="riders">Riders</a>
       <a href="#stages" data-go="stages">Stages</a>
       <a href="#stats" data-go="stats">Stats</a>
     </nav>
@@ -661,6 +663,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <span class="chip" data-cat="punch">Puncheurs</span>
         <span class="chip" data-cat="break">Breakaway</span>
         <span class="chip" data-cat="tt">Time trial</span>
+        <span class="chip" data-cat="yr">White jersey · U26</span>
       </div>
     </div>
     <div class="table-scroll">
@@ -679,6 +682,7 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
         <tbody id="pickBody"></tbody>
       </table>
     </div>
+    <p class="yr-legend"><span class="yr-badge">U26</span> Marks riders eligible for the white young-rider jersey — born on or after 1 January 2001. Use the “White jersey · U26” filter above to isolate them.</p>
     <p style="color:var(--dim);font-size:12px;margin-top:12px">Tip: on a phone, scroll the table sideways to see every rating. Tap a column heading to sort by it; tap again to reverse.</p>
   </section>
 </main>
@@ -942,6 +946,8 @@ const R = [
 ['markl','Niklas Märkl','Team Picnic PostNL','🇩🇪',6,50,52,62,58,66,'Domestique','break'],
 ];
 const RIDERS={}; R.forEach(a=>RIDERS[a[0]]={id:a[0],name:a[1],team:a[2],flag:a[3],val:a[4],climb:a[5],sprint:a[6],punch:a[7],itt:a[8],brk:a[9],role:a[10],cat:a[11]});
+/* White (young rider) jersey: riders born on or after 1 Jan 2001 are eligible for the 2026 edition. */
+const YOUNG=new Set(['deltoro','piganzoli','strandhagenes','ayuso','simmons','vacek','tiberi','martinez','baudin','steinhauser','uijtdebroeks','castrillo','garciapierna','hessmann','vauquelin','tarling','askey','delie','vaneetvelt','seixas','riccitello','kooij','gregoire','vinokurov','bittner','verstrynge','germani','costiou','leberre','craps','slock','engelhardt','vanmechelen','berckmoes']);
 
 const STAGES=[
 [1,'ttt','Sat 4 Jul','Barcelona','Barcelona',19.4,220,23,180,`The first opening team time trial since 1971, on a Catalan city course that flattens out before two ramps up Montjuïc. Crucially, individual times are taken on the line, so the GC favourites can gain seconds on day one — and the first yellow jersey goes to the fastest rider of the winning team.`,['pogacar','vingegaard','evenepoel'],[[0,10],[0.5,18],[0.62,170,'Montjuïc'],[0.72,45],[0.86,165,'Montjuïc'],[1,30]]],
@@ -1101,13 +1107,14 @@ function pickVal(){return pickSet.reduce((a,id)=>a+(RIDERS[id]?RIDERS[id].val:0)
 function renderPick(){
   let list=R.map(a=>RIDERS[a[0]]);const q=pickFilter.q.toLowerCase();
   if(q)list=list.filter(r=>r.name.toLowerCase().includes(q)||r.team.toLowerCase().includes(q));
-  if(pickFilter.cat!=='all')list=list.filter(r=>r.cat===pickFilter.cat);
+  if(pickFilter.cat==='yr')list=list.filter(r=>YOUNG.has(r.id));
+  else if(pickFilter.cat!=='all')list=list.filter(r=>r.cat===pickFilter.cat);
   const col=COLS[pickSort.key];list.sort((a,b)=>{let va=col.get(a),vb=col.get(b),cmp=col.t==='txt'?String(va).localeCompare(String(vb)):va-vb;return pickSort.dir==='asc'?cmp:-cmp;});
   const rk=['climb','sprint','punch','itt','brk'],full=pickSet.length>=SQUAD_MAX;
   const body=document.getElementById('pickBody');if(body)body.innerHTML=list.map(r=>{
     const on=pickSet.includes(r.id),dis=!on&&full;
     const cells=rk.map(k=>{const v=r[k],c=rateColor(v);return `<td class="ratecell"><span class="rate" style="background:${c.bg};color:${c.fg};box-shadow:inset 0 0 0 1px ${c.bd}">${v}</span></td>`;}).join('');
-    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}</tr>`;}).join('');
+    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}${YOUNG.has(r.id)?'<span class="yr-badge" title="Eligible for the white young-rider jersey (born 2001 or later)">U26</span>':''}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}</tr>`;}).join('');
   document.querySelectorAll('#pickHead th[data-key]').forEach(th=>{const b=th.querySelector('.sortbadge');if(!b)return;if(th.dataset.key===pickSort.key){b.classList.add('on');b.textContent=pickSort.dir==='asc'?'▲':'▼';}else{b.classList.remove('on');b.textContent='';}});
   renderTray();
 }
@@ -1306,7 +1313,7 @@ function buildEditor(){
 }
 function renderAll(){renderFeatured();renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();}
 
-const PAGES=['standings','results','pick','rules','riders','stages','stats'];
+const PAGES=['standings','results','pick','rules','stages','stats'];
 function go(id){if(!PAGES.includes(id))id='standings';PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
   document.querySelectorAll('nav.tabs a').forEach(a=>a.classList.toggle('active',a.dataset.go===id));
   document.getElementById('tabs').classList.remove('open');if(history.replaceState)history.replaceState(null,'','#'+id);else location.hash=id;window.scrollTo({top:0});}
