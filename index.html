@@ -496,16 +496,11 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
     </div>
   </div>
 
-  <section class="block wrap" style="padding-bottom:8px">
-    <div class="eyebrow">The favourites</div>
-    <h2 class="sec-title" style="font-size:clamp(22px,3.4vw,32px)">Top contenders</h2>
-    <div class="contenders" id="contenders" style="margin-top:18px"></div>
-  </section>
-
-  <section class="block wrap" style="padding-top:30px">
+  <section class="block wrap" style="padding-top:34px">
     <div class="eyebrow">General classification</div>
     <h2 class="sec-title">The standings</h2>
-    <div class="gc" id="gcTable" style="margin-top:22px"></div>
+    <div class="stage-switch" id="stageSwitch" style="margin-top:18px;display:none"></div>
+    <div class="gc" id="gcTable" style="margin-top:16px"></div>
   </section>
 
   <section class="block wrap" style="padding-top:0">
@@ -1059,19 +1054,48 @@ function sparkline(values,gmax){if(!values.length)return '';const W=110,H=28,max
 
 const jcss=document.createElement('style');jcss.textContent=`.jcard{border:1px solid var(--line);border-radius:12px;padding:13px;background:var(--surface);position:relative;overflow:hidden}.jcard:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}.jcard.yellow:before{background:var(--yellow)}.jcard.green:before{background:var(--green)}.jcard.polka:before{background:var(--red)}.jcard.white:before{background:var(--white)}.jcard .jt{font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--muted);display:flex;align-items:center;gap:7px}.jcard .jt .sw{width:16px;height:16px;border-radius:4px}.jcard.yellow .sw{background:var(--yellow)}.jcard.green .sw{background:var(--green)}.jcard.white .sw{background:var(--white)}.jcard.polka .sw{background:#fff;background-image:radial-gradient(var(--red) 38%,transparent 40%);background-size:7px 7px}.jcard .jn{font-weight:700;margin-top:8px;font-size:15px}.jcard .jteam{font-size:11.5px;color:var(--dim);margin-top:2px}.jcard .jown{font-size:10px;margin-top:7px;color:var(--yellow);font-weight:700}`;document.head.appendChild(jcss);
 
+(function(){var c=document.createElement('style');c.textContent='.stage-switch{display:flex;flex-wrap:wrap;gap:8px}.sseg{border:1px solid var(--line2);background:var(--surface);color:var(--muted);border-radius:99px;padding:7px 15px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;transition:border-color .15s,background .15s,color .15s}.sseg:hover{border-color:var(--dim)}.sseg.on{background:#15181E;color:#fff;border-color:#15181E}.gc.stage-view{border:0;background:none;overflow:visible}.gc.stage-view .rcard2{margin:0}';document.head.appendChild(c);})();
+let standingsView='overall';
+function renderStageSwitch(){
+  const sw=document.getElementById('stageSwitch');if(!sw)return;
+  if(!completedStages.length){sw.style.display='none';sw.innerHTML='';return;}
+  sw.style.display='flex';
+  const chips=['<button class="sseg'+(standingsView==='overall'?' on':'')+'" data-v="overall">Overall</button>'].concat(completedStages.map(n=>'<button class="sseg'+(standingsView===n?' on':'')+'" data-v="'+n+'">Stage '+n+'</button>'));
+  sw.innerHTML=chips.join('');
+  sw.querySelectorAll('.sseg').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.v;standingsView=v==='overall'?'overall':Number(v);renderStandings();}));
+}
+function stageViewHTML(sN){
+  const o=stageObj(STAGE_BY_N[sN]),res=DATA.RESULTS[sN];
+  const fin=res.top.slice(0,15).map((rid,i)=>{const r=RIDERS[rid],pts=FINISH[i]||0,ow=ownerMap[rid];
+    return '<div class="rrow"><span class="rpos">'+(i+1)+'</span><span class="flag">'+(r?r.flag:'')+'</span><span class="rrn">'+(r?r.name:rid)+(ow?'<span class="owned-tag">'+ow.join(' · ')+'</span>':'')+'</span><span class="rrt">'+(r?r.team:'')+'</span><span class="rrp">'+(pts?'+'+pts:'')+'</span></div>';}).join('');
+  const jdefs=[['yellow','Yellow'],['green','Green'],['polka','Polka'],['white','White'],['combativity','Combative']];
+  const jrow=jdefs.map(function(a){var k=a[0],lab=a[1],rid=res[k];if(!rid)return '';var r=RIDERS[rid];return '<span class="jpill '+k+'">'+lab+': <b>'+(r?r.name:rid)+'</b></span>';}).join('');
+  const mpts=DATA.MANAGERS.map(m=>{let p=0;const sc=[];m.riders.forEach(rid=>{const d=(SC.daily[rid]&&SC.daily[rid][sN])||0;if(d>0){p+=d;sc.push((RIDERS[rid]?RIDERS[rid].name.split(' ').pop():rid)+' +'+d);}});return {name:m.name,p,sc};}).sort((a,b)=>b.p-a.p);
+  const mtable=mpts.map(m=>'<div class="mrow"><span class="mn2">'+m.name+'</span><span class="msc">'+(m.sc.length?m.sc.join(', '):'—')+'</span><span class="mp">+'+m.p+'</span></div>').join('');
+  return '<div class="rcard2"><div class="rc-head"><div><div class="sd-date">'+o.date+' · Stage '+o.n+'</div><h3 class="rc-title">'+o.from+' → '+o.to+'</h3></div><span class="tbadge t-'+o.type+'">'+(o.type==='ttt'?'TTT':o.type==='itt'?'ITT':o.type)+'</span></div><div class="rc-jerseys">'+jrow+'</div><div class="rc-grid"><div class="rc-col"><h4>Stage result &mdash; who won</h4>'+fin+'</div><div class="rc-col"><h4>Manager points this stage</h4>'+mtable+'</div></div></div>';
+}
 function renderStandings(){
   const rows=managerStandings();const gmax=Math.max(1,...rows.map(r=>r.cumSeries.length?r.cumSeries[r.cumSeries.length-1]:0));const started=completedStages.length>0;
-  const head=`<div class="gc-head"><div>Pos</div><div>Manager</div><div class="ar">Squad</div><div class="ar">Last</div><div class="ar">Behind</div><div class="ar">Points</div><div class="ar">Form</div><div></div></div>`;
-  const body=rows.map(r=>{
-    const mini=r.m.riders.map(id=>RIDERS[id]?RIDERS[id].name.split(' ').slice(-1)[0]:id).join(' · ');
-    const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
-      return `<div class="rcard" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}</div><div class="rt">${rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
-    const overCap=r.val>100?' style="color:var(--red)"':'';
-    return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
-    <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
-  }).join('');
-  document.getElementById('gcTable').innerHTML = rows.length ? head+body : '<div class="stats-empty"><div class="big">Teams not locked in yet</div>Each manager\'s eight-rider squad appears here once it\'s confirmed — the board goes live with Stage 1, the Barcelona team time trial on 4 July.</div>';
-  document.querySelectorAll('.gc-row').forEach(row=>row.addEventListener('click',()=>{const id=row.dataset.mgr,d=document.querySelector(`[data-detail="${id}"]`),open=row.classList.contains('open');row.classList.toggle('open',!open);d.classList.toggle('open',!open);}));
+  if(standingsView!=='overall'&&!completedStages.includes(standingsView))standingsView='overall';
+  renderStageSwitch();
+  const gcEl=document.getElementById('gcTable');
+  if(standingsView!=='overall'){
+    gcEl.classList.add('stage-view');
+    gcEl.innerHTML=stageViewHTML(standingsView);
+  }else{
+    gcEl.classList.remove('stage-view');
+    const head=`<div class="gc-head"><div>Pos</div><div>Manager</div><div class="ar">Squad</div><div class="ar">Last</div><div class="ar">Behind</div><div class="ar">Points</div><div class="ar">Form</div><div></div></div>`;
+    const body=rows.map(r=>{
+      const mini=r.m.riders.map(id=>RIDERS[id]?RIDERS[id].name.split(' ').slice(-1)[0]:id).join(' · ');
+      const squad=r.m.riders.map(id=>{const rd=RIDERS[id];if(!rd)return '';const pts=SC.total[id]||0;
+        return `<div class="rcard" style="border-left-color:${teamColor(rd.team)}"><span class="flag">${rd.flag}</span><div class="ri"><div class="rn">${rd.name}</div><div class="rt">${rd.team}</div></div><div class="rp">${pts}<small>PTS</small></div></div>`;}).join('');
+      const overCap=r.val>100?' style="color:var(--red)"':'';
+      return `<div class="gc-row${r.pos===1&&started?' leader':''}" data-mgr="${r.m.id}"><div class="bib">${r.pos}</div><div class="mgr"><div class="mn">${r.m.name}${r.pos===1&&started?jerseySvg:''}</div><div class="squadmini">${mini}</div></div><div class="num val"${overCap}>${r.val}</div><div class="num today">${started?'+'+r.today:'—'}</div><div class="num gap">${r.pos===1?'—':'−'+r.gap}</div><div class="num pts">${r.tot}</div><div class="num">${started?sparkline(r.cumSeries,gmax):'<span style="color:var(--dim)">—</span>'}</div><div class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div></div>
+      <div class="detail" data-detail="${r.m.id}"><h4>Squad — eight riders</h4><div class="squad-grid">${squad}</div><div class="sumline"><span>Squad value <b>${r.val}/100</b></span><span>Stage wins <b>${r.wins}</b></span><span>Best stage <b>+${r.best}</b></span><span>Final bonuses <b>${r.finalPts}</b></span></div></div>`;
+    }).join('');
+    gcEl.innerHTML = rows.length ? head+body : '<div class="stats-empty"><div class="big">Teams not locked in yet</div>Each manager\'s eight-rider squad appears here once it\'s confirmed — the board goes live with Stage 1, the Barcelona team time trial on 4 July.</div>';
+    document.querySelectorAll('.gc-row').forEach(row=>row.addEventListener('click',()=>{const id=row.dataset.mgr,d=document.querySelector(`[data-detail="${id}"]`),open=row.classList.contains('open');row.classList.toggle('open',!open);d.classList.toggle('open',!open);}));
+  }
   const done=completedStages.length;
   document.getElementById('stageBig').childNodes[0].nodeValue=done>0?String(done):'—';
   document.getElementById('stageBigSub').textContent=done>0?'of 21 stages done':'Race not started';
@@ -1321,7 +1345,7 @@ function buildEditor(){
   ov().addEventListener('change',edChange);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!ov().hidden)closeEditor();});
 }
-function renderAll(){renderFeatured();renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();}
+function renderAll(){renderStandings();renderRiders();renderStageList();renderStageDetail();renderStats();renderResults();renderPick();}
 
 const PAGES=['standings','results','pick','rules','stages','stats'];
 function go(id){if(!PAGES.includes(id))id='standings';PAGES.forEach(p=>document.getElementById(p).classList.toggle('active',p===id));
