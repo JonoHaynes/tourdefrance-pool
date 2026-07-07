@@ -200,6 +200,8 @@ td.teamcell .tline{display:flex;align-items:center;gap:8px}
 td.valcell{font-family:var(--ff-mono);font-weight:700;text-align:center;font-size:14px}
 .rate{display:inline-grid;place-items:center;width:38px;height:26px;border-radius:7px;font-family:var(--ff-mono);font-size:12.5px;font-weight:700;margin:0 auto}
 td.ratecell{text-align:center}
+td.ptscell{font-family:var(--ff-mono);font-weight:700;text-align:center;font-size:14px;color:var(--ink-accent)}
+td.ppccell{font-family:var(--ff-mono);text-align:center;font-size:13px;color:var(--muted)}
 .owned-tag{font-size:9px;background:var(--surface3);border:1px solid var(--line2);color:var(--yellow);border-radius:5px;padding:1px 5px;font-weight:700;margin-left:4px;vertical-align:middle}
 
 /* STAGES */
@@ -677,6 +679,8 @@ table.riders thead th[data-key]:hover{background:var(--surface3)}
           <th data-key="punch" data-type="num" class="num">Punch <span class="hint">↕</span><span class="sortbadge"></span></th>
           <th data-key="itt" data-type="num" class="num">ITT <span class="hint">↕</span><span class="sortbadge"></span></th>
           <th data-key="brk" data-type="num" class="num">Break <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="pts" data-type="num" class="num">Pts <span class="hint">↕</span><span class="sortbadge"></span></th>
+          <th data-key="ppc" data-type="num" class="num">Pts/Cr <span class="hint">↕</span><span class="sortbadge"></span></th>
         </tr></thead>
         <tbody id="pickBody"></tbody>
       </table>
@@ -1117,7 +1121,7 @@ function renderJerseys(){const panel=document.getElementById('jerseysPanel');con
     return `<div class="jcard ${k}"><div class="jt"><span class="sw"></span>${label}</div><div class="jn">${rd?rd.name:'—'}</div><div class="jteam">${rd?rd.team:''}</div>${rd&&ownerMap[rid]?`<div class="jown">In squad · ${ownerMap[rid].join(', ')}</div>`:''}</div>`;}).join('');}
 
 let sortSpec=[{key:'val',dir:'desc'}];let riderFilter={q:'',cat:'all'};
-const COLS={name:{t:'txt',get:r=>r.name},team:{t:'txt',get:r=>r.team},val:{t:'num',get:r=>r.val},climb:{t:'num',get:r=>r.climb},sprint:{t:'num',get:r=>r.sprint},punch:{t:'num',get:r=>r.punch},itt:{t:'num',get:r=>r.itt},brk:{t:'num',get:r=>r.brk},pts:{t:'num',get:r=>SC.total[r.id]||0}};
+const COLS={name:{t:'txt',get:r=>r.name},team:{t:'txt',get:r=>r.team},val:{t:'num',get:r=>r.val},climb:{t:'num',get:r=>r.climb},sprint:{t:'num',get:r=>r.sprint},punch:{t:'num',get:r=>r.punch},itt:{t:'num',get:r=>r.itt},brk:{t:'num',get:r=>r.brk},pts:{t:'num',get:r=>SC.total[r.id]||0},ppc:{t:'num',get:r=>r.val?((SC.total[r.id]||0)/r.val):0}};
 function renderRiders(){
   let list=R.map(a=>RIDERS[a[0]]);const q=riderFilter.q.toLowerCase();
   if(q)list=list.filter(r=>r.name.toLowerCase().includes(q)||r.team.toLowerCase().includes(q));
@@ -1152,7 +1156,8 @@ function renderPick(){
   const body=document.getElementById('pickBody');if(body)body.innerHTML=list.map(r=>{
     const on=pickSet.includes(r.id),dis=!on&&full;
     const cells=rk.map(k=>{const v=r[k],c=rateColor(v);return `<td class="ratecell"><span class="rate" style="background:${c.bg};color:${c.fg};box-shadow:inset 0 0 0 1px ${c.bd}">${v}</span></td>`;}).join('');
-    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}${YOUNG.has(r.id)?'<span class="yr-badge" title="Eligible for the white young-rider jersey (born 2001 or later)">U26</span>':''}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}</tr>`;}).join('');
+    const pts=SC.total[r.id]||0,ppcDisp=pts>0&&r.val?(pts/r.val).toFixed(2):'—';
+    return `<tr class="pickrow${on?' picked':''}${dis?' dis':''}" data-id="${r.id}"><td class="pickcol"><span class="pickbox${on?' on':''}">${on?'✓':'+'}</span></td><td><div class="rider-name"><span class="flag">${r.flag}</span><span>${r.name}${YOUNG.has(r.id)?'<span class="yr-badge" title="Eligible for the white young-rider jersey (born 2001 or later)">U26</span>':''}<span class="role">${r.role}</span></span></div></td><td class="teamcell"><div class="tline"><span class="tdot" style="background:${teamColor(r.team)}"></span>${r.team}</div></td><td class="valcell">${r.val}</td>${cells}<td class="ptscell">${pts}</td><td class="ppccell">${ppcDisp}</td></tr>`;}).join('');
   document.querySelectorAll('#pickHead th[data-key]').forEach(th=>{const b=th.querySelector('.sortbadge');if(!b)return;if(th.dataset.key===pickSort.key){b.classList.add('on');b.textContent=pickSort.dir==='asc'?'▲':'▼';}else{b.classList.remove('on');b.textContent='';}});
   renderTray();
 }
