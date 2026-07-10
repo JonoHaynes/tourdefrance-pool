@@ -1042,11 +1042,23 @@ function renderFeatured(){const ids=['pogacar','vingegaard','evenepoel','vanderp
 
 function interp(wp,f){if(f<=wp[0][0])return wp[0][1];if(f>=wp[wp.length-1][0])return wp[wp.length-1][1];
   for(let i=0;i<wp.length-1;i++){if(f>=wp[i][0]&&f<=wp[i+1][0]){const t=(f-wp[i][0])/(wp[i+1][0]-wp[i][0]);const k=(1-Math.cos(Math.PI*t))/2;return wp[i][1]+(wp[i+1][1]-wp[i][1])*k;}}return wp[wp.length-1][1];}
+function nhash(n,seed){n=(n^seed)>>>0;n=Math.imul(n^(n>>>15),2246822519)>>>0;n=Math.imul(n^(n>>>13),3266489917)>>>0;return ((n^(n>>>16))>>>0)/4294967296;}
+function vnoise(x,seed){const xi=Math.floor(x),xf=x-xi,a=nhash(xi,seed),b=nhash(xi+1,seed),t=xf*xf*(3-2*xf);return a+(b-a)*t;}
+function fbm(x,seed){let v=0,amp=0.5,fr=1;for(let o=0;o<5;o++){v+=(vnoise(x*fr,seed+o*1013)-0.5)*2*amp;amp*=0.55;fr*=2.0;}return v;}
 function renderProfile(st){
   const W=1000,H=240,mL=48,mR=18,mT=18,mB=30,plotW=W-mL-mR,plotH=H-mT-mB;
   const raw=st.peak; const step=raw<=200?50:raw<=500?100:raw<=1000?250:500; const top=Math.ceil(raw/step)*step;
-  const wp=st.wp,N=170,xs=[],ys=[];
-  for(let i=0;i<=N;i++){const f=i/N,a=interp(wp,f);xs.push(mL+f*plotW);ys.push(mT+plotH-(a/top)*plotH);}
+  const wp=st.wp,N=400,xs=[],ys=[];
+  const seed=((st.n*2654435761)>>>0)||1;
+  const aVals=wp.map(p=>p[1]),rangeA=Math.max(Math.max(...aVals)-Math.min(...aVals),150);
+  for(let i=0;i<=N;i++){const f=i/N;
+    let s=0;while(s<wp.length-2&&f>wp[s+1][0])s++;
+    const x0=wp[s][0],x1=wp[s+1][0],a0=wp[s][1],a1=wp[s+1][1];
+    const t=x1>x0?Math.min(Math.max((f-x0)/(x1-x0),0),1):0;
+    const base=a0+(a1-a0)*t,env=Math.sin(Math.PI*t),steep=Math.abs(a1-a0);
+    const amp=env*(top*0.02+Math.min(steep,rangeA)*0.055);
+    let a=base+amp*fbm(f*st.km/5,seed);if(a<0)a=0;if(a>top)a=top;
+    xs.push(mL+f*plotW);ys.push(mT+plotH-(a/top)*plotH);}
   let line='M '+xs[0].toFixed(1)+' '+ys[0].toFixed(1); for(let i=1;i<=N;i++)line+=' L '+xs[i].toFixed(1)+' '+ys[i].toFixed(1);
   const area=line+` L ${mL+plotW} ${mT+plotH} L ${mL} ${mT+plotH} Z`;
   const uid='p'+Math.random().toString(36).slice(2,7);
